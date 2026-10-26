@@ -4,7 +4,7 @@
  * 核心要求（T7）：结构不完整、截断、来源缺失或范围不符时一律整批失败，
  * 不部分提交。校验在写事务内再进行一次，任何异常导致事务回滚。
  *
- * 本版（learning-output/2）：
+ * 本版（learning-output/3）：
  * - 只接受“完整对象”：不允许从解释性文字或截断片段里抠 JSON；
  * - 必填字段（summary/candidates/context/scopeKind/confidence）严格校验类型与长度，
  *   不静默截短、不补默认值；
@@ -322,14 +322,24 @@ function validateMemoryItem(item, index, context) {
     subjectQQ = value;
   }
 
+  const temporal = {};
+  for(const key of ['factKey','context','validFrom','validUntil','occurredAt']) if(item[key]!==undefined && item[key]!==null && item[key]!==''){
+    const value=strictText(item[key],{where,field:key,min:1,max:key==='factKey'?200:400,code:'LEARNING_OUTPUT_INVALID_MEMORY_TIME'});
+    if(['validFrom','validUntil','occurredAt'].includes(key)){
+      if(!/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(value) || !Number.isFinite(Date.parse(value)))throw invalid('LEARNING_OUTPUT_INVALID_MEMORY_TIME',`${where}.${key} 须为明确时区的有效时间`);
+      temporal[key]=new Date(value).toISOString();
+    }else temporal[key]=value;
+  }
+  if(temporal.validFrom && temporal.validUntil && temporal.validFrom>=temporal.validUntil)throw invalid('LEARNING_OUTPUT_INVALID_MEMORY_TIME',`${where} 有效期结束须晚于开始`);
   return {
+    ...temporal,
     type,
     text,
     sourceIds,
     materials,
     subjectQQ,
     // 稳定 hash：同角色 + 同范围 + 类型 + 规范化文本；用于跨批次去重，不覆盖人工记录。
-    memoryKey: hashText(`${characterId}|${scopeKey}|${type}|${text.toLowerCase()}`),
+    memoryKey: hashText(`${characterId}|${scopeKey}|${type}|${text.toLowerCase()}|${subjectQQ}|${JSON.stringify([...sourceIds].sort())}|${JSON.stringify(temporal)}`),
   };
 }
 

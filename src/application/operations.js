@@ -64,6 +64,9 @@ export function createOperations(service, { learning, logger = console } = {}) {
         if(!confirmation || confirmation.type!=='restore' || confirmation.backupId!==payload.id || confirmation.expires<Date.parse(clock()) || payload.confirm!==true) throw new DomainError('CONFIRMATION_REQUIRED','先预览并明确确认恢复',409)
         if(confirmation.generation!==store.generation()) throw new DomainError('PREVIEW_STALE','预览后数据库已变化，请重新预览',409)
         service.setMaintenance(true)
+        service.runtime.storageEpoch=(service.runtime.storageEpoch??0)+1
+        service.runtime.recallSnapshots?.clear()
+        service.runtime.recallBudgets?.clear()
         try {
           await learning?.close()
           const engine=learning?.status()

@@ -10,7 +10,7 @@ export const Config = Schema.object({
   memory: Schema.object({ recentDays: positive(7), halfLifeDays: positive(30), recallHistoryLimit: positive(200) }).default({}),
   learning: Schema.object({ privateThreshold: positive(20), groupThreshold: positive(60), minIntervalHours: positive(4), localDailyLimit: positive(12), globalDailyLimit: positive(60), batchSize: positive(80), concurrency: positive(1), pollIntervalSeconds: positive(60), requestTimeoutSeconds: positive(120), leaseMinutes: positive(10) }).default({}),
   evidence: Schema.object({ independentUnits: positive(4), distinctDays: positive(3), trialDays: positive(3), applications: positive(2), personalityIntervalDays: positive(3), conversationGapMinutes: positive(30) }).default({}),
-  budget: Schema.object({ contextWindow: nonnegative(), maxOutputTokens: nonnegative(), maxInputTokens: nonnegative(), recallTokens: nonnegative(), reserveTokens: positive(1024) }).default({}),
+  budget: Schema.object({ contextWindow: nonnegative(), maxOutputTokens: nonnegative(), maxInputTokens: nonnegative(), recallTokens: nonnegative(), recallPercent: positive(10).max(100), reserveTokens: positive(1024) }).default({}),
   models: model.default({}),
   roles: Schema.dict(Schema.object({ models: Schema.object({provider:Schema.string(),model:Schema.string(),followChat:Schema.boolean()}), features: Schema.object({learning:Schema.boolean(),trial:Schema.boolean(),autoAdopt:Schema.boolean()}), learning: Schema.object({privateThreshold:Schema.number().min(1),groupThreshold:Schema.number().min(1),minIntervalHours:Schema.number().min(1),batchSize:Schema.number().min(1).max(80),pollIntervalSeconds:Schema.number().min(1),requestTimeoutSeconds:Schema.number().min(1)}), evidence: Schema.object({independentUnits:Schema.number().min(1),distinctDays:Schema.number().min(1),trialDays:Schema.number().min(1),applications:Schema.number().min(1),personalityIntervalDays:Schema.number().min(1),conversationGapMinutes:Schema.number().min(1)}), budget: Schema.object({ contextWindow: Schema.number().min(0), maxOutputTokens: Schema.number().min(0), maxInputTokens: Schema.number().min(0), recallTokens: Schema.number().min(0) }) })).default({}),
   bridge: Schema.object({ token: Schema.string().role('secret').default(''), tokenFile: Schema.string().default(''), adminQQs: Schema.array(Schema.string().pattern(/^[1-9]\d{0,19}$/)).default([]), maxBodyBytes: positive(2097152) }).default({}),
@@ -41,7 +41,7 @@ export function validateConfig(config) {
   checkBudget(config.budget)
   for(const role of Object.values(config.roles ?? {})){
     checkBudget({...config.budget,...role.budget})
-    if(role.budget?.recallTokens>config.budget.recallTokens)throw new DomainError('INVALID_CONFIG','角色召回预算不能放宽全局上限')
+    if(config.budget.recallTokens>0 && role.budget?.recallTokens>config.budget.recallTokens)throw new DomainError('INVALID_CONFIG','角色召回预算不能放宽全局上限')
   }
   if (config.bridge.token && config.bridge.tokenFile) throw new DomainError('INVALID_CONFIG', 'token 与 tokenFile 只能配置一项')
   return config

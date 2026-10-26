@@ -5,6 +5,7 @@ import { createService } from './application/service.js'
 import { createOperations } from './application/operations.js'
 import { createModelAdapter } from './adapters/dsh/model.js'
 import { registerManagement, registerInternal, registerContexts } from './adapters/dsh/http.js'
+import { registerUsage } from './adapters/dsh/usage.js'
 import { createLearningEngine } from './learning/index.js'
 
 export { Config }
@@ -40,6 +41,7 @@ export async function apply(ctx, input) {
   registerManagement(ctx,service)
   await registerInternal(ctx,service)
   registerContexts(ctx,service)
+  registerUsage(ctx,service)
   timer=setInterval(cycle,config.learning.pollIntervalSeconds*1000)
   timer.unref?.()
   cycle()

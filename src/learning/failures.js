@@ -24,6 +24,7 @@ const PAUSE_ON = new Set([
   'TAKEOVER_REQUIRED',
   'MODEL_REQUIRED',
   'CAPACITY_REQUIRED',
+  'INPUT_BUDGET_EXCEEDED',
 ]);
 
 /** 材料/调用前提错误：重试也不会成功，需要人工或数据修复。 */

@@ -12,8 +12,8 @@
 | candidate | operation=evaluate/pause/reject/resume；恢复不复用冻结证据 |
 | task | operation=pause/resume，保留游标与最短间隔 |
 | feedback | targetId、expectedVersion、sentiment、text |
-| resolveConflict | id、expectedVersion、resolution=retain/replace/separate/dismiss |
-| verifyApplication | id、expectedVersion、candidateId、excerpt；须为真实成功发送 |
+| resolveConflict | id、expectedVersion、resolution；事实保留／替换另填 keepId，区分情境填 contexts |
+| verifyApplication | id、expectedVersion、candidateId、excerpt；须为真实成功发送，仅该候选计次 |
 | rollback | 候选或人格版本 id、expectedVersion |
 | rollbackBatch | targets:[{id,expectedVersion}]，同角色；任一版本过期则整批不执行 |
 | assignImport | 隔离材料 id、expectedVersion、characterId、scopeKey、confirm:true |

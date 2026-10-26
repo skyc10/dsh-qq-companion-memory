@@ -4,12 +4,12 @@
  * 版本号用于任务记录与候选记录：模板或 schema 变更必须提升版本，
  * 便于管理端区分“旧模板产出的候选”。
  *
- * 本版（/2）新增联合记忆提炼：一次请求同时输出候选与 memories，额度按联合用途记账，
+ * 本版（/3）增加有来源的事实主题、情境与时间；保留联合记忆提炼：一次请求同时输出候选与 memories，额度按联合用途记账，
  * 不允许为记忆额外发起第二次模型请求。
  */
 
-export const PROMPT_VERSION = 'learning-prompt/2';
-export const OUTPUT_SCHEMA_VERSION = 'learning-output/2';
+export const PROMPT_VERSION = 'learning-prompt/3';
+export const OUTPUT_SCHEMA_VERSION = 'learning-output/3';
 
 /** 允许的候选类型；与候选 data.type 一致。 */
 export const CANDIDATE_TYPES = Object.freeze(['expression', 'jargon', 'preference', 'personality']);
@@ -49,6 +49,7 @@ export const SYSTEM_PROMPT = [
   '    每条必须给至少一条本批材料 id 作为 sourceIds，且不得跨群、跨范围或写入个人档案（profile）。',
   '12. 记忆 subjectQQ 只能填本批材料里真实出现的发送者 QQ；experience 是可共享的经历摘要，',
   '    其余类型会被标记为待管理员复核，不要把猜测或他人隐私写成 fact/relationship。',
+  '13. 可选 factKey 表示同一主体的事实主题（如居住城市），context 区分情境；validFrom/validUntil 为明确有效期，occurredAt 为发生时间，须含时区。没有依据就省略，不推测。',
 ].join('\n');
 
 export const OUTPUT_SCHEMA = {
@@ -86,6 +87,11 @@ export const OUTPUT_SCHEMA = {
           text: { type: 'string', minLength: 2, maxLength: MAX_MEMORY_TEXT_CHARS },
           sourceIds: { type: 'array', minItems: 1, maxItems: 12, items: { type: 'string' } },
           subjectQQ: { type: 'string', maxLength: 20 },
+          factKey: {type:'string',maxLength:200},
+          context: {type:'string',maxLength:400},
+          occurredAt: {type:'string'},
+          validFrom: {type:'string'},
+          validUntil: {type:'string'},
         },
       },
     },

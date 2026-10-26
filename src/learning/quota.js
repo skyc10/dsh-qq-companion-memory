@@ -52,7 +52,7 @@ function usageRowsForDay(store, day) {
   }
   if (rows.length === 0) {
     for (const row of store.list(KIND.usage, { status: 'active', limit: 1000 })) {
-      if (String(row.id).startsWith(prefix)) continue;
+      if (String(row.id).startsWith(prefix) || row.data?.category && row.data.category !== 'learning') continue;
       const markedDay = row.data?.dayKey ?? (row.data?.day ? dayKey(row.data.day) : '');
       if (markedDay === day) rows.push(row);
     }
@@ -118,6 +118,11 @@ export function reserveQuota(store, config, { characterId, scopeKey, at, taskId,
       dayKey: quota.day,
       day: toISO(at),
       purpose: purpose ?? 'learning',
+      category: 'learning',
+      requests: 1,
+      inputTokens: null,
+      outputTokens: null,
+      injectedTokens: null,
       state: USAGE_STATE.reserved,
       taskId: taskId ?? '',
       provider: provider ?? '',
@@ -144,6 +149,9 @@ export function settleUsage(store, usageId, patch, { at } = {}) {
   const record = store.get(usageId);
   if (!record) return null;
   const nextData = { ...record.data, ...patch };
+  if (patch?.usage) {
+    for (const key of ['inputTokens','outputTokens']) nextData[key] = typeof patch.usage[key] === 'number' && Number.isFinite(patch.usage[key]) && patch.usage[key] >= 0 ? patch.usage[key] : null;
+  }
   if (patch?.state === USAGE_STATE.failed && !nextData.error) nextData.error = 'unknown-error';
   return store.update(usageId, record.version, { data: nextData }, { at });
 }

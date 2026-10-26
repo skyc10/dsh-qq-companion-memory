@@ -418,7 +418,7 @@ export function summarizeTrial(store, candidate, evidenceSummary, { at, config }
   // 注入（applied=false / 未发送成功）不等于应用：只有“已实际应用且已核验”的记录计入 S4。
   // 兼容宿主 delivery→application 形态（successful=true 表示实际发出）与本模块 applied 标记。
   const isApplied = (row) => row.data?.applied === true || row.data?.successful === true;
-  const isVerified = (row) => row.data?.verified === true;
+  const isVerified = (row) => row.data?.verified === true && (Array.isArray(row.data.verifiedCandidateIds) ? row.data.verifiedCandidateIds.includes(candidate.id) : row.data.candidateId === candidate.id);
   const seenMessages=new Set()
   const verified = applications.filter((row) => {
     const messageId=asString(row.data?.messageId || row.data?.replyId)

@@ -1,3 +1,4 @@
+import { normalizeMemory, registerMemoryConflicts } from '../domain/memory.js'
 import { DomainError, assertOwner, active, canonicalScope, digest, requireText, version, qq } from '../domain/core.js'
 
 const DELETABLE = new Set(['character','event','evidence','memory','profile','supplement','share','candidate','conflict','feedback'])
@@ -16,6 +17,7 @@ export function createManagement(service) {
     if (visited.has(source.id)) return
     visited.add(source.id)
     for (const kind of ['memory','profile','supplement','candidate','evidence','personality','share','trial','application','feedback','conflict']) for (const row of store.scan(kind, { characterId: source.characterId })) {
+      if(visited.has(row.id))continue
       const refs = [...(row.data.sourceIds ?? []), ...(row.data.evidenceIds ?? []), ...(row.data.sourceCandidateIds ?? []), ...(row.data.candidateIds ?? []), row.data.sourceId, row.data.candidateId, row.data.targetId, ...(row.data.targetIds ?? [])].filter(Boolean)
       if (refs.includes(source.id) && (active(row) || reason === 'source-deleted' && row.status !== 'deleted')) {
         if (kind === 'share' && reason === 'source-edited') {
@@ -59,7 +61,10 @@ export function createManagement(service) {
     validateSources(data, characterId, scopeKey)
     if (!['character','control'].includes(payload.kind)) requireText(data.text ?? data.rule ?? data.summary ?? data.content, '条目内容', 50000)
     if (payload.kind === 'candidate') { data.evidenceIds ??= []; data.sourceIds ??= []; data.manual = true }
-    return store.create(payload.kind, data, { characterId, scopeKey, subjectQQ, status: 'active', ...(payload.kind === 'character' ? { id: characterId } : {}) })
+    if(['memory','profile','supplement'].includes(payload.kind))normalizeMemory(data,{store,characterId,scopeKey,subjectQQ})
+    const row=store.create(payload.kind, data, { characterId, scopeKey, subjectQQ, status: 'active', ...(payload.kind === 'character' ? { id: characterId } : {}) })
+    registerMemoryConflicts(store,row,clock())
+    return row
   }
   function mutate(action, payload, actor) {
     const before = ['create','feedback','takeover','rollbackBatch'].includes(action) ? null : get(payload, action === 'undo')
@@ -72,11 +77,13 @@ export function createManagement(service) {
         const data = structuredClone(payload.data)
         if (!data || typeof data !== 'object' || Array.isArray(data)) throw new DomainError('INVALID_DATA', 'data 必须是对象')
         validateSources(data, before.characterId, before.scopeKey)
+        if(['memory','profile','supplement'].includes(before.kind))normalizeMemory(data,{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id})
         if(before.kind==='candidate' && (data.rule!==before.data.rule || data.type!==before.data.type)){
           const frozen=dependencies.learning.helpers.freezeEvidence(before.id,{at:clock(),reason:'candidate-edited'}).candidate
           after=store.update(frozen.id,frozen.version,{status:'paused',data:{...data,frozenEvidenceIds:frozen.data.frozenEvidenceIds,autoAdoptPaused:true}})
         }else after = store.update(before.id, before.version, { data })
         invalidate(before, 'source-edited')
+        registerMemoryConflicts(store,after,clock())
         break
       }
       case 'disable': case 'enable': {
@@ -90,6 +97,10 @@ export function createManagement(service) {
           after=store.update(frozen.id,frozen.version,{status:'disabled',data:{...frozen.data,autoAdoptPaused:true}})
         }else if(action==='enable' && before.kind==='candidate')after=dependencies.learning.helpers.resumeAutoAdopt(before.id,{at:clock(),reason:String(payload.reason??'管理员重新启用')})
         else after = store.update(before.id, before.version, { status: action === 'enable' ? 'active' : 'disabled', ...(pendingReview?{data:{...before.data,confirmed:true,reviewRequired:false,pendingConfirmation:false,uncertain:false,confirmedAt:clock()}}:{}) })
+        if(action==='enable'){
+          if(['memory','profile','supplement'].includes(before.kind))normalizeMemory({...before.data},{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id})
+          registerMemoryConflicts(store,after,clock())
+        }
         if (action === 'disable') invalidate(before, 'source-disabled')
         break
       }
@@ -143,7 +154,23 @@ export function createManagement(service) {
       case 'resolveConflict': {
         if (before.kind !== 'conflict') throw new DomainError('INVALID_CONFLICT', '目标不是冲突')
         if (!['retain','replace','separate','dismiss'].includes(payload.resolution)) throw new DomainError('INVALID_RESOLUTION', '请选择保留、替换、区分情境或驳回')
-        after = store.update(before.id, before.version, { status: 'resolved', data: { ...before.data, resolution: payload.resolution, resolvedBy: actor, resolvedAt: clock(), reason: payload.reason } })
+        const targets=(before.data.targetIds??[]).map(id=>store.get(id)).filter(Boolean)
+        if(['retain','replace'].includes(payload.resolution) && targets.length>1){
+          const keep=targets.find(row=>row.id===payload.keepId)
+          if(!keep)throw new DomainError('CONFLICT_TARGET_REQUIRED','请选择冲突双方中要保留的条目')
+          for(const target of targets)if(target.id!==keep.id){
+            const paused=store.update(target.id,target.version,{status:'paused',data:{...target.data,conflictResolution:before.id}})
+            invalidate(paused,'conflict-resolved',new Set([before.id]))
+          }
+        }
+        if(payload.resolution==='separate' && targets.length>1){
+          const contexts=payload.contexts
+          if(!contexts || targets.some(row=>typeof contexts[row.id]!=='string' || !contexts[row.id].trim() || contexts[row.id].length>400) || new Set(targets.map(row=>contexts[row.id].trim())).size!==targets.length)throw new DomainError('CONFLICT_CONTEXT_REQUIRED','请为冲突双方填写不同的适用情境（最多400字符）')
+          for(const target of targets)store.update(target.id,target.version,{data:{...target.data,context:contexts[target.id].trim()}})
+          for(const target of targets)invalidate(target,'source-edited',new Set([before.id]))
+          for(const target of targets)registerMemoryConflicts(store,store.get(target.id),clock())
+        }
+        after = store.update(before.id, before.version, { status: 'resolved', data: { ...before.data, resolved:true, resolution: payload.resolution, keepId:payload.keepId, resolvedBy: actor, resolvedAt: clock(), reason: payload.reason } })
         break
       }
       case 'feedback': {
@@ -162,10 +189,10 @@ export function createManagement(service) {
       case 'verifyApplication': {
         if (before.kind !== 'application' || !before.data.successful) throw new DomainError('INVALID_APPLICATION', '只能核验实际成功发送的记录')
         const candidate = store.get(requireText(payload.candidateId, '候选 ID', 300))
-        if (!candidate || candidate.kind !== 'candidate' || candidate.characterId !== before.characterId || !(candidate.scopeKey===before.scopeKey || candidate.scopeKey==='character' && candidate.data.type==='personality' && (candidate.data.originScopes??candidate.data.sourceIds?.map(sourceId=>store.get(sourceId)?.scopeKey)??[]).includes(before.scopeKey)) || !['trial','adopted','accepted'].includes(candidate.status)) throw new DomainError('INVALID_APPLICATION', '候选与发送记录归属或状态不符')
+        if (!candidate || candidate.kind !== 'candidate' || candidate.characterId !== before.characterId || !(candidate.scopeKey===before.scopeKey || candidate.scopeKey==='character' && candidate.data.type==='personality' && (['accepted','adopted'].includes(candidate.status) || (candidate.data.originScopes??candidate.data.sourceIds?.map(sourceId=>store.get(sourceId)?.scopeKey)??[]).includes(before.scopeKey)) && !(before.scopeKey.startsWith('private:') && (candidate.data.pausedForQQ??[]).includes(before.scopeKey.slice(8)))) || !['trial','adopted','accepted'].includes(candidate.status)) throw new DomainError('INVALID_APPLICATION', '候选与发送记录归属或状态不符')
         const excerpt = requireText(payload.excerpt, '核验片段', 5000)
         if (!before.data.content.includes(excerpt)) throw new DomainError('INVALID_APPLICATION', '片段不在实际发送原文中')
-        after = store.update(before.id, before.version, { status: 'verified', data: { ...before.data, verified: true, candidateId: candidate.id, candidateIds: [...new Set([...(before.data.candidateIds ?? []),candidate.id])], verification: 'administrator', verifiedBy: actor, excerpt, verifiedAt: clock() } })
+        after = store.update(before.id, before.version, { status: 'verified', data: { ...before.data, verified: true, candidateId: candidate.id, candidateIds: [...new Set([...(before.data.candidateIds ?? []),candidate.id])], verifiedCandidateIds:[...new Set([...(before.data.verifiedCandidateIds ?? (before.data.verified && before.data.candidateId ? [before.data.candidateId] : [])),candidate.id])], verifications:{...before.data.verifications,[candidate.id]:{verifiedBy:actor,excerpt,verifiedAt:clock()}}, verification: 'administrator', verifiedBy: actor, excerpt, verifiedAt: clock() } })
         break
       }
       case 'task': {

@@ -61,29 +61,48 @@ export async function registerInternal(ctx,service) {
   }}))
 }
 export function registerContexts(ctx,service) {
-  const mounted=new Map();const queries=new Map()
+  const mounted=new Map();const queries=new Map();const snapshots=new Map()
+  service.runtime.recallSnapshots=snapshots
+  const budgets=new Map()
+  service.runtime.recallBudgets=budgets
+  ctx.on('agent/request',async ({agent,signal},next)=>{
+    const selected=await next()
+    const sid=agent.session.id
+    budgets.delete(sid)
+    try {
+      service.identity(sid)
+      const info=await ctx.llm.resolveModelInfo(selected.provider,selected.model,signal)
+      const context=info.context?.contextWindow
+      const output=selected.maxTokens ?? info.defaultMaxTokens
+      if(Number.isSafeInteger(context) && Number.isSafeInteger(output))budgets.set(sid,Math.max(0,Math.floor((context-output-service.config.budget.reserveTokens)*service.config.budget.recallPercent/100)))
+    }catch(error){if(!['NO_BINDING','STALE_BINDING'].includes(error.code))service.logger.warn('召回自动预算暂不可用',error.code??error.message)}
+    return selected
+  })
   function mount(agent) {
     const sid=agent.session.id
     if(mounted.get(sid)?.agent===agent)return
     mounted.get(sid)?.off()
     const off=agent.ctx.systemPrompt.context({name:'qq-companion-memory',order:750,interpolate:false,text:()=>{
       try {
+        snapshots.delete(sid)
         if(service.isMaintenance())return ''
         const binding=service.identity(sid)
         const takeover=service.controls().find(c=>c.characterId===binding.characterId && c.scopeKey===binding.scopeKey)
         // 与旧功能交接确认前不重复注入。
         if(takeover?.status!=='active' || !takeover.acknowledged)return ''
-        return service.recall({sessionId:sid,query:queries.get(sid)??''}).text
+        const value=service.recall({sessionId:sid,query:queries.get(sid)??''})
+        snapshots.set(sid,value)
+        return value.text
       }catch(error){if(!['NO_BINDING','STALE_BINDING','MAINTENANCE'].includes(error.code))service.logger.warn('QQ记忆上下文暂不可用',error.code??error.message);return ''}
     }})
     mounted.set(sid,{agent,off})
   }
   ctx.on('agent/created',({agent})=>{mount(agent)})
-  ctx.on('agent/disposed',({agent})=>{const m=mounted.get(agent.session.id);if(m?.agent===agent){m.off();mounted.delete(agent.session.id);queries.delete(agent.session.id)}})
+  ctx.on('agent/disposed',({agent})=>{const m=mounted.get(agent.session.id);if(m?.agent===agent){m.off();mounted.delete(agent.session.id);queries.delete(agent.session.id);snapshots.delete(agent.session.id);budgets.delete(agent.session.id)}})
   ctx.on('agent/inbox/inserted',({agent,message})=>{
     const text=(message?.content??[]).filter(c=>c.type==='text').map(c=>c.text).join('\n')
     if(text)queries.set(agent.session.id,text.slice(-8000))
   })
   for(const agent of ctx.agents.list())mount(agent)
-  ctx.effect(()=>()=>{for(const m of mounted.values())m.off();mounted.clear();queries.clear()})
+  ctx.effect(()=>()=>{for(const m of mounted.values())m.off();mounted.clear();queries.clear();snapshots.clear();budgets.clear()})
 }

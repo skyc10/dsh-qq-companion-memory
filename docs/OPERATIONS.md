@@ -8,7 +8,7 @@
 2. 将发布目录放入镜像的 `/opt/plugins/dsh-qq-companion-memory`，在专用 profile 内使用 `dsh plugin --profile web add` 安装 bundle。已有持久 profile 也须走此命令，不手写 bundle 包条目。
 3. 用本插件桥接补丁脚本修改固定 `a49877f4e58d04e47532d44b803360d0f001160d` 桥接源码，构建期保存原文件。版本或锚点不符必须停止构建，不能跳过补丁继续上线。
 4. 按插件 Config 填写独立内部 token（至少 32 字符，推荐 tokenFile）、有效管理员 QQ 白名单；桥接必须使用相同认证和实际 ownerQQ。勿将凭据写进仓库。
-5. 填写召回 token 预算。学习可显式配置 provider/model，或跟随当前可信绑定模型；未知上下文、输出能力必须填手动上限。备份启用前填写上海时区 HH:mm。
+5. 召回默认按当前聊天模型可用上下文的 `recallPercent`（默认10%）自动分配；`recallTokens>0` 可设手动上限。能力未知时须填手动预算。学习可显式配置 provider/model，或跟随当前可信绑定模型；未知上下文、输出能力必须填手动上限。备份启用前填写上海时区 HH:mm。
 
 ## 分阶段启用
 

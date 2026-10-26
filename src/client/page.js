@@ -1308,8 +1308,8 @@ function actionsForRecord(record) {
           action: 'resolveConflict',
           label: '解决冲突',
           title: '解决记忆冲突',
-          description: '双方来源都会保留；这里只登记采用哪种处理方式，不静默覆盖另一方。',
-          fields: [selectField('resolution', '解决方式', ENUMS.resolution, 'retain', 'retain 保留原有 / replace 替换为新值 / separate 区分情境并存 / dismiss 驳回该冲突。', true)],
+          description: '双方原文与来源保留。选择保留或替换时暂停另一项；区分情境时更新双方适用条件。',
+          fields: [selectField('resolution', '解决方式', ENUMS.resolution, 'retain', '保留／替换需填写保留条目；区分情境需填写双方不同情境。', true),textField('keepId','保留条目 ID','','从冲突 targetIds 中选择；保留／替换事实冲突时必填。'),jsonField('contexts','双方适用情境',{},'区分情境时填写 {"条目ID":"适用情境"}。','object',false)],
         });
       }
       if (canDisable) actions.push({ action: 'disable', label: '停用冲突记录', title: '停用冲突记录', fields: [] });
@@ -1791,7 +1791,7 @@ function openCreateDialog(kinds, onDone) {
       { class: 'card' },
       el('h5', { text: '内容' }),
       dataInput,
-      el('p', { class: 'muted small', text: 'data 为 JSON 对象，按记录类型填写字段；非角色 / 控制类记录须含 text / rule / summary / content 之一。' }),
+      el('p', { class: 'muted small', text: 'data 为 JSON 对象，内容使用 text / rule / summary / content。记忆可填 occurredAt、validFrom、validUntil、factKey、context；后来变化可用 supersedesId 关联旧条目。人格候选 type=personality，范围填 character。' }),
     ),
     el(
       'div',
@@ -1832,7 +1832,7 @@ function openCreateDialog(kinds, onDone) {
       problems.append(el('li', { text: '范围不能为空；角色 / 控制类记录填 character，其余填 private:<QQ> / group:<群号> / profile:<QQ>。' }));
     } else if (['character', 'control'].includes(payload.kind)) {
       if (payload.scopeKey !== 'character') problems.append(el('li', { text: '角色 / 控制类记录的 scopeKey 只能填 character。' }));
-    } else if (!/^(private|group|profile):[1-9]\d{0,19}$/.test(payload.scopeKey)) {
+    } else if (!(payload.kind==='candidate' && payload.scopeKey==='character') && !/^(private|group|profile):[1-9]\d{0,19}$/.test(payload.scopeKey)) {
       problems.append(el('li', { text: '范围必须形如 private:<QQ> / group:<群号> / profile:<QQ>。' }));
     }
     if (payload.kind === 'profile' && (payload.subjectQQ === '' || payload.scopeKey !== 'profile:' + payload.subjectQQ)) {
@@ -2921,6 +2921,11 @@ function createRecallView() {
 /* ------------------------------------------------------------------ */
 
 function createUsageView() {
+  const usageData = row => {
+    const data = isPlainObject(row.data) ? row.data : {};
+    const usage = isPlainObject(data.usage) ? data.usage : {};
+    return {...data, category:data.category || 'learning', requests:data.requests ?? 1, inputTokens:data.inputTokens ?? usage.inputTokens ?? null, outputTokens:data.outputTokens ?? usage.outputTokens ?? null};
+  };
   return makeList({
     id: 'usage',
     label: '用量',
@@ -2930,38 +2935,26 @@ function createUsageView() {
     notices: ['配额按真实请求归属上海日期记录；请求状态不确定时保守记账并显示，不自动假定可返还。'],
     columns: [
       { label: '日期', cell: (row) => pickText(row.data, ['day']) || dayKey(row.createdAt) || '—' },
-      { label: '类别', cell: (row) => pickText(row.data, ['category', 'scopeKind', 'purpose']) || '—' },
+      { label: '类别', cell: (row) => ({chat:'正常聊天',memory:'本地记忆',learning:'学习／联合提炼'}[usageData(row).category] || usageData(row).category) },
       { label: '角色', cell: (row) => row.characterId || '—' },
       { label: '范围', wrap: true, cell: (row) => row.scopeKey || '—' },
-      { label: '请求数', cell: (row) => numOrDash(isPlainObject(row.data) ? row.data.requests : null) },
-      { label: '输入 token', cell: (row) => numOrDash(isPlainObject(row.data) ? row.data.inputTokens : null) },
-      { label: '输出 token', cell: (row) => numOrDash(isPlainObject(row.data) ? row.data.outputTokens : null) },
-      { label: '注入 token', cell: (row) => numOrDash(isPlainObject(row.data) ? row.data.injectedTokens : null) },
-      { label: '费用', cell: () => '未知' },
+      { label: '请求数', cell: (row) => numOrDash(usageData(row).requests) },
+      { label: '输入 token', cell: (row) => numOrDash(usageData(row).inputTokens) },
+      { label: '输出 token', cell: (row) => numOrDash(usageData(row).outputTokens) },
+      { label: '注入 token', cell: (row) => numOrDash(usageData(row).injectedTokens) + (row.data?.injectedTokensEstimated ? '（估算）' : '') },
+      { label: '费用', cell: (row) => row.data?.category === 'memory' ? '本地处理，无模型费用' : '未知' },
     ],
     afterList: ({ rows }) => {
-      const keys = ['requests', 'inputTokens', 'outputTokens', 'injectedTokens', 'totalTokens', 'cachedTokens'];
-      const totals = {};
-      let counted = 0;
-      for (const row of rows) {
-        const data = isPlainObject(row.data) ? row.data : {};
-        let hit = false;
-        for (const key of keys) {
-          if (typeof data[key] === 'number' && Number.isFinite(data[key])) {
-            totals[key] = (totals[key] || 0) + data[key];
-            hit = true;
-          }
-        }
-        if (hit) counted += 1;
-      }
+      const keys = ['requests', 'inputTokens', 'outputTokens', 'injectedTokens'];
       const card = el('div', { class: 'card' });
-      card.append(el('h5', { text: '当前页合计（页面内求和）' }));
-      if (counted === 0) {
-        card.append(el('p', { class: 'muted small', text: '当前页记录没有可求和的数值字段。' }));
-      } else {
-        card.append(kvList(keys.filter((key) => totals[key] !== undefined).map((key) => [FIELD_LABELS[key] || key, String(totals[key])])));
-        card.append(el('p', { class: 'muted small', text: '仅对当前已加载的 ' + counted + ' 条记录求和，不代表服务端周期统计，也不跨页累计。' }));
+      card.append(el('h5', { text: '当前已加载记录的分类合计' }));
+      for (const [category,label] of [['chat','正常聊天'],['memory','本地记忆'],['learning','学习／联合提炼']]) {
+        const data = rows.map(usageData).filter(value => value.category === category);
+        card.append(el('h5', {text:label}));
+        if (!data.length) { card.append(el('p',{class:'muted small',text:'暂无记录'})); continue; }
+        card.append(kvList(keys.map(key => [FIELD_LABELS[key] || key, data.every(value => typeof value[key] === 'number' && Number.isFinite(value[key])) ? String(data.reduce((sum,value)=>sum+value[key],0)) + (key==='injectedTokens' && data.some(value=>value.injectedTokensEstimated) ? '（估算）' : '') : '未知（有缺失记录）'])));
       }
+      card.append(el('p', { class: 'muted small', text: '只汇总已加载记录。学习与记忆联合提炼只计一次学习请求；聊天输入包含注入部分，注入列不可再与输入相加。' }));
       return card;
     },
   });

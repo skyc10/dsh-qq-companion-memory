@@ -23,7 +23,11 @@
 
 [学习入口](../src/learning/index.js)：`createLearningEngine({store,config,model,logger,clock})` → `tick(signal,{once:true}) / evaluate(candidateId) / close() / status()`。模型适配 `resolve({characterId,scopeKey,sessionId,signal})` 返回固定 provider/model、容量及保守估算器；`generate({selection,system,input,maxTokens,signal,requestId})` 返回 `{text,finish,usage}`，只有完整 stop 输出可提交。
 
-[配置](../src/config/index.js)默认关闭五个业务开关。T/S/R 默认数值保留计划；近期 7 天、半衰期 30 天、连续交流间隔 30 分钟。模型、召回预算和备份时刻未填写时不猜测容量或可用状态。角色覆盖不得放宽证据和召回上限；输入、输出与预留空间在派发前复核。
+[配置](../src/config/index.js)默认关闭五个业务开关。T/S/R 默认数值保留计划；近期 7 天、半衰期 30 天、连续交流间隔 30 分钟。召回按当前模型扣除输出和预留后的 `recallPercent`（默认10%）自动分配，`recallTokens>0` 为手动上限；能力未知且无手动值时不注入。角色覆盖不得放宽手动全局上限；输入、输出与预留空间在派发前复核。
+
+事实可带 `factKey/context/occurredAt/validFrom/validUntil/supersedesId`；有效期为半开区间，源原文保持。相同主体／主题／情境且有效期重叠的不同内容进入冲突；保留／替换需指定 keepId，区分情境填写 contexts。核验应用逐候选保存 `verifiedCandidateIds/verifications`，同一发送的其他命中不会自动计次。
+
+用量分 chat、memory、learning：可信 QQ 会话请求只读观察真实 usage；本地记忆无模型请求，注入 token 明示估算；联合提炼只记一次 learning。未知 token／价格保持未知，注入是聊天输入的一部分不可重复相加。学习发送完整材料，超预算分批；单条仍过大时不发请求、不推进游标。
 
 ## HTTP 与桥接
 

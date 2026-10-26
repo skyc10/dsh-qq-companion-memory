@@ -8,6 +8,7 @@
  * - 最短学习间隔对首次、重试、积压同样生效（重试不会绕过间隔）。
  */
 
+import { registerMemoryConflicts } from '../domain/memory.js';
 import { DomainError } from '../domain/core.js';
 import {
   KIND,
@@ -528,6 +529,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
     let inputTokens = 0;
     if (manualInput > 0) inputTokens = manualInput;
     else if (contextWindow > 0) inputTokens = Math.max(256, contextWindow - (maxOutputRaw || DEFAULT_MAX_OUTPUT_TOKENS) - 512);
+    if (contextWindow>0)inputTokens=Math.min(inputTokens||Infinity,Math.max(0,contextWindow-(maxOutputRaw||DEFAULT_MAX_OUTPUT_TOKENS)-512));
     return {
       inputTokens,
       maxOutputTokens: maxOutputRaw > 0 ? maxOutputRaw : DEFAULT_MAX_OUTPUT_TOKENS,
@@ -557,7 +559,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
       characterId,
       scopeKey,
       materials: ordered.map((item) => ({
-        ...toPromptMaterial(item, 400),
+        ...toPromptMaterial(item, 0),
         segments: item.segments,
       })),
       config: cfg,
@@ -570,20 +572,21 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
     let prompt = buildPromptFor(characterId, scopeKey, cfg, rawList.slice(0, size));
     while (size > 1) {
       const over = budget.inputTokens > 0
-        ? estimateTokens(selection, prompt) > budget.inputTokens
+        ? estimateTokens(selection, SYSTEM_PROMPT+'\n'+prompt) > budget.inputTokens
         : prompt.length > SAFETY_INPUT_CHARS;
       if (!over) break;
       size -= 1;
       prompt = buildPromptFor(characterId, scopeKey, cfg, rawList.slice(0, size));
     }
-    return { batch: rawList.slice(0, size), prompt };
+    const over=budget.inputTokens>0 ? estimateTokens(selection,SYSTEM_PROMPT+'\n'+prompt)>budget.inputTokens : SYSTEM_PROMPT.length+prompt.length>SAFETY_INPUT_CHARS;
+    return { batch: over ? [] : rawList.slice(0, size), prompt, maxOutputTokens:Math.min(budget.maxOutputTokens,512+size*96) };
   }
 
   function usageFromGenerated(generated) {
     const usage = generated?.usage;
     if (!usage || typeof usage !== 'object') return null;
-    const inputTokens = Number(usage.inputTokens);
-    const outputTokens = Number(usage.outputTokens);
+    const inputTokens = typeof usage.inputTokens==='number' ? usage.inputTokens : NaN;
+    const outputTokens = typeof usage.outputTokens==='number' ? usage.outputTokens : NaN;
     return {
       inputTokens: Number.isFinite(inputTokens) ? inputTokens : null,
       outputTokens: Number.isFinite(outputTokens) ? outputTokens : null,
@@ -622,13 +625,14 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
     if (!Array.isArray(memories) || memories.length === 0) return { created, skipped };
 
     // 同范围已有记忆（含停用/待复核）：同 hash 或同类型同文本即视为已有，不覆盖人工改动。
+    const temporalKey=data=>JSON.stringify(Object.fromEntries(['factKey','context','occurredAt','validFrom','validUntil'].filter(key=>data?.[key]!==undefined).map(key=>[key,data[key]])));
     const existingKeys = new Set();
     const existingTexts = new Set();
     for (const row of listAll(store, 'memory', { characterId, scopeKey, includeDeleted: true }, { maxPages: 20 })) {
       const key = asString(row.data?.memoryKey);
       if (key) existingKeys.add(key);
       const text = normalizeSpaces(row.data?.text).toLowerCase();
-      if (text) existingTexts.add(`${asString(row.data?.type)}|${text}`);
+      if (text) existingTexts.add(`${asString(row.data?.type)}|${text}|${row.subjectQQ??''}|${JSON.stringify([...(row.data?.sourceIds??[])].sort())}|${temporalKey(row.data)}`);
     }
 
     for (const memory of memories) {
@@ -658,7 +662,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
         }
       }
 
-      const textKey = `${memory.type}|${normalizeSpaces(memory.text).toLowerCase()}`;
+      const textKey = `${memory.type}|${normalizeSpaces(memory.text).toLowerCase()}|${memory.subjectQQ??''}|${JSON.stringify([...memory.sourceIds].sort())}|${temporalKey(memory)}`;
       const id = `memory-${hashText(`learning|${characterId}|${scopeKey}|${memory.memoryKey}`)}`;
       if (
         existingKeys.has(memory.memoryKey) ||
@@ -673,6 +677,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
         'memory',
         {
           type: memory.type,
+          ...Object.fromEntries(['factKey','context','occurredAt','validFrom','validUntil'].filter(key=>memory[key]!==undefined).map(key=>[key,memory[key]])),
           text: memory.text,
           sourceIds: [...memory.sourceIds],
           confirmed: active,
@@ -695,6 +700,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
       );
       existingKeys.add(memory.memoryKey);
       existingTexts.add(textKey);
+      registerMemoryConflicts(store,record,at);
       created.push(record);
     }
     return { created, skipped };
@@ -1017,6 +1023,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
     const fitted = fitBatch(characterId, scopeKey, cfg, ordered, budget, selectionInfo);
     const batch = fitted.batch;
     if (batch.length === 0) {
+      applyFailure(task,cfg,{at:now(),error:new DomainError('INPUT_BUDGET_EXCEEDED','首条完整材料超过输入预算；未发模型请求，原文和游标保留',409)});
       return { characterId, scopeKey, action: 'skip', reason: 'no-budget' };
     }
 
@@ -1072,7 +1079,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
             // 稳定的角色指令放 system；输出结构与材料已在 input 内，避免重复粘贴 schema。
             system: SYSTEM_PROMPT,
             input: fitted.prompt,
-            maxTokens: budget.maxOutputTokens,
+            maxTokens: fitted.maxOutputTokens,
             signal: reqSignal,
             requestId,
           }),
