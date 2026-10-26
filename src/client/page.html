@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>QQ 陪伴记忆 · 管理</title>
+<link rel="stylesheet" href="page.css" />
+</head>
+<body>
+<a class="skip" href="#main">跳到内容</a>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">忆</span>
+    <div class="brandtext">
+      <h1>QQ 陪伴记忆</h1>
+      <p class="muted small">角色 · 范围 · 原文 · 共享 · 候选试用 · 人格与回退</p>
+    </div>
+    <span class="badge" id="statusBadge" data-state="unknown">状态未知</span>
+  </div>
+  <div class="topbar-actions">
+    <span class="muted small" id="statusMeta">尚未读取状态</span>
+    <button type="button" class="btn btn-ghost" id="btnOpenWindow" hidden>新窗口打开</button>
+    <button type="button" class="btn" id="btnStatus">重新读取状态</button>
+  </div>
+</header>
+<div class="banner" id="banner" hidden>
+  <div class="banner-body">
+    <strong id="bannerTitle">操作未完成</strong>
+    <p id="bannerText"></p>
+    <details id="bannerDetails" hidden>
+      <summary>详细信息</summary>
+      <pre id="bannerPre"></pre>
+    </details>
+  </div>
+  <button type="button" class="btn btn-ghost" id="bannerClose" aria-label="关闭提示">关闭</button>
+</div>
+<main class="shell" id="main">
+  <nav class="sidenav" id="nav" aria-label="管理分区"></nav>
+  <section class="workspace" id="content" aria-live="polite">
+    <p class="muted">正在加载管理页面…</p>
+  </section>
+</main>
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" aria-label="记录详情" hidden></aside>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script defer src="page.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+- insert:
+    - id: qq-companion-memory
+      name: dsh-qq-companion-memory
+      config:
+        features:
+          capture: false
+          recall: false
+          learning: false
+          trial: false
+          autoAdopt: false

@@ -1,0 +1,12 @@
+node_modules/
+lib/
+dist/
+_*.py
+*.log
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.env
+.env.*
+!.env.example
+*.token

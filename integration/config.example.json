@@ -1,0 +1,29 @@
+{
+  "_comment": "dsh-qq-companion-memory · qq-bridge 的 companion 配置段（合并进 qq-bridge 的 config.json 顶层）。示例里的号码/令牌都是占位值。",
+  "_notes": [
+    "缺少整个 companion 段：适配层是空实现，桥接行为与打补丁前完全一致。",
+    "token 与 tokenFile 只能配一个；建议把 Bearer 令牌放文件并限制权限，而不是写进 config.json。",
+    "adminQQs 必须与插件侧 bridge.adminQQs 一致，且 ownerQQ 必须是其中一员，否则管理命令不转交。",
+    "takeover.enabled=false（默认）不发起新的接管；已持久停用的范围仍保持停用，只有明确 rollback 才恢复旧能力。"
+  ],
+
+  "companion": {
+    "enabled": true,
+    "endpoint": "http://dsh:3080",
+    "internalBasePath": "/qq-companion-memory/internal/v1",
+    "token": "",
+    "tokenFile": "/run/secrets/qq-companion-token",
+    "stateDir": "/opt/qq-bridge/state/companion",
+    "bridgeVersion": "0.2.1-r1",
+    "adminQQs": ["1000000001"],
+    "requestTimeoutMs": 8000,
+    "maxContentChars": 20000,
+    "outboxMaxBytes": 8388608,
+    "outboxMaxPendingRecords": 5000,
+    "takeover": {
+      "enabled": false,
+      "controlsPath": "/controls",
+      "pollIntervalSeconds": 300
+    }
+  }
+}
