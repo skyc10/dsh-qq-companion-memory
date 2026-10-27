@@ -16,8 +16,18 @@ export function registerUsage(ctx, service) {
     try {
       record = service.store.create('usage', { category: 'chat', purpose: 'chat', requests: 1, inputTokens: null, outputTokens: null, injectedTokens: null, cost: null, state: 'pending', sessionId: options.sessionId, provider: options.provider, model: options.model, bindingVersion: binding.data.bindingVersion }, { ...fields, id: `chat-usage-${requestId}` })
       const recalled = service.runtime.recallSnapshots?.get(options.sessionId)
-      const system = [options.system, ...(options.messages ?? []).filter(message => message.role === 'system').map(message => typeof message.content === 'string' ? message.content : (message.content ?? []).filter(block => block.type === 'text').map(block => block.text).join('\n'))].filter(Boolean).join('\n')
-      if (recalled?.text && recalled.identity.characterId === binding.characterId && recalled.identity.scopeKey === binding.scopeKey && system.includes(recalled.text)) {
+      const messageText = message => typeof message.content === 'string' ? message.content : (message.content ?? []).filter(block => block.type === 'text').map(block => block.text).join('\n')
+      const messages = options.messages ?? []
+      const system = [options.system, ...messages.filter(message => message.role === 'system').map(messageText)].filter(Boolean).join('\n')
+      // DSH rc.2 publishes dynamic context as a trusted user-role snapshot. Only
+      // its latest named contribution counts; ordinary user prose and stale
+      // snapshots must never manufacture an injection estimate.
+      const runtime = messages.findLast(message => message.role === 'user' && message.source?.kind === 'runtime-context')
+      const sections = runtime?.source?.form === 'snapshot' && Array.isArray(runtime.source.sections) ? runtime.source.sections.filter(section => section.name === 'qq-companion-memory') : []
+      const injected = runtime
+        ? sections.length === 1 && sections[0].text === recalled?.text && messageText(runtime).includes(recalled?.text ?? '')
+        : Boolean(recalled?.text && system.includes(recalled.text))
+      if (recalled?.text && recalled.identity.characterId === binding.characterId && recalled.identity.scopeKey === binding.scopeKey && injected) {
         service.store.create('usage', { category: 'memory', purpose: 'local-recall', requests: 0, inputTokens: 0, outputTokens: 0, injectedTokens: recalled.budget.used, injectedTokensEstimated: true, cost: 0, state: 'done', sessionId: options.sessionId, requestId }, { ...fields, id: `memory-usage-${requestId}` })
       }
     } catch (error) { service.logger.warn('QQ用量登记失败', error.message) }

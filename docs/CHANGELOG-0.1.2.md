@@ -7,6 +7,7 @@
 - runtime补丁由部署仓库负责完整预检、已有产物验证与失败恢复；程序回退优先换镜像，不单独用companion的revert移除部署补丁。
 - 修复WebUI冲突重试后修改内容仍复用requestId；原样重试继续复用ID。
 - 修复持久会话复用未补报绑定；同角色重建会话分配递增绑定版本，重启保持版本，旧会话回执不改写新归属。
+- 修复真实DSH rc.2将动态上下文放在可信runtime-context user消息时的记忆注入计量；只认最新命名section与实际正文匹配，不把普通用户文本或旧快照算成注入。
 - 未自动迁移旧记忆。生产目标仅capture/recall，learning/trial/autoAdopt关闭；接管须真实ACK。
 
 完整测试范围与证据在docs/acceptance/2026-10-27-fix；合成结果不代表真实QQ或宿主通过。
