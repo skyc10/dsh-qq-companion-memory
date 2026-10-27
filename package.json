@@ -1,6 +1,6 @@
 {
   "name": "dsh-qq-companion-memory",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "QQ 角色记忆、范围共享、证据学习与人格版本管理",
   "type": "module",
   "license": "UNLICENSED",
