@@ -55,5 +55,7 @@
     "qqOutboundLimit": 30
   },
   "qqGateway": "awaiting login; OneBot unreachable",
-  "backupContainsPrivateData": "local only; no archive or real config in repository"
+  "backupContainsPrivateData": "local only; no archive or real config in repository",
+  "historicalSnapshot": true,
+  "supersededBy": "live/final-live-results.json"
 }

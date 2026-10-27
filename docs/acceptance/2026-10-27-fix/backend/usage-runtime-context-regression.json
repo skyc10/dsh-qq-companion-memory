@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-27T06:47:52.630Z",
+  "node": "v24.16.0",
+  "usageSourceSha256": "42dc44ed943ab6f4a79c65473724ca526d22f3bd28cebc2da6722ba9d7351528",
+  "syntheticOnly": true,
+  "results": [
+    {
+      "name": "legacy system compatible",
+      "status": "passed",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "real runtime snapshot counts once",
+      "status": "passed",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "ordinary user prose cannot manufacture injection",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "runtime without sections suppresses system fallback",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "named section without actual body rejected",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "binding character mismatch",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "binding scope mismatch",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "latest cleared snapshot shadows earlier valid",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "latest mismatch shadows earlier valid",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "duplicate named sections rejected",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "wrong section name rejected",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "wrong form rejected",
+      "status": "passed",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "string content runtime accepted",
+      "status": "passed",
+      "expected": 1,
+      "actual": 1
+    }
+  ]
+}

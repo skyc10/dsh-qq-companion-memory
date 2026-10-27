@@ -1,10 +1,12 @@
+> FIX-05 后续P1已修复并合成复测通过：真实DSH把动态context作为role:user/source.runtime-context传输，旧实现漏记。原失败证据保留 `usage-runtime-context-repro-history.json` 及原 `usage-runtime-context-repro.json`，其中reproduced=true仅为历史缺陷证据。当前脚本已改正向13分支回归，结果为 `usage-runtime-context-regression.json`。52组原探针+13分支共65组全部通过；此次修复工作树源码/lib哈希见最新provenance，真实宿主最终结果由主代理另记。
+
 # 后端补测报告
 
 执行：backend_acceptance 子代理；2026-10-27 13:40 Asia/Shanghai。范围为 FIX-01–16、REG-01–07 的合成后端验收。未修改业务源码，未提交或推送；由主代理统一同步。
 
-最终基线：`1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95`，版本 `0.1.2`。Windows Node `v24.16.0`。最终复测 `run-all.mjs` 返回0，测试前后来源指纹一致；完整原始/LF指纹、脚本指纹及运行返回码见 `provenance.json`。`extra-results.json` 也独立记录源码及脚本指纹。基线旧 `TEST-BASELINE-2026-10-27.json` 不是本轮冻结版本，不用旧构建指纹宣称一致。
+原52组基线：`1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95`；计量修复后65组最终基线：`c1619aecffb4b60a9fd7f19cf9496db569d5faac`，版本 `0.1.2`。Windows Node `v24.16.0`。最终复测 `run-all.mjs` 返回0，测试前后来源指纹一致；完整原始/LF指纹、脚本指纹及运行返回码见 `provenance.json`。`extra-results.json` 也独立记录源码及脚本指纹。基线旧 `TEST-BASELINE-2026-10-27.json` 不是本轮冻结版本，不用旧构建指纹宣称一致。
 
-结果：原有27组合成探针全部通过；新增11组及第二轮14组探针全部通过。**52组探针不是40项全部通过**。没有复现业务源码失败。脚本开发期间修正了测试夹具：群消息必填groupId、间隔检查先于不足门槛检查、首条超预算会暂停任务而须明确resume后测取消；这些不是产品失败，最终脚本及结果才是本次结论。
+结果：原有27组合成探针全部通过；新增11组及第二轮14组探针全部通过。**原52组及新增13分支不等于40项真实宿主全部通过**。原52组没有复现业务源码失败；随后真实宿主复现的runtime-context计量漏记已修复，新增13分支通过。脚本开发期间修正了测试夹具：群消息必填groupId、间隔检查先于不足门槛检查、首条超预算会暂停任务而须明确resume后测取消；这些不是产品失败，最终脚本及结果才是本次结论。
 
 所有Store均使用新建系统临时目录 `companion-acceptance-*` / `companion-extra-*`，只含合成文本、QQ与角色。模型为内存注入对象，时间为可控时钟；不读取真实数据库，不操作容器/profile，不请求真实模型、不发送QQ消息。FIX14 的“成功发送”是调用 service.delivery 的合成成功回执，并非QQ实际发信。
 
@@ -51,7 +53,7 @@ REG07注入store.backup失败，原合成数据仍可读；恢复中第一次ope
 | FIX-02 | 后端通过 | 旧profile启用与显式编辑均持久化visibility；非文本/非法群来源400。 |
 | FIX-03 | 后端通过 | 新建/复用候选冲突、来源追溯、同事务故障回滚；完整其它门槛全部达标且冲突唯一阻断，trial候选停止召回均通过。 |
 | FIX-04 | 后端通过 | 引用ID、新正文、纯引用、重复引用、数字正文、非人类/转发/控制及原文保留。QQ桥接实传不属本报告。 |
-| FIX-05 | 后端通过 | capture关闭计chat、无usage未知、异常流failed/未知token、退休绑定/purpose/无绑定排除、注入估算、成功/失败/取消learning单笔均通过。 |
+| FIX-05 | 修复后后端通过，真实宿主待复核 | capture关闭计chat、无usage未知、异常流failed/未知token、退休绑定/purpose/无绑定排除、注入估算、成功/失败/取消learning单笔均通过。新增真实runtime-context形态正向、普通user伪装/无section/正文不匹配/错绑定/最新clear覆盖旧/重复section/错误form/name拒绝，单请求估算只记一笔；旧漏记已复现并修复。 |
 | FIX-06 | 后端通过，UI待测 | 35旧版本20/15分页无重漏、删除后无历史、审计无正文。页面历史入口及下一页由UI验收。 |
 | FIX-07 | 后端通过 | 原探针目录/单文件/数组/memories、同ID区分/原件不变/已有输出拒绝；新增输出=源拒绝且原件不变。 |
 | FIX-08 | 后端通过，UI待测 | 四字段、原件、来源及映射导入停用保留。页面逐项归属复核未在本代理执行。 |

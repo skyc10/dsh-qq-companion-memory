@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-27T14:47:59.3219608+08:00",
+  "zipSha256": "cee20451cdb016bdf5d1f82acf875970ebb6fd32ff8979331c74b1def2e351f2",
+  "entries": [
+    {
+      "name": "dsh-qq-companion-memory-0.1.2.tgz",
+      "length": 921483,
+      "sha256": "eb22ad1007693d08eaa51359a90998549a5ae9c979077b8d43ec82b6bb82b4e6"
+    },
+    {
+      "name": "SHA256SUMS",
+      "length": 101,
+      "sha256": "22224e47c05d5310c2b0ac5a35f0b34462ff7d866ce2252f8dbe171ee3010596"
+    },
+    {
+      "name": "CANDIDATE.json",
+      "length": 156,
+      "sha256": "2a2652b7b87b9a4e3c83ec54fb7374f8307d405b6b775069b65628bbabd47734"
+    },
+    {
+      "name": "OPERATIONS.md",
+      "length": 5681,
+      "sha256": "5d5b2879ff7366653447722dfb63e4bb2a8cc1a1c3948158f27119121c89b004"
+    },
+    {
+      "name": "CHANGELOG-0.1.2.md",
+      "length": 1307,
+      "sha256": "6761d62bdd888ec784c10a83f0da1104dc9505a9acd3a6c59a77388afd66132c"
+    }
+  ],
+  "manifest": "eb22ad1007693d08eaa51359a90998549a5ae9c979077b8d43ec82b6bb82b4e6  dsh-qq-companion-memory-0.1.2.tgz\r\n",
+  "candidate": {
+    "version": "0.1.2",
+    "sourceCommit": "c1619aecffb4b60a9fd7f19cf9496db569d5faac",
+    "status": "candidate; real usage fix acceptance in progress"
+  },
+  "innerTgzMatches": true
+}

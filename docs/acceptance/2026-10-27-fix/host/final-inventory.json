@@ -1,0 +1,48 @@
+{
+  "entries": [
+    {
+      "entryId": "include:memory",
+      "moduleName": "dsh-fish-memory",
+      "enabled": false,
+      "fiberPhase": null
+    },
+    {
+      "entryId": "include:mood",
+      "moduleName": "dsh-feiyu-mood",
+      "enabled": true,
+      "fiberPhase": "active"
+    },
+    {
+      "entryId": "include:qq-companion-memory",
+      "moduleName": "dsh-qq-companion-memory",
+      "enabled": true,
+      "fiberPhase": "active"
+    }
+  ],
+  "presets": [
+    {
+      "id": "standard",
+      "rows": []
+    },
+    {
+      "id": "ptc",
+      "rows": []
+    },
+    {
+      "id": "minimal",
+      "rows": []
+    },
+    {
+      "id": "cordis",
+      "rows": []
+    },
+    {
+      "id": "qq-chat",
+      "rows": []
+    },
+    {
+      "id": "qq-chat-v2",
+      "rows": []
+    }
+  ]
+}

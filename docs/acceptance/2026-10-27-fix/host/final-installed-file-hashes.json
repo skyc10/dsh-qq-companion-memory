@@ -1,0 +1,10 @@
+[
+  {
+    "path": "src/adapters/dsh/usage.js",
+    "sha256": "1f0168b225c05f0d77ceacb3112fa0c8403edf966aecc042e950b39f9faf446e"
+  },
+  {
+    "path": "lib/index.js",
+    "sha256": "1a65f7b8127ea12aed047f5f08b6f3ad2ca88243dea60e53a0ad988b97d5e27c"
+  }
+]

@@ -1,8 +1,8 @@
 {
-  "at": "2026-10-27T05:51:39.577Z",
+  "at": "2026-10-27T06:42:05.970Z",
   "version": "0.1.2",
-  "tgzSha256": "1efc7b563ce0d548d4c3ce8911455726eec0d5c0c0f69dd356c587194b391183",
-  "entryCount": 71,
+  "tgzSha256": "eb22ad1007693d08eaa51359a90998549a5ae9c979077b8d43ec82b6bb82b4e6",
+  "entryCount": 141,
   "results": [
     {
       "name": "new version 0.1.2",
@@ -72,12 +72,12 @@
     {
       "name": "tar matches lib/index.js",
       "status": "pass",
-      "details": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff"
+      "details": "1a65f7b8127ea12aed047f5f08b6f3ad2ca88243dea60e53a0ad988b97d5e27c"
     },
     {
       "name": "tar matches lib/index.js.map",
       "status": "pass",
-      "details": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9"
+      "details": "187d49e81da9153f22170354338a485fb3b05e175d548a0342d3ca854252f599"
     },
     {
       "name": "tar matches lib/page/index.html",
@@ -147,7 +147,7 @@
     {
       "name": "tar matches src/adapters/dsh/usage.js",
       "status": "pass",
-      "details": "e0f9ee6bd01923d726ee17bd829e100c42897287f91dfb9e14b37863c6639b0d"
+      "details": "1f0168b225c05f0d77ceacb3112fa0c8403edf966aecc042e950b39f9faf446e"
     },
     {
       "name": "tar matches src/application/management.js",
@@ -277,7 +277,7 @@
     {
       "name": "tar contains no runtime data or dependencies",
       "status": "pass",
-      "details": 71
+      "details": 141
     },
     {
       "name": "page source matches lib index.html",

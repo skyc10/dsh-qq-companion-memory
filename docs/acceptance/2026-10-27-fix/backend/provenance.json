@@ -1,8 +1,8 @@
 {
-  "at": "2026-10-27T06:12:48.374Z",
+  "at": "2026-10-27T06:47:52.659Z",
   "node": "v24.16.0",
   "version": "0.1.2",
-  "head": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+  "head": "c1619aecffb4b60a9fd7f19cf9496db569d5faac",
   "sourceStable": true,
   "fingerprints": {
     "package.json": {
@@ -25,9 +25,13 @@
       "raw": "c3b419ac92d3a154e6e3caa095c03aac4e70cae725167d36761ad965ce7b0b74",
       "lf": "9717fd1c1d05e9f29565ddbe5302e49dc43c9f9f7adaf2ce993872cc6a731e89"
     },
+    "docs/acceptance/2026-10-27-fix/backend/usage-runtime-context-repro.mjs": {
+      "raw": "6007d645562c543724308cb3f7fb653d61e0def83e80229dbf4cf4783a060dd5",
+      "lf": "237bb301aaa8a1d548e4eb553730f745e9cea4d0a3d489e7d0eb3d54c01ab770"
+    },
     "docs/acceptance/2026-10-27-fix/backend/run-all.mjs": {
-      "raw": "2aeff135b0ea9853a605c157c1c5ef48843114d16b94a3489c5f621a169ae0eb",
-      "lf": "8fd5592e3907ceb393ce1267f1e828173bbbdfc3d6ab1b254af232e92d31de10"
+      "raw": "3f9a1e38af194f8185af8c48d0d8e97cc01c341b59a76f7a6768e3936803a2de",
+      "lf": "cdfd9b1995e2c625b77d019c5c1ad90b6eff107fa25271492fa6ec3a8111ea92"
     },
     "src/adapters/dsh/http.js": {
       "raw": "78d2d253a0ef69b43e4519c39758f2850bab825b5c87ba87f4a298719d3b0944",
@@ -38,8 +42,8 @@
       "lf": "4265c1d219b19245f08cdfba9b771f9f1ef9f4911a531c604d92c6f47bdb7482"
     },
     "src/adapters/dsh/usage.js": {
-      "raw": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a",
-      "lf": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a"
+      "raw": "42dc44ed943ab6f4a79c65473724ca526d22f3bd28cebc2da6722ba9d7351528",
+      "lf": "42dc44ed943ab6f4a79c65473724ca526d22f3bd28cebc2da6722ba9d7351528"
     },
     "src/application/management.js": {
       "raw": "ed04be9d6ad47ae09e15f640d6511ed898b38c3339c9c73e06e0a443961cc858",
@@ -150,12 +154,12 @@
       "lf": "14a656320335a71a72627355bde1ab16afebc96e925267e6603fe635f26a5f1d"
     },
     "lib/index.js": {
-      "raw": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff",
-      "lf": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff"
+      "raw": "1a65f7b8127ea12aed047f5f08b6f3ad2ca88243dea60e53a0ad988b97d5e27c",
+      "lf": "1a65f7b8127ea12aed047f5f08b6f3ad2ca88243dea60e53a0ad988b97d5e27c"
     },
     "lib/index.js.map": {
-      "raw": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9",
-      "lf": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9"
+      "raw": "187d49e81da9153f22170354338a485fb3b05e175d548a0342d3ca854252f599",
+      "lf": "187d49e81da9153f22170354338a485fb3b05e175d548a0342d3ca854252f599"
     },
     "lib/page/index.html": {
       "raw": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072",
@@ -181,6 +185,10 @@
     },
     {
       "script": "docs/acceptance/2026-10-27-fix/backend/phase2.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "docs/acceptance/2026-10-27-fix/backend/usage-runtime-context-repro.mjs",
       "exitCode": 0
     }
   ]

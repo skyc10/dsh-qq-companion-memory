@@ -1,0 +1,84 @@
+{
+  "kind": "real dedicated DSH and QQ; sanitized summaries only",
+  "at": "2026-10-27 Asia/Shanghai",
+  "installedSource": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+  "trustedBindingCount": 1,
+  "bindingVersions": [
+    1
+  ],
+  "takeover": [
+    {
+      "status": "active",
+      "acknowledged": true,
+      "legacyDisabled": true,
+      "bridgeVersion": "0.2.1-r1"
+    }
+  ],
+  "realInbound": {
+    "count": 1,
+    "testMarkerCaptured": true
+  },
+  "realDeliveries": {
+    "count": 5,
+    "allSuccessful": true,
+    "messageIds": [
+      "194958110",
+      "1903321503",
+      "-1468266890",
+      "913100159",
+      "-1588824729"
+    ]
+  },
+  "network": [
+    {
+      "at": "2026-10-27T06:32:10.158Z",
+      "attempt": 1,
+      "http": 200,
+      "model": "deepseek-v4.1-flash",
+      "toolsDisabled": true,
+      "recallMarkerPresent": false
+    },
+    {
+      "at": "2026-10-27T06:34:49.701Z",
+      "attempt": 2,
+      "http": 200,
+      "model": "deepseek-v4.1-flash",
+      "toolsDisabled": true,
+      "recallMarkerPresent": false
+    },
+    {
+      "at": "2026-10-27T06:34:54.128Z",
+      "attempt": 3,
+      "http": 200,
+      "model": "deepseek-v4.1-flash",
+      "toolsDisabled": true,
+      "recallMarkerPresent": false
+    },
+    {
+      "at": "2026-10-27T06:35:16.314Z",
+      "attempt": 4,
+      "http": 200,
+      "model": "deepseek-v4.1-flash",
+      "toolsDisabled": true,
+      "recallMarkerPresent": true
+    },
+    {
+      "at": "2026-10-27T06:35:34.812Z",
+      "attempt": 5,
+      "http": 200,
+      "model": "deepseek-v4.1-flash",
+      "toolsDisabled": true,
+      "recallMarkerPresent": true
+    }
+  ],
+  "usage": {
+    "chat": 5,
+    "memory": 0
+  },
+  "finding": "P1: actual runtime-context user messages injected memory but usage recognized only system; regression fix and re-deployment pending",
+  "notes": [
+    "First silent probe was actually sent: owner private chat is exempt by existing bridge rule. Counted as real outbound, not a successful block.",
+    "Two operator sends triggered three bridge wake-condition reminders. All five real message_ids are included in the total.",
+    "Temporary model forwarder disables model tool calls and hard caps all attempts at15; bridge AI wake timers temporarily paused during remaining tests."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "takeover": {
+    "status": 200,
+    "rows": [
+      {
+        "status": "active",
+        "version": 33,
+        "hasCharacter": true,
+        "scopeType": "private",
+        "data": {
+          "acknowledged": true,
+          "bridgeVersion": "0.2.1-r1",
+          "legacyDisabled": true,
+          "desiredOwner": "companion"
+        }
+      }
+    ]
+  },
+  "binding": {
+    "status": 200,
+    "rows": [
+      {
+        "status": "active",
+        "version": 11,
+        "hasCharacter": true,
+        "scopeType": "private",
+        "data": {
+          "bindingVersion": 1,
+          "hasSession": true,
+          "hasBot": true
+        }
+      }
+    ]
+  }
+}

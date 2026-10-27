@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-27T06:38:22.325Z",
+  "node": "v24.16.0",
+  "usageSourceSha256": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a",
+  "syntheticOnly": true,
+  "escapeChanges": false,
+  "messageRole": "user",
+  "source": {
+    "kind": "runtime-context",
+    "form": "snapshot",
+    "sections": [
+      {
+        "name": "qq-companion-memory",
+        "text": "[synthetic-memory v1] 中文 😀 <literal> & {{literal}}"
+      }
+    ]
+  },
+  "chatRecords": 2,
+  "expectedMemoryForRuntimeRequest": 1,
+  "actualMemoryForRuntimeRequest": 0,
+  "reproduced": true
+}
