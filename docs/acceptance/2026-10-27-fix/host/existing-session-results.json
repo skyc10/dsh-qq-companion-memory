@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-27T05:43:38.916Z",
+  "kind": "isolated VM actual patched ensureSession; synthetic persisted mapping",
+  "session": "synthetic-existing-session",
+  "reports": [
+    {
+      "sessionId": "synthetic-existing-session",
+      "conversationKey": "private:10001",
+      "characterId": "synthetic-character",
+      "botQQ": "10002",
+      "provider": "synthetic",
+      "model": "synthetic"
+    }
+  ],
+  "missingBinding": false
+}

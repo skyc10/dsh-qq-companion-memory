@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "source": "slang:sha256:185d941cbd4c7491a40e9dfe11c6f2cc63826d2018fcaaa1671b5942c6769c28",
+  "sources": [
+    {
+      "sourceFile": "slang-input.json",
+      "sourceHash": "185d941cbd4c7491a40e9dfe11c6f2cc63826d2018fcaaa1671b5942c6769c28"
+    }
+  ],
+  "records": [
+    {
+      "id": "slang-ui",
+      "text": "表达：鱼跃\n含义：合成开心\n用法：开心时说\n例句：今天鱼跃😀",
+      "content": "鱼跃",
+      "meaning": "合成开心",
+      "usage": "开心时说",
+      "example": "今天鱼跃😀",
+      "legacyKind": "slang",
+      "sourceFile": "slang-input.json",
+      "sourceHash": "185d941cbd4c7491a40e9dfe11c6f2cc63826d2018fcaaa1671b5942c6769c28",
+      "sourceIndex": 0,
+      "legacyStatus": "approved",
+      "legacyObsolete": false,
+      "original": {
+        "id": "slang-ui",
+        "content": "鱼跃",
+        "meaning": "合成开心",
+        "usage": "开心时说",
+        "example": "今天鱼跃😀",
+        "evidence": [
+          "合成线索"
+        ],
+        "status": "approved"
+      },
+      "ownership": "quarantine",
+      "warning": "旧 Session 文件名可能已被净化，仅是归属线索；不能据此确定真实角色或QQ归属"
+    }
+  ],
+  "mapping": {},
+  "instructions": "将records和source提交管理页导入预览（单批最多1000条/1MB，较大清单须分批）；仅对已核实项填写映射confirmed/characterId/scopeKey，批准后仍停用。legacyObsolete 条目保留待确认标记，不直接启用。"
+}

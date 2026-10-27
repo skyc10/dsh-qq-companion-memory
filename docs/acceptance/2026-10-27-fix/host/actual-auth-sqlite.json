@@ -1,0 +1,65 @@
+[
+  {
+    "path": "status",
+    "authenticated": false,
+    "status": 401,
+    "type": null,
+    "bytes": 12
+  },
+  {
+    "path": "status",
+    "authenticated": true,
+    "status": 200,
+    "type": "application/json; charset=utf-8",
+    "bytes": 1852
+  },
+  {
+    "path": "page",
+    "authenticated": false,
+    "status": 401,
+    "type": null,
+    "bytes": 12
+  },
+  {
+    "path": "page",
+    "authenticated": true,
+    "status": 200,
+    "type": "text/html; charset=utf-8",
+    "bytes": 1860
+  },
+  {
+    "path": "page.css",
+    "authenticated": false,
+    "status": 401,
+    "type": null,
+    "bytes": 12
+  },
+  {
+    "path": "page.css",
+    "authenticated": true,
+    "status": 200,
+    "type": "text/css; charset=utf-8",
+    "bytes": 18081
+  },
+  {
+    "path": "page.js",
+    "authenticated": false,
+    "status": 401,
+    "type": null,
+    "bytes": 12
+  },
+  {
+    "path": "page.js",
+    "authenticated": true,
+    "status": 200,
+    "type": "text/javascript; charset=utf-8",
+    "bytes": 150579
+  },
+  {
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  }
+]

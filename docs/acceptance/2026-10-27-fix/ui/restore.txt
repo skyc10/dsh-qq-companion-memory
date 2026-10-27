@@ -1,0 +1,99 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:34:26
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "备份与恢复" [level=2]
+  - paragraph: 每日备份、保留 14 天（可配置时刻）。恢复前必须人工确认，并先看恢复预览：会复活的删除内容、受影响范围与时间。
+  - button "刷新"
+  - list:
+    - listitem: 备份保留期内，已删除的原文仍可能存在于备份中；恢复会让它们复活。
+    - listitem: 一致性快照由服务端生成，页面不复制活跃数据库，也不猜测备份内容。
+    - listitem: 恢复只回到备份那个时间点：备份之后的新变更会丢失，旧 DSH 会话快照也不会被一并回滚。
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条" [selected]
+    - option "每页 50 条"
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "备份文件 创建时间 大小 原因 指纹 状态":
+        - columnheader "备份文件"
+        - columnheader "创建时间"
+        - columnheader "大小"
+        - columnheader "原因"
+        - columnheader "指纹"
+        - columnheader "状态"
+    - rowgroup:
+      - row "2026-10-27T05-35-53-870Z-snapshot-fa5c0041-edd7-41ac-95a1-52e67e2b2068.sqlite 2026年10月27日 13:35:53 73728 字节 manual ef9759dff5a9c48079eb6378… 生效":
+        - cell "2026-10-27T05-35-53-870Z-snapshot-fa5c0041-edd7-41ac-95a1-52e67e2b2068.sqlite"
+        - cell "2026年10月27日 13:35:53"
+        - cell "73728 字节"
+        - cell "manual"
+        - cell "ef9759dff5a9c48079eb6378…"
+        - cell "生效":
+          - generic "status=active": 生效
+  - generic: 本页 1 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。
+  - heading "备份操作" [level=5]
+  - button "新建备份"
+  - paragraph: 恢复入口在每条备份的详情里：先“预览恢复影响”，再输入确认词执行恢复。

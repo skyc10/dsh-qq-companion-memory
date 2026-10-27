@@ -1,0 +1,59 @@
+{
+  "version": "0.1.2",
+  "management": {
+    "status": {
+      "anonymous": 401,
+      "authenticated": 200
+    },
+    "page": {
+      "anonymous": 401,
+      "authenticated": 200
+    },
+    "page.css": {
+      "anonymous": 401,
+      "authenticated": 200
+    },
+    "page.js": {
+      "anonymous": 401,
+      "authenticated": 200
+    }
+  },
+  "internal": {
+    "anonymous": 401,
+    "authenticated": 200
+  },
+  "imageSource": {
+    "repository": "https://github.com/skyc10/dsh-qq-companion-memory",
+    "commit": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+    "version": "0.1.2",
+    "sha256": "1efc7b563ce0d548d4c3ce8911455726eec0d5c0c0f69dd356c587194b391183"
+  },
+  "features": {
+    "capture": true,
+    "recall": true,
+    "learning": false,
+    "trial": false,
+    "autoAdopt": false
+  },
+  "counts": [],
+  "takeoverCount": 0,
+  "allow": {
+    "privateCount": 1,
+    "matchesAuthorizedPrivate": true,
+    "groupCount": 0,
+    "allowAllWhenEmpty": false
+  },
+  "at": "2026-10-27 Asia/Shanghai",
+  "kind": "current dedicated DSH authenticated HTTP checks; no active inference or QQ test",
+  "takeover": "not started; waiting for QQ gateway login",
+  "oldMemory": "unchanged; no takeover or legacy import",
+  "backup": "four stopped-volume archives validated with tar listing; SHA256 manifest and original image saved locally",
+  "testBudget": {
+    "modelRequests": 0,
+    "qqOutbound": 0,
+    "modelLimit": 15,
+    "qqOutboundLimit": 30
+  },
+  "qqGateway": "awaiting login; OneBot unreachable",
+  "backupContainsPrivateData": "local only; no archive or real config in repository"
+}

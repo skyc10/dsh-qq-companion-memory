@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-27",
+  "image": "sha256:9acf0187a7b69ddc383cae5a0ea6832d0b55c69bc902312efaced38160520b8e",
+  "sourceCommit": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+  "node": "24.22.1",
+  "dsh": "0.2.1-rc.2",
+  "pnpm": "10.34.9",
+  "isolation": "new writable container layers; no host/prod volumes; network none or Docker internal network; no bridge process or QQ/model calls",
+  "formalAdd": "dsh plugin --profile web add --offline /opt/plugins/dsh-qq-companion-memory -> 0",
+  "registration": "package dependencies link plus dsh.profile.bundles; bundle own cordis.patch.yml inserts qq-companion-memory; profile override existing id only",
+  "unauthenticatedManagementResources": {"status":401,"page":401,"page.css":401,"page.js":401},
+  "authenticatedCookieManagementResources": {"status":200,"page":200,"page.css":200,"page.js":200},
+  "removeRestart": "formal remove succeeds; API 404; database retained",
+  "readdRestart": "formal add succeeds; API 200; synthetic sentinel memory-31d08caf-90ef-495e-90a9-75bbe0d234cc version1 unchanged",
+  "sqliteIntegrityCheck": "ok",
+  "existingIdOverride": "bridge.tokenFile and adminQQs and budget patch accepted without name/insert",
+  "internalControlsNoToken": 401,
+  "internalControlsCorrectSyntheticToken": 200,
+  "features": {"capture":false,"recall":false,"learning":false,"trial":false,"autoAdopt":false},
+  "realLocalSubprocessRuntime": {"argv":"node -e process.stdout.write(String(6*7))","exitCode":0,"stdout":"42","stderr":""},
+  "limits": "No real QQ/model flow; no PTY full test; npm dependency lifecycle warnings remain observed but actual native spawn passed; UI browser verification separate"
+}

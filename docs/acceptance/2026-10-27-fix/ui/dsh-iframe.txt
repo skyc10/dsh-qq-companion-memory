@@ -1,0 +1,137 @@
+- button "新建会话":
+- button "收起侧边栏":
+- button "新建会话":
+  - generic: 新会话
+  - generic: Ctrl
+  - generic: +
+  - generic: Alt
+  - generic: +
+  - generic: "N"
+- navigation "全局面板":
+  - button "插件":
+    - generic: 插件
+  - button "自动化任务":
+    - generic: 自动化任务
+  - button "记忆管理" [active]:
+    - generic: 记忆管理
+- generic: 工作区
+- button "搜索会话":
+- textbox "搜索会话名称"
+- button "视图选项":
+- button "添加工作区":
+- tree "会话":
+  - generic: 暂无会话
+- button "账号菜单":
+  - generic: 更多
+- iframe:
+  - link "跳到内容":
+    - /url: "#main"
+  - banner:
+    - generic: 忆
+    - heading "QQ 陪伴记忆" [level=1]
+    - paragraph: 管理工作台 / MEMORY COMPANION
+    - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+    - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:49:40
+    - generic: 上海时间 · UTC+8
+    - button "新窗口打开"
+    - button "重新读取状态"
+  - main:
+    - navigation "管理分区":
+      - paragraph: 工作台
+      - button "概览与状态"
+      - paragraph: 记忆资料
+      - button "记忆与原文"
+      - button "日期归档"
+      - button "个人档案"
+      - button "群内补充"
+      - button "共享源"
+      - paragraph: 学习与成长
+      - button "候选与试用"
+      - button "冲突与反馈"
+      - button "人格与回退"
+      - paragraph: 观察与维护
+      - button "召回记录"
+      - button "用量"
+      - button "审计"
+      - button "备份与恢复"
+      - button "导入"
+      - button "接管准备"
+      - button "系统记录"
+    - generic: MEMORY WORKSPACE
+    - heading "把每一段相处，整理成有依据的记忆。" [level=2]
+    - paragraph: 查看资料、处理待确认内容，跟踪角色的学习与成长。
+    - button "重新读取状态"
+    - generic: 全部角色与会话 · 状态快照
+    - generic: 读取于 2026年10月27日 13:49:40
+    - button "已启用记忆 0 查看已启用的记忆资料":
+      - generic: 已启用记忆
+      - strong: "0"
+      - generic: 查看已启用的记忆资料
+    - button "待确认记忆 0 核对原文，再确认启用":
+      - generic: 待确认记忆
+      - strong: "0"
+      - generic: 核对原文，再确认启用
+    - button "试用中的候选 0 跟踪证据与实际应用":
+      - generic: 试用中的候选
+      - strong: "0"
+      - generic: 跟踪证据与实际应用
+    - button "未解决冲突 0 保留来源，明确适用情境":
+      - generic: 未解决冲突
+      - strong: "0"
+      - generic: 保留来源，明确适用情境
+    - heading "接下来处理" [level=3]
+    - paragraph: 从记录出发，逐条核对和管理。
+    - button "核验实际发送 对照发送原文确认候选是否被应用 0":
+      - strong: 核验实际发送
+      - generic: 对照发送原文确认候选是否被应用
+      - generic: "0"
+    - button "整理旧数据归属 为隔离材料确认角色与会话范围 0":
+      - strong: 整理旧数据归属
+      - generic: 为隔离材料确认角色与会话范围
+      - generic: "0"
+    - button "查看召回来源 查看最近装配的记忆、预算与省略原因 查看":
+      - strong: 查看召回来源
+      - generic: 查看最近装配的记忆、预算与省略原因
+      - generic: 查看
+    - heading "能力状态" [level=3]
+    - paragraph: 配置来自当前实例；调整开关请使用 DSH 插件配置。
+    - generic: 消息采集
+    - generic: 已关闭
+    - generic: 记忆召回
+    - generic: 已关闭
+    - generic: 候选学习
+    - generic: 已关闭
+    - generic: 有限试用
+    - generic: 已关闭
+    - generic: 自动采纳
+    - generic: 已关闭
+    - button "新建记忆"
+    - button "新建个人档案"
+    - button "新建角色"
+    - generic "连接状态与详细配置"
+    - heading "常用入口" [level=3]
+    - paragraph: 每个入口都对应真实查询；没有数据时显示空结果或服务端错误。
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+    - heading "使用边界（简短版）" [level=3]
+    - list:
+      - listitem: 备份默认保留 14 天：保留期内已删除的原文仍可能存在于备份中，恢复会让它们复活。
+      - listitem: 旧 fish-memory 按 DSH Session.id 合并历史会话记忆，归属不可靠；无法确认归属的旧数据只能进入待确认区。
+      - listitem: DSH 旧会话里已经装配好的上下文快照不会被追溯撤回；停用或纠正从下一次装配前生效。
+      - listitem: 本页不测试模型、不调用模型：学习与采纳结果只来自服务端已记录的数据。
+      - listitem: 目标不明确的纠正不会被扩成“整批停用”，必须逐条指定记录 ID 与版本后提交。
+- generic "心情（点开看，按住拖动换位置）":
+  - img "形象"

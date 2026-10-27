@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-27T13:52:00.0098708+08:00",
+  "zip": "D:\\deepseek_flash\\backup\\companion-package-1c8bd8d\\dist\\qq-companion-memory-offline-0.1.2.zip",
+  "zipSha256": "2783e223ea7442737891bde820c6f9dd1cc8a04aeb8e418d8688a3cd6f56953f",
+  "entries": [
+    {
+      "name": "dsh-qq-companion-memory-0.1.2.tgz",
+      "length": 523813,
+      "sha256": "1efc7b563ce0d548d4c3ce8911455726eec0d5c0c0f69dd356c587194b391183"
+    },
+    {
+      "name": "SHA256SUMS",
+      "length": 101,
+      "sha256": "3679aa9e85424e09faf956204c9227e0ce63ab754c6c9cd509ac1225bbeab3e4"
+    },
+    {
+      "name": "CANDIDATE.json",
+      "length": 141,
+      "sha256": "a1f3808111196aba25f082cb499515518f69d4430f5da3c06d491afd0dc1eae4"
+    },
+    {
+      "name": "OPERATIONS.md",
+      "length": 5681,
+      "sha256": "5d5b2879ff7366653447722dfb63e4bb2a8cc1a1c3948158f27119121c89b004"
+    },
+    {
+      "name": "CHANGELOG-0.1.2.md",
+      "length": 1100,
+      "sha256": "22034b5405778ea225f5cef522a3815ab41feed516339d933f0aec2a4a73d6e8"
+    }
+  ],
+  "manifest": "1efc7b563ce0d548d4c3ce8911455726eec0d5c0c0f69dd356c587194b391183  dsh-qq-companion-memory-0.1.2.tgz\r\n",
+  "candidate": {
+    "version": "0.1.2",
+    "sourceCommit": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+    "status": "candidate; acceptance in progress"
+  },
+  "innerTgzMatches": true
+}

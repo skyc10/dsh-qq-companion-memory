@@ -1,0 +1,116 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:57:15
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "候选、试用与证据" [level=2]
+  - paragraph: 候选经去重、冲突检查后进入有限试用；S1–S6 条件由服务端策略校验，页面不代替策略放行，也不把模型自评分当概率。
+  - button "刷新"
+  - button "新建记录"
+  - list:
+    - listitem: 独立证据至少 4 个、跨 3 个日期、试用至少 3 天、实际应用至少 2 次；注入不等于应用。
+    - listitem: 机器人输出、纯引用转发、重复注入与同一段连续交流都不增加证据单位；引用后新增的自有正文可作为材料。
+    - listitem: 可评估、暂停、驳回或恢复候选；试用与采纳由学习引擎按条件自行推进。
+  - button "候选"
+  - button "试用"
+  - button "证据"
+  - button "实际应用"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "类型 规则/内容 证据数 范围 主体 状态 试用开始 采纳时间":
+        - columnheader "类型"
+        - columnheader "规则/内容"
+        - columnheader "证据数"
+        - columnheader "范围"
+        - columnheader "主体"
+        - columnheader "状态"
+        - columnheader "试用开始"
+        - columnheader "采纳时间"
+    - rowgroup:
+      - row "expression 合成评估候选 0 group:10001 — 生效 — —":
+        - cell "expression"
+        - cell "合成评估候选"
+        - cell "0"
+        - cell "group:10001"
+        - cell "—"
+        - cell "生效":
+          - generic "status=active": 生效
+        - cell "—"
+        - cell "—"
+  - generic: 本页 1 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。
+- dialog "候选：评估 / 暂停 / 驳回 / 恢复":
+  - heading "候选：评估 / 暂停 / 驳回 / 恢复" [level=2]
+  - paragraph: 以下是服务端真实返回值，页面不做二次推断。
+  - heading "服务端返回" [level=5]
+  - term: 结果
+  - definition:
+    - code: 对象
+  - generic "完整返回值" [active]
+  - generic: "{ \"candidateId\": \"candidate-474fd20a-a1f2-485c-a65f-d2a0c5ed1118\", \"type\": \"expression\", \"status\": \"active\", \"rule\": \"合成评估候选\", \"scopeKey\": \"group:10001\", \"characterId\": \"synthetic-A\", \"evidence\": { \"units\": 0, \"days\": 0, \"dayList\": [], \"scopeList\": [], \"supportIds\": [], \"frozenIds\": [], \"contradictions\": 0, \"lastSupportAt\": null, \"newSupportAfterTrial\": 0, \"countedPositiveFeedback\": 0 }, \"trial\": { \"trialId\": \"\", \"startedAt\": null, \"endsAt\": null, \"daysElapsed\": 0, \"requiredDays\": 3, \"timeMet\": false, \"requiredApplications\": 2, \"verifiedApplications\": 0, \"injectedOnly\": 0, \"pendingVerification\": 0, \"applicationsMet\": false, \"evidenceSummary\": { \"units\": 0, \"days\": 0, \"dayList\": [], \"scopeList\": [], \"supportIds\": [], \"frozenIds\": [], \"contradictions\": 0, \"lastSupportAt\": null, \"newSupportAfterTrial\": 0, \"countedPositiveFeedback\": 0 } }, \"conflicts\": [], \"personality\": null, \"explicitSupport\": false, \"unmet\": [ { \"code\": \"independentUnits\", \"message\": \"独立证据单位不足：0/4\", \"detail\": { \"current\": 0, \"required\": 4 } }, { \"code\": \"distinctDays\", \"message\": \"证据覆盖日期不足：0/3\", \"detail\": { \"current\": 0, \"required\": 3, \"days\": [] } }, { \"code\": \"explicitSupport\", \"message\": \"尚无明确正向反馈或新独立支持（感谢、沉默不计）\", \"detail\": { \"positiveFeedback\": 0, \"newSupportAfterTrial\": 0 } }, { \"code\": \"trialNotStarted\", \"message\": \"试用尚未开始\", \"detail\": { \"status\": \"active\" } }, { \"code\": \"trialDisabled\", \"message\": \"试用功能未开启（features.trial=false）\" }, { \"code\": \"autoAdoptDisabled\", \"message\": \"自动采纳未开启（features.autoAdopt=false）\" } ], \"canAdopt\": false, \"canStartTrial\": false, \"transition\": null, \"notes\": [], \"evaluatedAt\": \"2026-10-27T06:11:29.868Z\", \"config\": { \"features\": { \"capture\": false, \"recall\": false, \"learning\": false, \"trial\": false, \"autoAdopt\": false }, \"independentUnits\": 4, \"distinctDays\": 3, \"trialDays\": 3, \"applications\": 2, \"personalityIntervalDays\": 3 }, \"quota\": { \"day\": \"2026-10-27\", \"global\": 0, \"local\": 0, \"globalLimit\": 60, \"localLimit\": 12, \"globalRemaining\": 60, \"localRemaining\": 12 }, \"task\": null, \"promptVersion\": \"learning-prompt/4\", \"schemaVersion\": \"learning-output/4\", \"personalityVersion\": null }"
+  - paragraph: 返回值是服务端真实结果；页面不做二次推断，也不替你确认。
+  - button "关闭"

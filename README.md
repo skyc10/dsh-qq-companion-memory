@@ -2,11 +2,11 @@
 
 面向 QQ 专用 DSH 的独立插件。按稳定角色＋QQ 范围保存记忆，提供显式共享、证据学习、试用反馈和人格版本管理；学习不训练模型权重。
 
-当前状态：`0.1.1` 是既有发布基线；2026-10-27已对照实际代码复核后续审计报告并完成本地源码修正，详见[报告核对](docs/AUDIT-RECHECK-2026-10-27.md)及[既有复核记录](docs/RECHECK.md)。本次修改尚未发布，旧发布包不含本次修正。所有业务开关默认关闭；未部署、未接管旧能力，未执行 QQ／模型运行性验收，未编写执行测试。目标 Node 24、DSH `0.2.1-rc.2`（清单兼容到 `rc.3`，运行兼容仍待验收）。
+当前状态：`0.1.2` 为安装候选，0.1.1旧发行包和标签未覆盖。2026-10-27修复镜像pnpm工具链、桥接补丁装配、WebUI重试requestId及持久会话绑定，并由三个low测试子代理补测；当前专用DSH已正式安装。QQ网关重启后等待登录，真实私聊联调与接管尚未完成。完整证据及40项状态见[本轮报告](docs/acceptance/2026-10-27-fix/REPORT.md)。目标Node24、DSH0.2.1-rc.2。
 
 版本管理：[GitHub 私有仓库](https://github.com/skyc10/dsh-qq-companion-memory)，主分支 `main`。依赖、构建目录、数据库与凭据不进 Git；发布包由锁文件和源码构建。
 
-本次修复与WebUI先以源码提交在GitHub留档，测试和人工检查仍待执行；不是新的发行版本。各子项目版本更新后推送GitHub的持续要求见[工作区规则副本](docs/WORKSPACE-GITHUB-RULES.md)。
+源码、测试证据与交接分别推送对应GitHub私有仓库。测试组通过不代表40项整项全过；尚未完成正式发行，剩余页面组合及真实QQ联调按本轮报告续做。[工作区规则副本](docs/WORKSPACE-GITHUB-RULES.md)。
 
 工作区关联的部署代码、独立管理面板和本插件三项目的仓库、实际路径及核验状态，见[三个项目登记](docs/WORKSPACE-PROJECTS.md)。
 
@@ -36,4 +36,4 @@ DSH_HOME=/data/dsh-home dsh plugin --profile web add /opt/plugins/dsh-qq-compani
 
 数据默认位于 `$DSH_HOME/qq-companion-memory`。删除保留受控撤销窗口，旧备份和 DSH 历史快照可能留有旧文本；停用更新当前有效快照，不物理改写 DSH 会话历史。
 
-WebUI沿用 DSH 侧栏“记忆管理”和同源 `/api/qq-companion-memory/v1/page`。新增状态总览、待核验/隔离材料入口、常用内容表单和高级JSON切换；后台仍独立校验来源、版本及确认。没有新增独立端口或替换宿主认证。运行交互由用户另派agent按待测清单验收。
+WebUI沿用 DSH 侧栏“记忆管理”和同源 `/api/qq-companion-memory/v1/page`。新增状态总览、待核验/隔离材料入口、常用内容表单和高级JSON切换；后台仍独立校验来源、版本及确认。没有新增独立端口或替换宿主认证。运行交互证据和未覆盖项见本轮验收报告，不以构建通过替代业务验收。

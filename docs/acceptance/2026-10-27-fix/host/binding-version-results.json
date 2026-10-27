@@ -1,0 +1,105 @@
+{
+  "at": "2026-10-27T05:43:52.555Z",
+  "status": "pass",
+  "tmp": "C:\\Users\\陈\\AppData\\Local\\Temp\\companion-bindings-aSrsRF",
+  "versions": [
+    {
+      "sessionId": "session-a",
+      "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+      "bindingVersion": 1
+    },
+    {
+      "sessionId": "session-b",
+      "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+      "bindingVersion": 2
+    },
+    {
+      "sessionId": "session-b",
+      "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+      "bindingVersion": 2
+    },
+    {
+      "sessionId": "session-c",
+      "characterId": "e1f7537f-1386-4326-922b-bc5de11b8f2b",
+      "bindingVersion": 3
+    }
+  ],
+  "oldReceiptRejected": true,
+  "history": [
+    {
+      "kind": "binding",
+      "payload": {
+        "schemaVersion": 1,
+        "sessionId": "session-a",
+        "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+        "characterName": "SyntheticA",
+        "conversationKey": "private:10001",
+        "bindingVersion": 1,
+        "botQQ": "10002",
+        "participants": [],
+        "provider": "",
+        "model": ""
+      }
+    },
+    {
+      "kind": "binding",
+      "payload": {
+        "schemaVersion": 1,
+        "sessionId": "session-a",
+        "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+        "characterName": "SyntheticA",
+        "conversationKey": "private:10001",
+        "bindingVersion": 1,
+        "botQQ": "10002",
+        "participants": [],
+        "provider": "",
+        "model": ""
+      }
+    },
+    {
+      "kind": "binding",
+      "payload": {
+        "schemaVersion": 1,
+        "sessionId": "session-b",
+        "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+        "characterName": "SyntheticA",
+        "conversationKey": "private:10001",
+        "bindingVersion": 2,
+        "botQQ": "10002",
+        "participants": [],
+        "provider": "",
+        "model": ""
+      }
+    },
+    {
+      "kind": "binding",
+      "payload": {
+        "schemaVersion": 1,
+        "sessionId": "session-b",
+        "characterId": "42ccd488-1c65-4298-9a10-99ac57560a4d",
+        "characterName": "SyntheticA",
+        "conversationKey": "private:10001",
+        "bindingVersion": 2,
+        "botQQ": "10002",
+        "participants": [],
+        "provider": "",
+        "model": ""
+      }
+    },
+    {
+      "kind": "binding",
+      "payload": {
+        "schemaVersion": 1,
+        "sessionId": "session-c",
+        "characterId": "e1f7537f-1386-4326-922b-bc5de11b8f2b",
+        "characterName": "SyntheticB",
+        "conversationKey": "private:10001",
+        "bindingVersion": 3,
+        "botQQ": "10002",
+        "participants": [],
+        "provider": "",
+        "model": ""
+      }
+    }
+  ]
+}

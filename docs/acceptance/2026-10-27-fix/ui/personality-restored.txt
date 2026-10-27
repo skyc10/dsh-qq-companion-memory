@@ -1,0 +1,115 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:57:15
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "人格版本与回退" [level=2]
+  - paragraph: 人格合并才创建角色级版本，保留父版本、具体差异与快照。回退创建恢复版本并保留历史，只恢复人格与表达，不删除共同经历。
+  - button "刷新"
+  - list:
+    - listitem: 同一角色最多每 3 天合并一次人格变化；小幅、具体，并保留差异。
+    - listitem: 回退后该变化暂停自动采纳，旧证据不会立即重新激活（R6）。
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "角色 版本 父版本 变更 来源候选 状态 创建":
+        - columnheader "角色"
+        - columnheader "版本"
+        - columnheader "父版本"
+        - columnheader "变更"
+        - columnheader "来源候选"
+        - columnheader "状态"
+        - columnheader "创建"
+    - rowgroup:
+      - row "synthetic-A v1 ui-personality-current 回退：合成人格恢复旧快照 0 生效 2026年10月27日 14:20:50":
+        - cell "synthetic-A"
+        - cell "v1"
+        - cell "ui-personality-current"
+        - cell "回退：合成人格恢复旧快照"
+        - cell "0"
+        - cell "生效":
+          - generic "status=active": 生效
+        - cell "2026年10月27日 14:20:50"
+      - row "synthetic-A v2 ui-personality-old 合成新版 1 已被取代 2026年10月27日 14:05:28":
+        - cell "synthetic-A"
+        - cell "v2"
+        - cell "ui-personality-old"
+        - cell "合成新版"
+        - cell "1"
+        - cell "已被取代":
+          - generic "status=superseded": 已被取代
+        - cell "2026年10月27日 14:05:28"
+      - row "synthetic-A v1 （首个版本） 合成初版 0 已被取代 2026年10月27日 14:05:28":
+        - cell "synthetic-A"
+        - cell "v1"
+        - cell "（首个版本）"
+        - cell "合成初版"
+        - cell "0"
+        - cell "已被取代":
+          - generic "status=superseded": 已被取代
+        - cell "2026年10月27日 14:05:28"
+  - generic: 本页 3 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。

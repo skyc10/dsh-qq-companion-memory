@@ -1,0 +1,105 @@
+[
+  {
+    "ids": [
+      "REG-03",
+      "FIX-03"
+    ],
+    "name": "S1-S6 full threshold sequence, exact trial boundary, explicit feedback and conflicts",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-03"
+    ],
+    "name": "same segment, source replay and duplicate text do not inflate evidence; freeze cannot resurrect",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-03",
+      "REG-04"
+    ],
+    "name": "personality single-change 3-day window and rollback preserve experiences, freeze candidates",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-02"
+    ],
+    "name": "learning fits complete-message subset with explicit context/output/reserve budget",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-05"
+    ],
+    "name": "chat stream exception accounted; stale retired binding excluded",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-07"
+    ],
+    "name": "restore cancels inflight learning; model late resolution cannot contaminate restored DB",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-04",
+      "REG-05"
+    ],
+    "name": "supersession chain, cycle reject, shared field removal/deletion and private-owner feedback",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-15",
+      "FIX-12"
+    ],
+    "name": "candidate rule/type edit freezes evidence and importance controls recall rank",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-02"
+    ],
+    "name": "recall manual and character caps constrain complete items",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-06"
+    ],
+    "name": "cooperative timeout marks unknown request, no cursor or partial commit",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-03"
+    ],
+    "name": "new post-trial independent human support can replace feedback, late old source cannot",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-01"
+    ],
+    "name": "default daily 12 local / 60 global quota, failure counts and Shanghai reset",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-09"
+    ],
+    "name": "same nickname in separate conversations retains separate IDs and explicit mappings",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-04",
+      "REG-02"
+    ],
+    "name": "real model adapter explicit/follow-chat/role route and capacity/takeover/binding matrix",
+    "status": "passed"
+  }
+]

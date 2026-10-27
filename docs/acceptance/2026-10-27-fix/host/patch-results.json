@@ -1,0 +1,134 @@
+{
+  "at": "2026-10-27T05:42:41.537Z",
+  "node": "v24.16.0",
+  "tmp": "C:\\Users\\陈\\AppData\\Local\\Temp\\companion-host-patches-PxxnVs",
+  "audit": "D:/大肥鱼QQ/过时与待清理/2026-10-27/05-审计与调研/源码审计/qq-bridge",
+  "scriptHashes": {
+    "runtime": "2d3214b442f519387ce0d5711b775cfc7b10bc9206c38a80faf4e25767f5acc7",
+    "companion": "9f2b6bd501cbb8f899736aed43d9f26e21c01337e77136e63a4b0fd6486834de"
+  },
+  "results": [
+    {
+      "name": "fixed source then companion then runtime; both idempotent",
+      "status": "pass",
+      "evidence": [
+        {
+          "code": 0,
+          "output": "[companion-patch] 目标：C:\\Users\\陈\\AppData\\Local\\Temp\\companion-host-patches-PxxnVs\\normal\\src\\bridge.js\n[companion-patch] 桥接版本：0.2.1-r1（已验证 0.2.1-r1）\n[companion-patch] 固定源：✓ raw 字节一致\n[companion-patch] 补丁 37 条：已应用 0，待应用 37\n[companion-patch] 已保留原始备份：bridge.js.orig\n[companion-patch] ✓ 写入完成：\n[companion-patch]   + import\n[companion-patch]   + config\n[companion-patch]   + instance\n[companion-patch]   + init\n[companion-patch]   + session-policy\n[companion-patch]   + role-state-hook\n[companion-patch]   + role-rename\n[companion-patch]   + role-delete\n[companion-patch]   + inbound\n[companion-patch]   + queue-owner-retry\n[companion-patch]   + queue-owner-prompt\n[companion-patch]   + queue-owner-inbound\n[companion-patch]   + queue-guard\n[companion-patch]   + binding-existing\n[companion-patch]   + binding\n[companion-patch]   + delivery\n[companion-patch]   + delivery-burst\n[companion-patch]   + delivery-v2\n[companion-patch]   + command-forward\n[companion-patch]   + slang-signature\n[companion-patch]   + slang-inject\n[companion-patch]   + slang-call-v2\n[companion-patch]   + slang-call-v1\n[companion-patch]   + slang-collect\n[companion-patch]   + impression-write\n[companion-patch]   + impression-write-call\n[companion-patch]   + impression-read\n[companion-patch]   + impression-read-filter\n[companion-patch]   + impression-read-call-prompt\n[companion-patch]   + impression-read-call-wake\n[companion-patch]   + impression-read-call-query\n[companion-patch]   + impression-read-call-append\n[companion-patch]   + impression-read-call-admin\n[companion-patch]   + impression-read-call-clear\n[companion-patch]   + impression-endpoint-update\n[companion-patch]   + impression-endpoint-remove\n[companion-patch]   + impression-endpoint-clear\n[companion-patch] 下一步：给 config.json 加 companion 段（见 integration/config.example.json），再重启 QQ 专用实例的桥接\n"
+        },
+        {
+          "code": 0,
+          "output": "[patch] single persistent config + operator connection diagnostics applied\n"
+        },
+        {
+          "code": 0,
+          "output": "[companion-patch] 目标：C:\\Users\\陈\\AppData\\Local\\Temp\\companion-host-patches-PxxnVs\\normal\\src\\bridge.js\n[companion-patch] 桥接版本：0.2.1-r1（已验证 0.2.1-r1）\n[companion-patch] 固定源：✓ raw 字节一致\n[companion-patch] 补丁 37 条：已应用 37，待应用 0\n[companion-patch] ✓ 幂等：全部补丁已在位，无需改动\n"
+        },
+        {
+          "code": 0,
+          "output": "[patch] single persistent config + operator connection diagnostics applied\n"
+        },
+        {
+          "code": 0,
+          "output": "[companion-patch] 目标：C:\\Users\\陈\\AppData\\Local\\Temp\\companion-host-patches-PxxnVs\\normal\\src\\bridge.js\n[companion-patch] 桥接版本：0.2.1-r1（已验证 0.2.1-r1）\n[companion-patch] 固定源：✓ raw 字节一致\n[companion-patch] 补丁 37 条：已应用 37，待应用 0\n[companion-patch] ✓ 幂等：全部补丁已在位，无需改动\n"
+        }
+      ]
+    },
+    {
+      "name": "runtime rejects missing-anchor",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27\r\n    if (count !== expected) throw new Error(`${file}: expected ${expected} config readers, got ${count}`);\r\n                                  ^\r\n\r\nError: bridge.js: expected 12 config readers, got 11\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27:35\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:14:48)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "runtime rejects duplicate-anchor",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27\r\n    if (count !== expected) throw new Error(`${file}: expected ${expected} config readers, got ${count}`);\r\n                                  ^\r\n\r\nError: bridge.js: expected 12 config readers, got 13\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27:35\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:14:48)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "runtime rejects corrupt marker",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27\r\n    if (count !== expected) throw new Error(`${file}: expected ${expected} config readers, got ${count}`);\r\n                                  ^\r\n\r\nError: bridge.js: expected 12 config readers, got 0\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27:35\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:14:48)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "runtime rejects corrupt original backup",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:15\r\n  if (marked && current !== expected) throw new Error(`${file}: runtime marker/content mismatch`);\r\n                                            ^\r\n\r\nError: bridge.js: runtime marker/content mismatch\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:15:45)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "companion rejects unknown-source",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "[companion-patch] ✗ 目标 bridge.js 不是固定源：拒绝在未知源码上打补丁。\n  期望 SHA256 04ac5ba1ea84aecbb829baabaeb32712cf3a347f17b0590cd156a918aefc3961（qq-bridge@a49877f4e58d / 0.2.1-r1）\n  实际 SHA256 06cc3cb16bbdc96791f7c65cea1910a2f8ba31e3d8dadd557da8b093d671df7e\n  若确实要接入新版本，先人工核对全部锚点并更新 FIXED_SOURCE（不要盲接受）。\n"
+      }
+    },
+    {
+      "name": "companion rejects missing-anchor",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "[companion-patch] ✗ 目标 bridge.js 不是固定源：拒绝在未知源码上打补丁。\n  期望 SHA256 04ac5ba1ea84aecbb829baabaeb32712cf3a347f17b0590cd156a918aefc3961（qq-bridge@a49877f4e58d / 0.2.1-r1）\n  实际 SHA256 10e3459341965a91c64fe2b047ac9b0616cb1576217d723764ebaf550cb834e3\n  若确实要接入新版本，先人工核对全部锚点并更新 FIXED_SOURCE（不要盲接受）。\n"
+      }
+    },
+    {
+      "name": "companion rejects duplicate-anchor",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "[companion-patch] ✗ 目标 bridge.js 不是固定源：拒绝在未知源码上打补丁。\n  期望 SHA256 04ac5ba1ea84aecbb829baabaeb32712cf3a347f17b0590cd156a918aefc3961（qq-bridge@a49877f4e58d / 0.2.1-r1）\n  实际 SHA256 27ff0b036dba32aedbfccdafa9c22664995b77c02bb8d1ad9106bb420bbda909\n  若确实要接入新版本，先人工核对全部锚点并更新 FIXED_SOURCE（不要盲接受）。\n"
+      }
+    },
+    {
+      "name": "companion rejects corrupt marker",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "[companion-patch] ✗ 出现未定义标记 // [companion:broken]（1 次）：源码被手工改过，拒绝继续\n[companion-patch] ✗ 缺少标记 // [companion:import]：文件处于半应用状态，拒绝继续（请用 --revert 回到 .orig 后重跑）\n[companion-patch] 幂等检查失败，未写入任何文件\n"
+      }
+    },
+    {
+      "name": "companion rejects corrupt original backup",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "[companion-patch] ✗ 原始备份 bridge.js.orig 不是固定源：拒绝在未知源码上打补丁。\n  期望 SHA256 04ac5ba1ea84aecbb829baabaeb32712cf3a347f17b0590cd156a918aefc3961（qq-bridge@a49877f4e58d / 0.2.1-r1）\n  实际 SHA256 f4588a20b0823ee38f296ec768eaea09d43fe2ad5da757af9af929f76fe10aa6\n  若确实要接入新版本，先人工核对全部锚点并更新 FIXED_SOURCE（不要盲接受）。\n"
+      }
+    },
+    {
+      "name": "runtime later-file failure is atomic",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27\r\n    if (count !== expected) throw new Error(`${file}: expected ${expected} config readers, got ${count}`);\r\n                                  ^\r\n\r\nError: mcp-host-server.js: expected 1 config readers, got 0\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:27:35\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:14:48)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "runtime detects composed output tampering preserving all markers",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:15\r\n  if (marked && current !== expected) throw new Error(`${file}: runtime marker/content mismatch`);\r\n                                            ^\r\n\r\nError: bridge.js: runtime marker/content mismatch\r\n    at change (file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:15:45)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:24:3\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    },
+    {
+      "name": "runtime later-file rename failure restores all earlier writes",
+      "status": "pass",
+      "evidence": {
+        "code": 1,
+        "output": "file:///C:/Users/%E9%99%88/AppData/Local/Temp/companion-host-patches-PxxnVs/inject-write-fault.mjs:2\r\nconst original=fs.renameSync;let fired=false;fs.renameSync=function(from,to){if(!fired&&String(to).endsWith('mcp-host-server.js')){fired=true;throw new Error('synthetic later-file rename failure')}return original.call(this,from,to)};\r\n                                                                                                                                                    ^\r\n\r\nError: synthetic later-file rename failure\r\n    at fs.renameSync (file:///C:/Users/%E9%99%88/AppData/Local/Temp/companion-host-patches-PxxnVs/inject-write-fault.mjs:2:149)\r\n    at file:///D:/deepseek_flash/project/fish-bot/apply-runtime-patches.mjs:76:8\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)\r\n    at async node:internal/modules/esm/loader:633:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    }
+  ]
+}

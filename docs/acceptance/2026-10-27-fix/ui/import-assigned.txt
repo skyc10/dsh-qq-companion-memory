@@ -1,0 +1,113 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:40:42
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "记忆与原文" [level=2]
+  - paragraph: 记忆是提炼结果，原文是原始材料。淡化不等于删除；原文保留至用户删除。隔离（quarantine）材料先分配归属再启用。
+  - button "刷新"
+  - button "新建记录"
+  - list:
+    - listitem: 记忆按来源与重要性参与召回，普通经历随时间淡化但不会被批量清空。
+    - listitem: 引用、转发、机器人输出与重复注入不构成新的独立证据。
+    - listitem: status=quarantine 的记录来自旧数据导入，只能先分配角色与范围（分配后为 disabled），再人工启用。
+  - button "记忆"
+  - button "原文"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词": 合成旧材料
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "内容 重要性 角色 范围 主体 状态 版本 时间":
+        - columnheader "内容"
+        - columnheader "重要性"
+        - columnheader "角色"
+        - columnheader "范围"
+        - columnheader "主体"
+        - columnheader "状态"
+        - columnheader "版本"
+        - columnheader "时间"
+    - rowgroup:
+      - row "合成旧材料一 — synthetic-A private:10001 — 已停用 1 2026年10月27日 13:41:35":
+        - cell "合成旧材料一"
+        - cell "—"
+        - cell "synthetic-A"
+        - cell "private:10001"
+        - cell "—"
+        - cell "已停用":
+          - generic "status=disabled": 已停用
+        - cell "1"
+        - cell "2026年10月27日 13:41:35"
+      - row "合成旧材料二 — synthetic-B private:10002 — 已停用 2 2026年10月27日 13:41:35":
+        - cell "合成旧材料二"
+        - cell "—"
+        - cell "synthetic-B"
+        - cell "private:10002"
+        - cell "—"
+        - cell "已停用":
+          - generic "status=disabled": 已停用
+        - cell "2"
+        - cell "2026年10月27日 13:41:35"
+  - generic: 本页 2 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。

@@ -1,0 +1,207 @@
+{
+  "rows": [
+    {
+      "id": "ui-single",
+      "kind": "candidate",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "active",
+      "version": 3,
+      "createdAt": "2026-10-27T06:05:28.672Z",
+      "updatedAt": "2026-10-27T06:19:18.465Z",
+      "data": {
+        "type": "expression",
+        "rule": "ui-single",
+        "context": "合成回退",
+        "matchType": "literal",
+        "scopeKind": "group",
+        "sourceIds": [],
+        "evidenceIds": [],
+        "acceptedAt": "",
+        "frozenEvidenceIds": [],
+        "frozenAt": "2026-10-27T06:19:18.465Z",
+        "frozenReason": "rollback-candidate:合成单项回退",
+        "autoAdoptPaused": true,
+        "rolledBackAt": "2026-10-27T06:19:18.465Z",
+        "rollbackReason": "合成单项回退",
+        "trialStartedAt": ""
+      }
+    },
+    {
+      "id": "ui-batch-a",
+      "kind": "candidate",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "active",
+      "version": 3,
+      "createdAt": "2026-10-27T06:05:28.672Z",
+      "updatedAt": "2026-10-27T06:19:50.066Z",
+      "data": {
+        "type": "expression",
+        "rule": "ui-batch-a",
+        "context": "合成回退",
+        "matchType": "literal",
+        "scopeKind": "group",
+        "sourceIds": [],
+        "evidenceIds": [],
+        "acceptedAt": "",
+        "frozenEvidenceIds": [],
+        "frozenAt": "2026-10-27T06:19:50.066Z",
+        "frozenReason": "rollback-candidate:合成双目标批次回退",
+        "autoAdoptPaused": true,
+        "rolledBackAt": "2026-10-27T06:19:50.066Z",
+        "rollbackReason": "合成双目标批次回退",
+        "trialStartedAt": ""
+      }
+    },
+    {
+      "id": "ui-batch-b",
+      "kind": "candidate",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "active",
+      "version": 3,
+      "createdAt": "2026-10-27T06:05:28.672Z",
+      "updatedAt": "2026-10-27T06:19:50.067Z",
+      "data": {
+        "type": "expression",
+        "rule": "ui-batch-b",
+        "context": "合成回退",
+        "matchType": "literal",
+        "scopeKind": "group",
+        "sourceIds": [],
+        "evidenceIds": [],
+        "acceptedAt": "",
+        "frozenEvidenceIds": [],
+        "frozenAt": "2026-10-27T06:19:50.067Z",
+        "frozenReason": "rollback-candidate:合成双目标批次回退",
+        "autoAdoptPaused": true,
+        "rolledBackAt": "2026-10-27T06:19:50.067Z",
+        "rollbackReason": "合成双目标批次回退",
+        "trialStartedAt": ""
+      }
+    },
+    {
+      "id": "ui-personality-source",
+      "kind": "candidate",
+      "characterId": "synthetic-A",
+      "scopeKey": "character",
+      "subjectQQ": "",
+      "status": "paused",
+      "version": 3,
+      "createdAt": "2026-10-27T06:05:28.672Z",
+      "updatedAt": "2026-10-27T06:20:50.091Z",
+      "data": {
+        "type": "personality",
+        "rule": "合成人格来源",
+        "context": "合成人格",
+        "personalityChange": "耐心一点",
+        "sourceIds": [],
+        "evidenceIds": [],
+        "frozenEvidenceIds": [],
+        "frozenAt": "2026-10-27T06:20:50.091Z",
+        "frozenReason": "rollback:personality-333b680e-be48-420a-9689-3cc843eba60c",
+        "autoAdoptPaused": true,
+        "rolledBackAt": "2026-10-27T06:20:50.091Z",
+        "rollbackReason": "合成人格恢复旧快照",
+        "personalityVersionId": "personality-333b680e-be48-420a-9689-3cc843eba60c"
+      }
+    },
+    {
+      "id": "ui-conflict",
+      "kind": "conflict",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "resolved",
+      "version": 2,
+      "createdAt": "2026-10-27T06:05:28.672Z",
+      "updatedAt": "2026-10-27T06:06:37.496Z",
+      "data": {
+        "text": "合成冲突待解决",
+        "targetIds": [
+          "ui-conflict-a",
+          "ui-conflict-b"
+        ],
+        "sourceIds": [
+          "ui-conflict-a",
+          "ui-conflict-b"
+        ],
+        "resolved": true,
+        "resolution": "retain",
+        "keepId": "ui-conflict-a",
+        "resolvedBy": {
+          "kind": "owner",
+          "id": "web-owner"
+        },
+        "resolvedAt": "2026-10-27T06:17:37.496Z",
+        "reason": "合成冲突保留甲"
+      }
+    },
+    {
+      "id": "ui-conflict-a",
+      "kind": "memory",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "paused",
+      "version": 2,
+      "createdAt": "2026-10-27T06:05:28.671Z",
+      "updatedAt": "2026-10-27T06:07:20.101Z",
+      "data": {
+        "text": "冲突合成甲",
+        "type": "fact",
+        "importance": 3,
+        "feedbackIds": [
+          "feedback-7d54c35b-7a1f-4f43-bf1c-cf989a320c2a"
+        ]
+      }
+    },
+    {
+      "id": "ui-conflict-b",
+      "kind": "memory",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10001",
+      "subjectQQ": "",
+      "status": "paused",
+      "version": 2,
+      "createdAt": "2026-10-27T06:05:28.671Z",
+      "updatedAt": "2026-10-27T06:06:37.495Z",
+      "data": {
+        "text": "冲突合成乙",
+        "type": "fact",
+        "importance": 3,
+        "conflictResolution": "ui-conflict"
+      }
+    }
+  ],
+  "memoryCount": 31,
+  "share": [
+    {
+      "id": "share-fa5a0a52-b3f2-448f-b76f-9b257732e987",
+      "kind": "share",
+      "characterId": "synthetic-A",
+      "scopeKey": "group:10002",
+      "subjectQQ": "",
+      "status": "disabled",
+      "version": 2,
+      "createdAt": "2026-10-27T06:03:58.221Z",
+      "updatedAt": "2026-10-27T06:04:55.587Z",
+      "data": {
+        "sourceId": "memory-ec2816e8-510f-4231-a2e9-8e8a8de5951f",
+        "sourceVersion": 2,
+        "fields": [
+          "text"
+        ],
+        "grantedBy": {
+          "kind": "owner",
+          "id": "web-owner"
+        },
+        "grantedAt": "2026-10-27T06:14:58.221Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:56:31
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "导入与预览批准" [level=2]
+  - paragraph: 可追溯内容按来源导入；被历史合并污染且无法确认归属的内容进入待确认区，不猜测共享范围。先预览，再批准。
+  - button "刷新"
+  - list:
+    - listitem: 旧 fish-memory 按 DSH Session.id 保存，历史合并会污染归属；“这次会话看起来像同一个人”不足以确认归属。
+    - listitem: "importPreview 需要 records 数组与 mapping 字典；mapping 的键是记录 id，值是 {characterId, scopeKey, confirmed:true}，未映射的进入 quarantine。"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - paragraph: 当前筛选下没有记录。
+  - paragraph: 这是服务端的真实结果，不是占位内容。
+  - generic: 本页 0 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端没有返回记录，也没有可用的 next 游标。
+  - heading "发起导入预览" [level=5]
+  - button "预览旧数据导入"
+  - paragraph: 预览结果返回 confirmationToken、sha256 与命中前 30 条；未明确映射的材料进入隔离区，不会覆盖现有条目。
+- dialog "批准导入":
+  - heading "批准导入" [level=2]
+  - paragraph: 服务端校验 confirmationToken 与 sha256，并要求 confirm:true 才会写入。
+  - heading "参数" [level=5]
+  - generic: 确认令牌 confirmationToken（必填）
+  - textbox "确认令牌 confirmationToken（必填）":
+    - /placeholder: ""
+    - text: import-confirm-700bd92f-d8bf-450e-951f-f942900b3a1a
+  - paragraph: 来自 importPreview 的返回值，10 分钟内有效。
+  - generic: 预览指纹 sha256（必填）
+  - textbox "预览指纹 sha256（必填）":
+    - /placeholder: ""
+    - text: 4efad15e5d683f4385a1c313af9ebf0ec1a6b5d82dcea42f0708213ce921bf75
+  - paragraph: 必须与 importPreview 返回的 sha256 完全一致。
+  - heading "原因（可选）" [level=5]
+  - textbox "可选的说明（会写入服务端审计/记录）"
+  - paragraph: 原因只写入服务端审计；具体判定结果写进上方真实字段，不写在这里。
+  - heading "请求 ID" [level=5]
+  - term: requestId
+  - definition:
+    - code: b4ab980e-52d7-4e25-ac4e-391ce9d44396
+  - paragraph: 同一 requestId 重复提交按幂等处理；payload 变化时会自动换新 ID。
+  - generic: 影响说明
+  - paragraph: 导入会新增记录（默认 disabled 或 quarantine），不会覆盖现有条目。
+  - heading "二次确认" [level=5]
+  - textbox "输入“批准”以确认": 批准
+  - paragraph: 这是破坏性操作，需要手动输入“批准”。界面输入只是本地校验，服务端仍要求 confirm:true。
+  - list:
+    - listitem: 版本冲突（HTTP 409）：服务端返回 currentVersion=，请刷新后按新版本重试。
+  - generic: 服务端未接受本次变更 · CONFIRMATION_REQUIRED
+  - paragraph: 先预览并明确批准来源映射
+  - text: "null"
+  - button "取消"
+  - button "修改后重新提交"

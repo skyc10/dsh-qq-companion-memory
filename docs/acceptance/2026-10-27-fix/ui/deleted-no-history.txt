@@ -1,0 +1,139 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:44:13
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "记忆与原文" [level=2]
+  - paragraph: 记忆是提炼结果，原文是原始材料。淡化不等于删除；原文保留至用户删除。隔离（quarantine）材料先分配归属再启用。
+  - button "刷新"
+  - button "新建记录"
+  - list:
+    - listitem: 记忆按来源与重要性参与召回，普通经历随时间淡化但不会被批量清空。
+    - listitem: 引用、转发、机器人输出与重复注入不构成新的独立证据。
+    - listitem: status=quarantine 的记录来自旧数据导入，只能先分配角色与范围（分配后为 disabled），再人工启用。
+  - button "记忆"
+  - button "原文"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态"
+    - option "生效"
+    - option "已停用"
+    - option "已删除" [selected]
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "内容 重要性 角色 范围 主体 状态 版本 时间":
+        - columnheader "内容"
+        - columnheader "重要性"
+        - columnheader "角色"
+        - columnheader "范围"
+        - columnheader "主体"
+        - columnheader "状态"
+        - columnheader "版本"
+        - columnheader "时间"
+    - rowgroup:
+      - row "（无正文） — synthetic-B private:10002 — 已删除 5 2026年10月27日 13:41:35":
+        - cell "（无正文）"
+        - cell "—"
+        - cell "synthetic-B"
+        - cell "private:10002"
+        - cell "—"
+        - cell "已删除":
+          - generic "status=deleted": 已删除
+        - cell "5"
+        - cell "2026年10月27日 13:41:35"
+  - generic: 本页 1 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。
+- dialog "记录详情":
+  - heading "记忆" [level=3]
+  - generic "status=deleted": 已删除
+  - generic: v5
+  - code: import-a2cc7dd480f3ea0df78f6d2e2e45ae6cc52af46f970a3d61e2146c540a1f9c41
+  - button "关闭" [active]
+  - heading "归属与版本" [level=5]
+  - term: 记录 ID
+  - definition:
+    - code: import-a2cc7dd480f3ea0df78f6d2e2e45ae6cc52af46f970a3d61e2146c540a1f9c41
+  - term: 类型
+  - definition: 记忆（memory）
+  - term: 角色
+  - definition: synthetic-B
+  - term: 范围
+  - definition: private:10002
+  - term: 主体 QQ
+  - definition: —
+  - term: 状态
+  - definition: deleted
+  - term: 版本
+  - definition: "5"
+  - term: 创建
+  - definition: 2026年10月27日 13:41:35
+  - term: 更新
+  - definition: 2026年10月27日 13:48:33
+  - heading "内容" [level=5]
+  - term: deletedAt
+  - definition: 2026-10-27T05:48:33.303Z
+  - term: undoUntil
+  - definition: 2026-11-03T05:48:33.303Z
+  - heading "可用操作" [level=5]
+  - paragraph: 变更会携带 requestId 与服务端要求的字段（expectedVersion / reason / confirm:true 按动作而定），服务端独立校验权限、幂等与版本。目标不明确时页面不提交。
+  - button "撤销删除"
+  - heading "原始记录" [level=5]
+  - generic "展开完整 JSON"

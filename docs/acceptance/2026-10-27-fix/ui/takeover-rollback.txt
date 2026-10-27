@@ -1,0 +1,103 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:36:41
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "接管准备与开关" [level=2]
+  - paragraph: 按角色 + 范围登记接管状态：prepare 只做准备，activate 请求停用旧输出并等待桥接确认，rollback 回退接管。只有 acknowledged 且 status=active 后召回端才会注入。
+  - button "刷新"
+  - list:
+    - listitem: 旧数据、配置与镜像回退副本需要保留；归属不可靠的旧记忆不自动使用。
+    - listitem: 接管状态来自服务端真实记录；页面不用“已准备好”这类文案代替实际状态。
+    - listitem: 已有接管记录时必须提交其当前 expectedVersion；没有记录时可省略。
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "角色 范围 操作 目标归属 桥接确认 状态 版本 更新":
+        - columnheader "角色"
+        - columnheader "范围"
+        - columnheader "操作"
+        - columnheader "目标归属"
+        - columnheader "桥接确认"
+        - columnheader "状态"
+        - columnheader "版本"
+        - columnheader "更新"
+    - rowgroup:
+      - row "synthetic-A private:10001 rollback legacy 未确认 待回退 3 2026年10月27日 13:38:48":
+        - cell "synthetic-A"
+        - cell "private:10001"
+        - cell "rollback"
+        - cell "legacy"
+        - cell "未确认"
+        - cell "待回退":
+          - generic "status=rollback-pending": 待回退
+        - cell "3"
+        - cell "2026年10月27日 13:38:48"
+  - generic: 本页 1 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。
+  - heading "接管动作" [level=5]
+  - button "准备 / 激活 / 回退某个范围"
+  - paragraph: 接管没有一键完成：页面只提交服务端定义的单个操作，失败时保留材料与任务。

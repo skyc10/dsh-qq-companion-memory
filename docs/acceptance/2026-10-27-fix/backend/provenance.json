@@ -1,0 +1,187 @@
+{
+  "at": "2026-10-27T06:12:48.374Z",
+  "node": "v24.16.0",
+  "version": "0.1.2",
+  "head": "1c8bd8d06eb8f6b4a10f2d79d3f41fce72d5ff95",
+  "sourceStable": true,
+  "fingerprints": {
+    "package.json": {
+      "raw": "8714dfdb684dbfebbf2351238c34e0314aa767b26c1da81ef976066da9072e3f",
+      "lf": "8714dfdb684dbfebbf2351238c34e0314aa767b26c1da81ef976066da9072e3f"
+    },
+    "package-lock.json": {
+      "raw": "b0a1b0c35b14751c7f733dc8682ed0519f1f4bab8970820a4fb1fb402e21293f",
+      "lf": "b0a1b0c35b14751c7f733dc8682ed0519f1f4bab8970820a4fb1fb402e21293f"
+    },
+    "docs/acceptance/2026-10-27/run-backend.mjs": {
+      "raw": "2fe8c130649c292ce275a86acdb8e35330bda59728f31ded70d09177afb73359",
+      "lf": "2fe8c130649c292ce275a86acdb8e35330bda59728f31ded70d09177afb73359"
+    },
+    "docs/acceptance/2026-10-27-fix/backend/extra.mjs": {
+      "raw": "bdb6f572b32fed6782506a99fe20ca0c0a9087997e613444a92499f0facaff21",
+      "lf": "bdb6f572b32fed6782506a99fe20ca0c0a9087997e613444a92499f0facaff21"
+    },
+    "docs/acceptance/2026-10-27-fix/backend/phase2.mjs": {
+      "raw": "c3b419ac92d3a154e6e3caa095c03aac4e70cae725167d36761ad965ce7b0b74",
+      "lf": "9717fd1c1d05e9f29565ddbe5302e49dc43c9f9f7adaf2ce993872cc6a731e89"
+    },
+    "docs/acceptance/2026-10-27-fix/backend/run-all.mjs": {
+      "raw": "2aeff135b0ea9853a605c157c1c5ef48843114d16b94a3489c5f621a169ae0eb",
+      "lf": "8fd5592e3907ceb393ce1267f1e828173bbbdfc3d6ab1b254af232e92d31de10"
+    },
+    "src/adapters/dsh/http.js": {
+      "raw": "78d2d253a0ef69b43e4519c39758f2850bab825b5c87ba87f4a298719d3b0944",
+      "lf": "78d2d253a0ef69b43e4519c39758f2850bab825b5c87ba87f4a298719d3b0944"
+    },
+    "src/adapters/dsh/model.js": {
+      "raw": "4265c1d219b19245f08cdfba9b771f9f1ef9f4911a531c604d92c6f47bdb7482",
+      "lf": "4265c1d219b19245f08cdfba9b771f9f1ef9f4911a531c604d92c6f47bdb7482"
+    },
+    "src/adapters/dsh/usage.js": {
+      "raw": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a",
+      "lf": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a"
+    },
+    "src/application/management.js": {
+      "raw": "ed04be9d6ad47ae09e15f640d6511ed898b38c3339c9c73e06e0a443961cc858",
+      "lf": "ed04be9d6ad47ae09e15f640d6511ed898b38c3339c9c73e06e0a443961cc858"
+    },
+    "src/application/operations.js": {
+      "raw": "022bc6943ea3778563a0ea5528e2fb64da726df6a69b7877e388f6beb8523fe4",
+      "lf": "022bc6943ea3778563a0ea5528e2fb64da726df6a69b7877e388f6beb8523fe4"
+    },
+    "src/application/service.js": {
+      "raw": "87e8fd094b79a942ce4e84aac9dec5512e31a56507d014629888c11c3ca4f82b",
+      "lf": "87e8fd094b79a942ce4e84aac9dec5512e31a56507d014629888c11c3ca4f82b"
+    },
+    "src/client/index.js": {
+      "raw": "d5d6b1028bbee6e35a0c458eabe8c560dcd3633cf90fad46a2bba44d84ac0f46",
+      "lf": "d5d6b1028bbee6e35a0c458eabe8c560dcd3633cf90fad46a2bba44d84ac0f46"
+    },
+    "src/client/page.css": {
+      "raw": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be",
+      "lf": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be"
+    },
+    "src/client/page.html": {
+      "raw": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072",
+      "lf": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072"
+    },
+    "src/client/page.js": {
+      "raw": "fccf4c7b542fb11f7cfed28ce17ce0bf6ba0b2944bf58d2c0e4322e556147d7f",
+      "lf": "fccf4c7b542fb11f7cfed28ce17ce0bf6ba0b2944bf58d2c0e4322e556147d7f"
+    },
+    "src/client/README.md": {
+      "raw": "e793c5abde8c7a57dc74809685ac525ff90ba100157a6275d82bf6b8e6e305b1",
+      "lf": "e793c5abde8c7a57dc74809685ac525ff90ba100157a6275d82bf6b8e6e305b1"
+    },
+    "src/config/index.js": {
+      "raw": "fdd1c51c906280d1575e918b0409105ad8730bbb01666aceb82c94cc331c6fb4",
+      "lf": "fdd1c51c906280d1575e918b0409105ad8730bbb01666aceb82c94cc331c6fb4"
+    },
+    "src/domain/conversations.js": {
+      "raw": "b6f3ac4c71427e3aee2763151afef3efecaa693caf1e3c1cafe260ef5db0d6c2",
+      "lf": "b6f3ac4c71427e3aee2763151afef3efecaa693caf1e3c1cafe260ef5db0d6c2"
+    },
+    "src/domain/core.js": {
+      "raw": "00afc8881f16c4bf250ceac663c266f38fde1d8b0cb918c807159b4c51b25146",
+      "lf": "00afc8881f16c4bf250ceac663c266f38fde1d8b0cb918c807159b4c51b25146"
+    },
+    "src/domain/memory.js": {
+      "raw": "42fe93daecdec3a626043c10f64bee9e028842346e88a305b5d29ca8cc99d936",
+      "lf": "42fe93daecdec3a626043c10f64bee9e028842346e88a305b5d29ca8cc99d936"
+    },
+    "src/index.js": {
+      "raw": "f0fe61f6f6714737a8856ef0eb285a16e238b9291ec08ce8bcb0e68e2daab85b",
+      "lf": "f0fe61f6f6714737a8856ef0eb285a16e238b9291ec08ce8bcb0e68e2daab85b"
+    },
+    "src/learning/config.js": {
+      "raw": "86297e1e6692e33caebab42f13cd5ed7106e29ae054471c922b5057906361fe1",
+      "lf": "86297e1e6692e33caebab42f13cd5ed7106e29ae054471c922b5057906361fe1"
+    },
+    "src/learning/evidence.js": {
+      "raw": "50a1c4aafc6c7ed9537209d3f20f100229224a90ed095a9c57f8fcfca48afc3c",
+      "lf": "50a1c4aafc6c7ed9537209d3f20f100229224a90ed095a9c57f8fcfca48afc3c"
+    },
+    "src/learning/failures.js": {
+      "raw": "be9593503b835d6bfc022fea6c621d967d5817d8504bbb3abf419b1667859496",
+      "lf": "be9593503b835d6bfc022fea6c621d967d5817d8504bbb3abf419b1667859496"
+    },
+    "src/learning/index.js": {
+      "raw": "949c8f9333fc5c66a72a66c038eafb2eafd395deecb62b7a564a6ac26ef32ad6",
+      "lf": "949c8f9333fc5c66a72a66c038eafb2eafd395deecb62b7a564a6ac26ef32ad6"
+    },
+    "src/learning/materials.js": {
+      "raw": "cd89a2b17a44bfd0275ac8df1cd4ae879c7608638d9cac3eb231a07e23c4649f",
+      "lf": "cd89a2b17a44bfd0275ac8df1cd4ae879c7608638d9cac3eb231a07e23c4649f"
+    },
+    "src/learning/output.js": {
+      "raw": "9bfb390c93ed7cd3e63d0391b8bdccf10e1e2f4ff3dffdd642767eed9695f55b",
+      "lf": "9bfb390c93ed7cd3e63d0391b8bdccf10e1e2f4ff3dffdd642767eed9695f55b"
+    },
+    "src/learning/prompts.js": {
+      "raw": "437457ae21785601b38179a676e13f2c63de3513537d959e5f0dabdafbf4757e",
+      "lf": "437457ae21785601b38179a676e13f2c63de3513537d959e5f0dabdafbf4757e"
+    },
+    "src/learning/quota.js": {
+      "raw": "65dcc11caac598a389989ac0840f4830c61d081519cf716129ecc2eb44d1c104",
+      "lf": "65dcc11caac598a389989ac0840f4830c61d081519cf716129ecc2eb44d1c104"
+    },
+    "src/learning/scheduler.js": {
+      "raw": "68f33aef9efc82e4c279b66a9b997c2a19ea49fa10d460fd01e8d6ee24a107a9",
+      "lf": "68f33aef9efc82e4c279b66a9b997c2a19ea49fa10d460fd01e8d6ee24a107a9"
+    },
+    "src/learning/util.js": {
+      "raw": "93702df851d02b25f0b78fc43c51e90a70237a3a060391b21eabbf22b7bb4614",
+      "lf": "93702df851d02b25f0b78fc43c51e90a70237a3a060391b21eabbf22b7bb4614"
+    },
+    "src/learning/versioning.js": {
+      "raw": "61b47baa7d6054447011006b97fa7b9034fc70fd3877e9d7a290c59bccec5dbd",
+      "lf": "61b47baa7d6054447011006b97fa7b9034fc70fd3877e9d7a290c59bccec5dbd"
+    },
+    "src/storage/sqlite.js": {
+      "raw": "45085ff9f0a5b4d98b8789055995a3d8a0795750f710c4bd9de0e0c3d25f452b",
+      "lf": "45085ff9f0a5b4d98b8789055995a3d8a0795750f710c4bd9de0e0c3d25f452b"
+    },
+    "lib/client.js": {
+      "raw": "30d719f87fb5f8fc51f8ff4839280105fd90629a1e3bff89c47760d52923c2fb",
+      "lf": "30d719f87fb5f8fc51f8ff4839280105fd90629a1e3bff89c47760d52923c2fb"
+    },
+    "lib/client.js.map": {
+      "raw": "14a656320335a71a72627355bde1ab16afebc96e925267e6603fe635f26a5f1d",
+      "lf": "14a656320335a71a72627355bde1ab16afebc96e925267e6603fe635f26a5f1d"
+    },
+    "lib/index.js": {
+      "raw": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff",
+      "lf": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff"
+    },
+    "lib/index.js.map": {
+      "raw": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9",
+      "lf": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9"
+    },
+    "lib/page/index.html": {
+      "raw": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072",
+      "lf": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072"
+    },
+    "lib/page/page.css": {
+      "raw": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be",
+      "lf": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be"
+    },
+    "lib/page/page.js": {
+      "raw": "fccf4c7b542fb11f7cfed28ce17ce0bf6ba0b2944bf58d2c0e4322e556147d7f",
+      "lf": "fccf4c7b542fb11f7cfed28ce17ce0bf6ba0b2944bf58d2c0e4322e556147d7f"
+    }
+  },
+  "runs": [
+    {
+      "script": "docs/acceptance/2026-10-27/run-backend.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "docs/acceptance/2026-10-27-fix/backend/extra.mjs",
+      "exitCode": 0
+    },
+    {
+      "script": "docs/acceptance/2026-10-27-fix/backend/phase2.mjs",
+      "exitCode": 0
+    }
+  ]
+}

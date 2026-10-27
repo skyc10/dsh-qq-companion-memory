@@ -1,0 +1,114 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "SYNTHETIC_401：合成状态失败": 状态读取失败
+  - generic: SYNTHETIC_401：合成状态失败
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- strong: 状态读取失败
+- paragraph: SYNTHETIC_401：合成状态失败
+- button "关闭提示": 关闭
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "系统记录" [level=2]
+  - paragraph: 角色、会话绑定、任务与管理命令。会话绑定仅用于定位 DSH Session，不是长期记忆主键；缺少可靠身份时不写长期记忆。
+  - button "刷新"
+  - button "新建记录"
+  - button "角色"
+  - button "会话绑定"
+  - button "任务"
+  - button "管理命令"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "类型 摘要 角色 范围 主体 状态 版本 更新":
+        - columnheader "类型"
+        - columnheader "摘要"
+        - columnheader "角色"
+        - columnheader "范围"
+        - columnheader "主体"
+        - columnheader "状态"
+        - columnheader "版本"
+        - columnheader "更新"
+    - rowgroup:
+      - row "角色 合成角色A synthetic-A character — 生效 1 2026年10月27日 13:30:20":
+        - cell "角色"
+        - cell "合成角色A"
+        - cell "synthetic-A"
+        - cell "character"
+        - cell "—"
+        - cell "生效":
+          - generic "status=active": 生效
+        - cell "1"
+        - cell "2026年10月27日 13:30:20"
+      - row "角色 合成角色B synthetic-B character — 生效 1 2026年10月27日 13:30:20":
+        - cell "角色"
+        - cell "合成角色B"
+        - cell "synthetic-B"
+        - cell "character"
+        - cell "—"
+        - cell "生效":
+          - generic "status=active": 生效
+        - cell "1"
+        - cell "2026年10月27日 13:30:20"
+  - generic: 本页 2 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。

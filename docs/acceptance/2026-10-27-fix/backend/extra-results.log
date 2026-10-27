@@ -1,0 +1,90 @@
+[
+  {
+    "ids": [
+      "FIX-03",
+      "REG-06"
+    ],
+    "name": "new and reused candidate conflicts, evidence transaction rollback",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-06"
+    ],
+    "name": "commit refuses source rewrite and expired lease without cursor or partial writes",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-14",
+      "REG-03"
+    ],
+    "name": "successful delivery → per-candidate manual verify → S4, duplicate/invalid rejects",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-02",
+      "FIX-10",
+      "FIX-12"
+    ],
+    "name": "legacy edit normalization, obsolete review then enable, clear importance",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-01",
+      "REG-02",
+      "REG-06"
+    ],
+    "name": "real scheduler interval/threshold, first-overbudget no request, cancellation accounting",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-07"
+    ],
+    "name": "backup failure and restore reopen failure preserve synthetic original and clear maintenance",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-01",
+      "REG-04",
+      "REG-05"
+    ],
+    "name": "explicit field share, source edit follows, revoke and disable stop recall",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-11",
+      "FIX-05",
+      "REG-06"
+    ],
+    "name": "mock LLM full batch creates model/default importance and one learning usage",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-11",
+      "REG-06"
+    ],
+    "name": "invalid mock model importance rolls back full batch and cursor",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "FIX-07"
+    ],
+    "name": "offline preparation refuses source output alias without source mutation",
+    "status": "passed"
+  },
+  {
+    "ids": [
+      "REG-01"
+    ],
+    "name": "group 60 threshold, exact 4 hours and role threshold override",
+    "status": "passed"
+  }
+]

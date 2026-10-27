@@ -1,0 +1,317 @@
+{
+  "at": "2026-10-27T05:51:39.577Z",
+  "version": "0.1.2",
+  "tgzSha256": "1efc7b563ce0d548d4c3ce8911455726eec0d5c0c0f69dd356c587194b391183",
+  "entryCount": 71,
+  "results": [
+    {
+      "name": "new version 0.1.2",
+      "status": "pass",
+      "details": "0.1.2"
+    },
+    {
+      "name": "old unchanged dsh-qq-companion-memory-0.1.0.tgz",
+      "status": "pass",
+      "details": "CF89BB413232BFB713484675670A5CC300968426E368C37AE66BBA4681B89413"
+    },
+    {
+      "name": "old unchanged dsh-qq-companion-memory-0.1.0.tgz.sha256",
+      "status": "pass",
+      "details": "53B75302C997748FBA288B83C6EEE703D64D7F29081AEB00FDD48A2BE440E47D"
+    },
+    {
+      "name": "old unchanged dsh-qq-companion-memory-0.1.1.tgz",
+      "status": "pass",
+      "details": "44E73E951C3352F8E6A1793EEDC7BAD01D9CFEDA2B40351C966B2CD3CE487D45"
+    },
+    {
+      "name": "old unchanged dsh-qq-companion-memory-0.1.1.tgz.sha256",
+      "status": "pass",
+      "details": "372CF79062562015A81AEAAE2DB630D2EA3DE7FD37D0F8D4E6890BF8B7DD1F3C"
+    },
+    {
+      "name": "old unchanged qq-companion-memory-offline-0.1.0.zip",
+      "status": "pass",
+      "details": "E3D0FDEA553EC77EFE3279ABE016FBCD60E28A53D26EA4DE9E85BBE2054BC212"
+    },
+    {
+      "name": "old unchanged qq-companion-memory-offline-0.1.1.zip",
+      "status": "pass",
+      "details": "082B073F80D7D785BEAD7F8FACED5FFA4B090FF92B8FD8207D3B2BB72F56BAC4"
+    },
+    {
+      "name": "tar matches cordis.patch.yml",
+      "status": "pass",
+      "details": "3da55b0a9364e7a9e69d34a591a9de298a47cfa0caff838217ef075a526dbe74"
+    },
+    {
+      "name": "tar matches integration/README.md",
+      "status": "pass",
+      "details": "37d7c88d7371d3d5d3f16e0fd1251c6d81af9ed7d7f453f85f6dfeb21fd967bb"
+    },
+    {
+      "name": "tar matches integration/bridge-companion-adapter.mjs",
+      "status": "pass",
+      "details": "89a07ea4bf1dee7abeb6f2bce130662f2fc7ebf4c8290ac7bd652f933558df67"
+    },
+    {
+      "name": "tar matches integration/config.example.json",
+      "status": "pass",
+      "details": "f5d8e22bc7106c6bce21be8968dd6dc74a3ba6c344417284ff4f650b03b69c7f"
+    },
+    {
+      "name": "tar matches lib/client.js",
+      "status": "pass",
+      "details": "30d719f87fb5f8fc51f8ff4839280105fd90629a1e3bff89c47760d52923c2fb"
+    },
+    {
+      "name": "tar matches lib/client.js.map",
+      "status": "pass",
+      "details": "14a656320335a71a72627355bde1ab16afebc96e925267e6603fe635f26a5f1d"
+    },
+    {
+      "name": "tar matches lib/index.js",
+      "status": "pass",
+      "details": "a72b2d0d1c1a75da369b77585306b0daa8a4304aa46cae58dea9d14e412597ff"
+    },
+    {
+      "name": "tar matches lib/index.js.map",
+      "status": "pass",
+      "details": "f121f9e951bec31dce75da5d0a692619ba130c64cb1d04c05018e5db929f01e9"
+    },
+    {
+      "name": "tar matches lib/page/index.html",
+      "status": "pass",
+      "details": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072"
+    },
+    {
+      "name": "tar matches lib/page/page.css",
+      "status": "pass",
+      "details": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be"
+    },
+    {
+      "name": "tar matches lib/page/page.js",
+      "status": "pass",
+      "details": "fccf4c7b542fb11f7cfed28ce17ce0bf6ba0b2944bf58d2c0e4322e556147d7f"
+    },
+    {
+      "name": "tar matches package-lock.json",
+      "status": "pass",
+      "details": "9c45fb59e0734ea6f26426720db7a4dfa5aeb224178ecfe49192994a8a0c779a"
+    },
+    {
+      "name": "tar matches package.json",
+      "status": "pass",
+      "details": "649ac1e169f85ff559f284966b60e22d806f7ab6631d66424ca82c292b72f374"
+    },
+    {
+      "name": "tar matches scripts/build.mjs",
+      "status": "pass",
+      "details": "d414e04ab2690ff34e66847da3b22bcfeccdbb5c9a4a3d91ffadac71df4ea784"
+    },
+    {
+      "name": "tar matches scripts/check.mjs",
+      "status": "pass",
+      "details": "62fd194645ebc189d4aafd158747d2efa6bc7c94af9218280d8d1f25f6b6e2df"
+    },
+    {
+      "name": "tar matches scripts/patch-bridge.mjs",
+      "status": "pass",
+      "details": "a589270caa95fb1d02902672cfb82cc70e89105768a5baaf4a02f5f8e69982f0"
+    },
+    {
+      "name": "tar matches scripts/prepare-legacy.mjs",
+      "status": "pass",
+      "details": "b139f61ee05b5a3d9e0b5e3d8133469abc9266ac157bf000d2231cb14c5c497c"
+    },
+    {
+      "name": "tar matches scripts/prepare-migration.mjs",
+      "status": "pass",
+      "details": "4410fcdbf7767e4ba7c4ac0892ed53ccc936d17b78dfd9f268b76d640ffa2603"
+    },
+    {
+      "name": "tar matches scripts/release.mjs",
+      "status": "pass",
+      "details": "9e096278382d5953b8ee4726b8945b2ad276dd7b9215e4f9a7236cd5f79e4ab9"
+    },
+    {
+      "name": "tar matches src/adapters/dsh/http.js",
+      "status": "pass",
+      "details": "61a5803aff9978529ce87ece7d2a2e77d76a36c32b78de7410eec254bddc794e"
+    },
+    {
+      "name": "tar matches src/adapters/dsh/model.js",
+      "status": "pass",
+      "details": "3ff3e3dcace3ae4d1fb4af4e5832556dee025c02b28ff8cde0ac3eff5796c007"
+    },
+    {
+      "name": "tar matches src/adapters/dsh/usage.js",
+      "status": "pass",
+      "details": "e0f9ee6bd01923d726ee17bd829e100c42897287f91dfb9e14b37863c6639b0d"
+    },
+    {
+      "name": "tar matches src/application/management.js",
+      "status": "pass",
+      "details": "2a73b76ea660b2dae61c0ff00f54ff686e1d50ecb3068c09cb1d869435af104c"
+    },
+    {
+      "name": "tar matches src/application/operations.js",
+      "status": "pass",
+      "details": "c5b3827968147ce88be15ccbc18f414bab5ef8c220ae56bf4612e304ace96b16"
+    },
+    {
+      "name": "tar matches src/application/service.js",
+      "status": "pass",
+      "details": "020199ddf56a63234947bea60b26446d321b3041c013773ff28f71df440a8070"
+    },
+    {
+      "name": "tar matches src/client/README.md",
+      "status": "pass",
+      "details": "266d854dc52bdbae42fd6f56b3d83b7476fcbb89a13d9b6a28445210e38083b1"
+    },
+    {
+      "name": "tar matches src/client/index.js",
+      "status": "pass",
+      "details": "e2b2039087c9344fc9f832b6481bdb0d2895a88fdcaaf4e985d907c2556cfc50"
+    },
+    {
+      "name": "tar matches src/client/page.css",
+      "status": "pass",
+      "details": "cb52f1d6889ecfcc7eed5dc15272e3797cccb18133a779b4a4d9ab563a58cd28"
+    },
+    {
+      "name": "tar matches src/client/page.html",
+      "status": "pass",
+      "details": "a8d57fca33933affd2a62609ba4ea97c3b4a438a88f5716feeac2ceeee3f009e"
+    },
+    {
+      "name": "tar matches src/client/page.js",
+      "status": "pass",
+      "details": "4a5e212a4495c79cb88a23ecd5f0a61adc0558acaa0eeaea74c7c2dbae51a477"
+    },
+    {
+      "name": "tar matches src/config/index.js",
+      "status": "pass",
+      "details": "d71404080b681168136872b816f5656ef7aaf5b37d9a685900d76b6df2edb730"
+    },
+    {
+      "name": "tar matches src/domain/conversations.js",
+      "status": "pass",
+      "details": "669027c6f687c12f2ee8fdb1c4c38169db0b80c5ad390a8d3b3772f3f0b6212c"
+    },
+    {
+      "name": "tar matches src/domain/core.js",
+      "status": "pass",
+      "details": "a62f4454185d47077a9bae39845717e4fa69431791d34772a6d66d369d0f72c6"
+    },
+    {
+      "name": "tar matches src/domain/memory.js",
+      "status": "pass",
+      "details": "bd76dbfb9b946c0eb53dbd8a7190d5a9025b02d15cdc5d2d51aeee1d08dd152e"
+    },
+    {
+      "name": "tar matches src/index.js",
+      "status": "pass",
+      "details": "6684838b6575a493ffce6d8aab522d7b56bb07e7d72a56d34056473c1a52c378"
+    },
+    {
+      "name": "tar matches src/learning/config.js",
+      "status": "pass",
+      "details": "ee2ba49ace9e84b3dd2fda94cf59257483274a74398472d8021806258d9f2225"
+    },
+    {
+      "name": "tar matches src/learning/evidence.js",
+      "status": "pass",
+      "details": "72c6393f05f1349ae09704a48cab9227c2650a48393998b112b71a738a7eeb9b"
+    },
+    {
+      "name": "tar matches src/learning/failures.js",
+      "status": "pass",
+      "details": "8d4f771bd0314ea9615a7561eaf0837bbfcaa02b98ebebb257c8ef5bad217c7e"
+    },
+    {
+      "name": "tar matches src/learning/index.js",
+      "status": "pass",
+      "details": "a175c1868a2ca54ac9a18a574ee76e552f4b9efa235f9bb1fd53351d60698d73"
+    },
+    {
+      "name": "tar matches src/learning/materials.js",
+      "status": "pass",
+      "details": "747e0d1a644942a1c648f8f0c96f767c1f62fd7707e218f9cac21f8e51f5043a"
+    },
+    {
+      "name": "tar matches src/learning/output.js",
+      "status": "pass",
+      "details": "1e5bf26ff46a6b9b9569994108193cf8e4512de9642714767c23301245bee210"
+    },
+    {
+      "name": "tar matches src/learning/prompts.js",
+      "status": "pass",
+      "details": "9614b78c90fa7436763aa8139c9cc220d7a82532731e06020fe7c29a5336216a"
+    },
+    {
+      "name": "tar matches src/learning/quota.js",
+      "status": "pass",
+      "details": "0ca3cdb5c7d113d37e09e4b3b0b78cdd6213c7dc6dbfb0b906f71d8018a04210"
+    },
+    {
+      "name": "tar matches src/learning/scheduler.js",
+      "status": "pass",
+      "details": "963788e36ba57beb60a8f54a39edef9e1cffac38d1910d77ba5ce6a3576d5860"
+    },
+    {
+      "name": "tar matches src/learning/util.js",
+      "status": "pass",
+      "details": "0f382a561c7b39f4a910bbfa36afb565da8ddeb0066f8560cbd8ab635fb52eec"
+    },
+    {
+      "name": "tar matches src/learning/versioning.js",
+      "status": "pass",
+      "details": "29b61ce65e357e09364d6842a4b3f29ae3e72244ad33b8a0af677ee1332e4d89"
+    },
+    {
+      "name": "tar matches src/storage/sqlite.js",
+      "status": "pass",
+      "details": "2eba5705fb0d56adb9f8d89f547fbe90edd2f958b14c851de8bd1f884959b6ff"
+    },
+    {
+      "name": "tar contains no runtime data or dependencies",
+      "status": "pass",
+      "details": 71
+    },
+    {
+      "name": "page source matches lib index.html",
+      "status": "pass",
+      "details": {
+        "exact": false,
+        "comparison": "LF-normalized text"
+      }
+    },
+    {
+      "name": "page source matches lib page.css",
+      "status": "pass",
+      "details": {
+        "exact": false,
+        "comparison": "LF-normalized text"
+      }
+    },
+    {
+      "name": "page source matches lib page.js",
+      "status": "pass",
+      "details": {
+        "exact": false,
+        "comparison": "LF-normalized text"
+      }
+    },
+    {
+      "name": "client module loader wrapper",
+      "status": "pass",
+      "details": null
+    },
+    {
+      "name": "package lock version",
+      "status": "pass",
+      "details": null
+    }
+  ]
+}

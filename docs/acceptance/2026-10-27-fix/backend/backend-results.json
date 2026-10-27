@@ -1,0 +1,211 @@
+{
+  "at": "2026-10-27T06:12:41.975Z",
+  "node": "v24.16.0",
+  "syntheticDataDirectory": "C:\\Users\\陈\\AppData\\Local\\Temp\\companion-acceptance-nAiY6i",
+  "results": [
+    {
+      "ids": [
+        "FIX-01",
+        "FIX-02"
+      ],
+      "name": "public profile cross-group and role/private isolation",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-02",
+        "FIX-12"
+      ],
+      "name": "legacy profile/importance persists on explicit enable",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-04"
+      ],
+      "name": "quoted/new/forward/control material classification",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-06"
+      ],
+      "name": "35 history versions, cursor pagination and delete redaction",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-10"
+      ],
+      "name": "obsolete legacy cannot enable",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-11",
+        "FIX-12"
+      ],
+      "name": "importance defaults, manual boundaries and edit provenance",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-13",
+        "REG-01"
+      ],
+      "name": "Shanghai date boundaries independent of process TZ",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-15"
+      ],
+      "name": "manual candidate type/scope rules and source array rejection",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-16"
+      ],
+      "name": "status database counts, version and maintenance null",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "UI-07"
+      ],
+      "name": "backend optimistic concurrency and request idempotency",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-01"
+      ],
+      "name": "local/global request quotas and failed request consumption",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-02"
+      ],
+      "name": "unknown model capacity prevents recall without manual budget",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-03"
+      ],
+      "name": "manual candidate cannot bypass evidence gates",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-04",
+        "REG-05"
+      ],
+      "name": "fact validity, role isolation, conflict and disable recall",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-06"
+      ],
+      "name": "malformed/truncated model output rejected",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "UI-14",
+        "REG-07"
+      ],
+      "name": "synthetic backup preview, confirmation and stale generation",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "UI-14"
+      ],
+      "name": "takeover stays pending without real bridge ACK",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-08"
+      ],
+      "name": "Node24 SQLite and bundle apply/dispose under mock host",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "UI-01",
+        "UI-02",
+        "UI-12"
+      ],
+      "name": "management status/error responses and source page assets via mock transport",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-07"
+      ],
+      "name": "fish-memory offline preparation preserves original metadata",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-08"
+      ],
+      "name": "slang offline preparation preserves original metadata",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-09"
+      ],
+      "name": "social-v2 offline preparation preserves original metadata",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-05",
+        "REG-07"
+      ],
+      "name": "chat usage with capture disabled, missing usage, purpose and storage epoch",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-11",
+        "REG-06"
+      ],
+      "name": "model importance validation rejects entire output",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "FIX-08",
+        "FIX-09",
+        "FIX-10",
+        "UI-14"
+      ],
+      "name": "approved mapped legacy import remains disabled and preserves metadata",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "REG-07",
+        "UI-14"
+      ],
+      "name": "synthetic successful restore preserves safety snapshot and invalidates bindings",
+      "status": "passed"
+    },
+    {
+      "ids": [
+        "UI-01",
+        "UI-12"
+      ],
+      "name": "built bundle serves page/CSS/JS with same-origin CSP",
+      "status": "passed"
+    }
+  ]
+}

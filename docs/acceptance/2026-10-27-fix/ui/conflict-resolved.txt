@@ -1,0 +1,99 @@
+- link "跳到内容":
+  - /url: "#main"
+- banner:
+  - generic: 忆
+  - heading "QQ 陪伴记忆" [level=1]
+  - paragraph: 管理工作台 / MEMORY COMPANION
+  - generic "features 全部为 false（采集、召回、学习均未启用）。": 功能全关
+  - generic: 版本 0.1.2 · 更新于 2026年10月27日 13:57:15
+  - generic: 上海时间 · UTC+8
+  - button "重新读取状态"
+- main:
+  - navigation "管理分区":
+    - paragraph: 工作台
+    - button "概览与状态"
+    - paragraph: 记忆资料
+    - button "记忆与原文"
+    - button "日期归档"
+    - button "个人档案"
+    - button "群内补充"
+    - button "共享源"
+    - paragraph: 学习与成长
+    - button "候选与试用"
+    - button "冲突与反馈"
+    - button "人格与回退"
+    - paragraph: 观察与维护
+    - button "召回记录"
+    - button "用量"
+    - button "审计"
+    - button "备份与恢复"
+    - button "导入"
+    - button "接管准备"
+    - button "系统记录"
+  - heading "冲突与反馈" [level=2]
+  - paragraph: 双方来源并存、进入冲突管理，不静默覆盖；feedback 记录只读查看（可编辑原文或停用），对候选与记忆的反馈在那些记录的详情里登记。
+  - button "刷新"
+  - list:
+    - listitem: 冲突未解决前暂停自动采纳；解决冲突不会删除任何一方来源。
+    - listitem: 反馈记录本身只描述一次意见；要暂停某条记忆或候选，请到那条记录的详情里用「记录管理员反馈」。
+  - button "冲突"
+  - button "反馈"
+  - generic: 角色
+  - combobox "角色 ID（留空=全部）"
+  - generic: 范围 scopeKey
+  - textbox "范围，如 group:123456"
+  - generic: 主体 QQ
+  - textbox "主体 QQ"
+  - generic: 状态
+  - combobox:
+    - option "全部状态" [selected]
+    - option "生效"
+    - option "已停用"
+    - option "已删除"
+    - option "待确认"
+    - option "生效或待确认"
+    - option "试用中"
+    - option "已采纳"
+    - option "已采纳"
+    - option "已驳回"
+    - option "已暂停"
+    - option "隔离待确认"
+    - option "已核验"
+    - option "已解决"
+    - option "已被取代"
+    - option "已过期"
+    - option "失败"
+  - generic: 每页
+  - combobox:
+    - option "每页 20 条"
+    - option "每页 50 条" [selected]
+    - option "每页 100 条"
+    - option "每页 200 条"
+  - generic: 检索
+  - searchbox "服务端检索关键词"
+  - button "应用筛选"
+  - button "清空筛选"
+  - table:
+    - rowgroup:
+      - row "类型 内容 来源 范围 主体 状态 更新":
+        - columnheader "类型"
+        - columnheader "内容"
+        - columnheader "来源"
+        - columnheader "范围"
+        - columnheader "主体"
+        - columnheader "状态"
+        - columnheader "更新"
+    - rowgroup:
+      - row "冲突 合成冲突待解决 2 条 group:10001 — 已解决 2026年10月27日 14:06:37":
+        - cell "冲突"
+        - cell "合成冲突待解决"
+        - cell "2 条"
+        - cell "group:10001"
+        - cell "—"
+        - cell "已解决":
+          - generic "status=resolved": 已解决
+        - cell "2026年10月27日 14:06:37"
+  - generic: 本页 1 条 · 第 1 页
+  - button "上一页" [disabled]
+  - button "下一页" [disabled]
+  - generic: 服务端未返回 next：没有更多记录。
