@@ -6,8 +6,8 @@
 
 | 项目 | 职责 | 实际代码目录 | GitHub仓库 | 分支 / 可见性 |
 | --- | --- | --- | --- | --- |
-| 大肥鱼部署代码 | Docker Compose、专用DSH/桥接镜像、入口脚本、配置模板、运维脚本 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main / 私有 |
-| 大肥鱼管理面板 | 本机网页控制台、状态探测、固定启停、控制台跳转及插件入口登记 | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main / 私有 |
+| 01-dafeiyu-deploy代码 | Docker Compose、专用DSH/桥接镜像、入口脚本、配置模板、运维脚本 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main / 私有 |
+| 02-dafeiyu-control-panel | 本机网页控制台、状态探测、固定启停、控制台跳转及插件入口登记 | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main / 私有 |
 | QQ陪伴记忆插件 | 记忆、档案、证据学习、人格版本及插件自己的WebUI | `D:\大肥鱼QQ\dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main / 私有 |
 
 本目录 `D:\大肥鱼QQ` 是工作区资料与工具入口，不是Git仓库；三个项目的源码不全在本目录物理路径下。不要为了对应目录名称而移动正在使用的部署或面板文件。
@@ -41,10 +41,16 @@
 
 ## 2026-10-27 工作区按项目整理
 
-根目录入口更新为 `00-项目导航.md`；部署资料位于“大肥鱼部署”，面板资料位于“大肥鱼管理面板”，插件仓库仍为 `dsh-qq-companion-memory`。
+根目录入口更新为 `00-项目导航.md`；部署资料位于“01-dafeiyu-deploy”，面板资料位于“02-dafeiyu-control-panel”，插件仓库仍为 `dsh-qq-companion-memory`。
 四个常用BAT入口及原有面板快捷方式放在根目录，PS配套脚本归属部署资料目录；实际运行目录均未移动。
 新插件直接新增根目录同级项目目录，并在本登记中补充职责、源码位置和明确的仓库归属。
 
 旧六类目录已取消；历史资料集中在 `过时与待清理\2026-10-27`，原路径和清理建议见其 `整理清单.md`。
 Docker汉化资料含回滚备份，删除前确认；临时脚本与参考审计分别标注。归档实体仅在本地，不代表已上传GitHub。
 插件源码、当前交接、待验收清单与依赖保持原位。本次为文件整理和文档留档，不代表运行验收、打包或上线完成。
+
+## 项目目录命名约定
+
+2026-10-27按用户要求统一为编号加英文名：`01-dafeiyu-deploy`（Docker部署资料）、`02-dafeiyu-control-panel`（面板资料）、`03-dsh-qq-companion-memory`（插件计划名称；Windows拒绝改名，目前仍为`dsh-qq-companion-memory`）。
+部署与面板实际源码仍位于上表外部路径，插件仓库改名因Windows拒绝访问尚未完成；GitHub仓库名称及远端不变。
+以后插件按04、05等递增编号。根目录常用操作入口及“过时与待清理”目录保持原位。
