@@ -1897,12 +1897,13 @@ function openActionDialog(options) {
 
     if (problems.children.length > 0) return;
 
-    const hash = stableStringify(payload);
+    const { requestId: ignoredRequestId, ...requestContent } = payload;
+    const hash = stableStringify(requestContent);
     if (requestHolder.payloadHash !== null && requestHolder.payloadHash !== hash) {      requestHolder.id = newRequestId();
       payload.requestId = requestHolder.id;
       requestCode.textContent = requestHolder.id;
     }
-    requestHolder.payloadHash = stableStringify(payload);
+    requestHolder.payloadHash = hash;
 
     submitButton.disabled = true;
     cancelButton.disabled = true;
@@ -1935,7 +1936,6 @@ function openActionDialog(options) {
       if (apiError.code === 'transport') {
         submitButton.textContent = '重试提交';
       } else {
-        requestHolder.payloadHash = null;
         submitButton.textContent = '修改后重新提交';
       }
       if (apiError.status === 409) {
@@ -2090,13 +2090,14 @@ function openCreateDialog(kinds, onDone) {
     payload.data = dataValue;
 
     // 同一 requestId 只对应一份 payload：内容变了就换新 ID，原样重试则复用（幂等）。
-    const payloadHash = stableStringify(payload);
+    const { requestId: ignoredCreateRequestId, ...createContent } = payload;
+    const payloadHash = stableStringify(createContent);
     if (createPayloadHash !== null && createPayloadHash !== payloadHash) {
       createRequestId = newRequestId();
       payload.requestId = createRequestId;
       requestLine.textContent = createRequestId;
     }
-    createPayloadHash = stableStringify(payload);
+    createPayloadHash = payloadHash;
 
     submitButton.disabled = true;
     cancelButton.disabled = true;
@@ -3642,12 +3643,13 @@ function openTakeoverCreateDialog(rows, onDone) {
 
     if (problems.children.length > 0) return;
 
-    const hash = stableStringify(payload);
+    const { requestId: ignoredRequestId, ...requestContent } = payload;
+    const hash = stableStringify(requestContent);
     if (payloadHash.value !== null && payloadHash.value !== hash) {
       requestCode.textContent = newRequestId();
       payload.requestId = requestCode.textContent;
     }
-    payloadHash.value = stableStringify(payload);
+    payloadHash.value = hash;
 
     submitButton.disabled = true;
     cancelButton.disabled = true;
