@@ -1,0 +1,249 @@
+{
+  "gitHead": "bfd112af0d4dd71359cb56e03fe1f85c37755156",
+  "comparisons": [
+    {
+      "path": "cordis.patch.yml",
+      "expected": "7d73ea7b1480d4be046310cc08d1d1675088e6e0bea823159d7fe8807718c509",
+      "actual": "7d73ea7b1480d4be046310cc08d1d1675088e6e0bea823159d7fe8807718c509",
+      "match": true
+    },
+    {
+      "path": "integration/bridge-companion-adapter.mjs",
+      "expected": "e9ec2c6b2286acfafb31b39942a215b4b9ce9554cc59e13f6e109f9b37eab2c5",
+      "actual": "e9ec2c6b2286acfafb31b39942a215b4b9ce9554cc59e13f6e109f9b37eab2c5",
+      "match": true
+    },
+    {
+      "path": "package-lock.json",
+      "expected": "d6592f85d8b3f1fc2f38268536ce4001b8f7b64235120e421db38f559bf336a7",
+      "actual": "d6592f85d8b3f1fc2f38268536ce4001b8f7b64235120e421db38f559bf336a7",
+      "match": true
+    },
+    {
+      "path": "package.json",
+      "expected": "cf4195bacfdc4136fcf5013587e4d41e0be5aa0109625239bc0b71331d2def7e",
+      "actual": "cf4195bacfdc4136fcf5013587e4d41e0be5aa0109625239bc0b71331d2def7e",
+      "match": true
+    },
+    {
+      "path": "scripts/build.mjs",
+      "expected": "40ab5b9bc3c3f02d7f9cb25e5f2c9639915acf5dc802928d6367d4a2ac244864",
+      "actual": "40ab5b9bc3c3f02d7f9cb25e5f2c9639915acf5dc802928d6367d4a2ac244864",
+      "match": true
+    },
+    {
+      "path": "scripts/check.mjs",
+      "expected": "86bd09af5cd61f9900afffe6294dc79f78b5d119c164938a7774e7a603bd028a",
+      "actual": "86bd09af5cd61f9900afffe6294dc79f78b5d119c164938a7774e7a603bd028a",
+      "match": true
+    },
+    {
+      "path": "scripts/patch-bridge.mjs",
+      "expected": "809bbd9512130c021535b1fad1a5fa32b952dd5196dcf51bc78ac7344e202245",
+      "actual": "809bbd9512130c021535b1fad1a5fa32b952dd5196dcf51bc78ac7344e202245",
+      "match": true
+    },
+    {
+      "path": "scripts/prepare-legacy.mjs",
+      "expected": "814486a4445a45ef82456d8f31e1d737c10801a139edc14d2c6b71bb76a0d50c",
+      "actual": "814486a4445a45ef82456d8f31e1d737c10801a139edc14d2c6b71bb76a0d50c",
+      "match": true
+    },
+    {
+      "path": "scripts/prepare-migration.mjs",
+      "expected": "59a3423c05827cd220eabbdd1b3bf6cbe8e196f6f20bde1efa5fc43d79677ba6",
+      "actual": "59a3423c05827cd220eabbdd1b3bf6cbe8e196f6f20bde1efa5fc43d79677ba6",
+      "match": true
+    },
+    {
+      "path": "scripts/release.mjs",
+      "expected": "5a8cbadb28eac0f29c3ce1c0a7ab767f06cdd89efdfc0ff15fbd584c543c2223",
+      "actual": "5a8cbadb28eac0f29c3ce1c0a7ab767f06cdd89efdfc0ff15fbd584c543c2223",
+      "match": true
+    },
+    {
+      "path": "src/adapters/dsh/http.js",
+      "expected": "78d2d253a0ef69b43e4519c39758f2850bab825b5c87ba87f4a298719d3b0944",
+      "actual": "78d2d253a0ef69b43e4519c39758f2850bab825b5c87ba87f4a298719d3b0944",
+      "match": true
+    },
+    {
+      "path": "src/adapters/dsh/model.js",
+      "expected": "4265c1d219b19245f08cdfba9b771f9f1ef9f4911a531c604d92c6f47bdb7482",
+      "actual": "4265c1d219b19245f08cdfba9b771f9f1ef9f4911a531c604d92c6f47bdb7482",
+      "match": true
+    },
+    {
+      "path": "src/adapters/dsh/usage.js",
+      "expected": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a",
+      "actual": "6a9dfa4d46b9afa16ab05e6864e00e2c810fabf70d3519b9e2c977f19f3f822a",
+      "match": true
+    },
+    {
+      "path": "src/application/management.js",
+      "expected": "ed04be9d6ad47ae09e15f640d6511ed898b38c3339c9c73e06e0a443961cc858",
+      "actual": "ed04be9d6ad47ae09e15f640d6511ed898b38c3339c9c73e06e0a443961cc858",
+      "match": true
+    },
+    {
+      "path": "src/application/operations.js",
+      "expected": "022bc6943ea3778563a0ea5528e2fb64da726df6a69b7877e388f6beb8523fe4",
+      "actual": "022bc6943ea3778563a0ea5528e2fb64da726df6a69b7877e388f6beb8523fe4",
+      "match": true
+    },
+    {
+      "path": "src/application/service.js",
+      "expected": "87e8fd094b79a942ce4e84aac9dec5512e31a56507d014629888c11c3ca4f82b",
+      "actual": "87e8fd094b79a942ce4e84aac9dec5512e31a56507d014629888c11c3ca4f82b",
+      "match": true
+    },
+    {
+      "path": "src/client/index.js",
+      "expected": "d5d6b1028bbee6e35a0c458eabe8c560dcd3633cf90fad46a2bba44d84ac0f46",
+      "actual": "d5d6b1028bbee6e35a0c458eabe8c560dcd3633cf90fad46a2bba44d84ac0f46",
+      "match": true
+    },
+    {
+      "path": "src/client/page.css",
+      "expected": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be",
+      "actual": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be",
+      "match": true
+    },
+    {
+      "path": "src/client/page.html",
+      "expected": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072",
+      "actual": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072",
+      "match": true
+    },
+    {
+      "path": "src/client/page.js",
+      "expected": "629f112fdb17fab77c7b7bb9e89fb1d20b90c82b468ddad4a70c312e2d26733b",
+      "actual": "629f112fdb17fab77c7b7bb9e89fb1d20b90c82b468ddad4a70c312e2d26733b",
+      "match": true
+    },
+    {
+      "path": "src/config/index.js",
+      "expected": "fdd1c51c906280d1575e918b0409105ad8730bbb01666aceb82c94cc331c6fb4",
+      "actual": "fdd1c51c906280d1575e918b0409105ad8730bbb01666aceb82c94cc331c6fb4",
+      "match": true
+    },
+    {
+      "path": "src/domain/conversations.js",
+      "expected": "b6f3ac4c71427e3aee2763151afef3efecaa693caf1e3c1cafe260ef5db0d6c2",
+      "actual": "b6f3ac4c71427e3aee2763151afef3efecaa693caf1e3c1cafe260ef5db0d6c2",
+      "match": true
+    },
+    {
+      "path": "src/domain/core.js",
+      "expected": "00afc8881f16c4bf250ceac663c266f38fde1d8b0cb918c807159b4c51b25146",
+      "actual": "00afc8881f16c4bf250ceac663c266f38fde1d8b0cb918c807159b4c51b25146",
+      "match": true
+    },
+    {
+      "path": "src/domain/memory.js",
+      "expected": "42fe93daecdec3a626043c10f64bee9e028842346e88a305b5d29ca8cc99d936",
+      "actual": "42fe93daecdec3a626043c10f64bee9e028842346e88a305b5d29ca8cc99d936",
+      "match": true
+    },
+    {
+      "path": "src/index.js",
+      "expected": "f0fe61f6f6714737a8856ef0eb285a16e238b9291ec08ce8bcb0e68e2daab85b",
+      "actual": "f0fe61f6f6714737a8856ef0eb285a16e238b9291ec08ce8bcb0e68e2daab85b",
+      "match": true
+    },
+    {
+      "path": "src/learning/config.js",
+      "expected": "86297e1e6692e33caebab42f13cd5ed7106e29ae054471c922b5057906361fe1",
+      "actual": "86297e1e6692e33caebab42f13cd5ed7106e29ae054471c922b5057906361fe1",
+      "match": true
+    },
+    {
+      "path": "src/learning/evidence.js",
+      "expected": "50a1c4aafc6c7ed9537209d3f20f100229224a90ed095a9c57f8fcfca48afc3c",
+      "actual": "50a1c4aafc6c7ed9537209d3f20f100229224a90ed095a9c57f8fcfca48afc3c",
+      "match": true
+    },
+    {
+      "path": "src/learning/failures.js",
+      "expected": "be9593503b835d6bfc022fea6c621d967d5817d8504bbb3abf419b1667859496",
+      "actual": "be9593503b835d6bfc022fea6c621d967d5817d8504bbb3abf419b1667859496",
+      "match": true
+    },
+    {
+      "path": "src/learning/index.js",
+      "expected": "949c8f9333fc5c66a72a66c038eafb2eafd395deecb62b7a564a6ac26ef32ad6",
+      "actual": "949c8f9333fc5c66a72a66c038eafb2eafd395deecb62b7a564a6ac26ef32ad6",
+      "match": true
+    },
+    {
+      "path": "src/learning/materials.js",
+      "expected": "cd89a2b17a44bfd0275ac8df1cd4ae879c7608638d9cac3eb231a07e23c4649f",
+      "actual": "cd89a2b17a44bfd0275ac8df1cd4ae879c7608638d9cac3eb231a07e23c4649f",
+      "match": true
+    },
+    {
+      "path": "src/learning/output.js",
+      "expected": "9bfb390c93ed7cd3e63d0391b8bdccf10e1e2f4ff3dffdd642767eed9695f55b",
+      "actual": "9bfb390c93ed7cd3e63d0391b8bdccf10e1e2f4ff3dffdd642767eed9695f55b",
+      "match": true
+    },
+    {
+      "path": "src/learning/prompts.js",
+      "expected": "437457ae21785601b38179a676e13f2c63de3513537d959e5f0dabdafbf4757e",
+      "actual": "437457ae21785601b38179a676e13f2c63de3513537d959e5f0dabdafbf4757e",
+      "match": true
+    },
+    {
+      "path": "src/learning/quota.js",
+      "expected": "65dcc11caac598a389989ac0840f4830c61d081519cf716129ecc2eb44d1c104",
+      "actual": "65dcc11caac598a389989ac0840f4830c61d081519cf716129ecc2eb44d1c104",
+      "match": true
+    },
+    {
+      "path": "src/learning/scheduler.js",
+      "expected": "68f33aef9efc82e4c279b66a9b997c2a19ea49fa10d460fd01e8d6ee24a107a9",
+      "actual": "68f33aef9efc82e4c279b66a9b997c2a19ea49fa10d460fd01e8d6ee24a107a9",
+      "match": true
+    },
+    {
+      "path": "src/learning/util.js",
+      "expected": "93702df851d02b25f0b78fc43c51e90a70237a3a060391b21eabbf22b7bb4614",
+      "actual": "93702df851d02b25f0b78fc43c51e90a70237a3a060391b21eabbf22b7bb4614",
+      "match": true
+    },
+    {
+      "path": "src/learning/versioning.js",
+      "expected": "61b47baa7d6054447011006b97fa7b9034fc70fd3877e9d7a290c59bccec5dbd",
+      "actual": "61b47baa7d6054447011006b97fa7b9034fc70fd3877e9d7a290c59bccec5dbd",
+      "match": true
+    },
+    {
+      "path": "src/storage/sqlite.js",
+      "expected": "45085ff9f0a5b4d98b8789055995a3d8a0795750f710c4bd9de0e0c3d25f452b",
+      "actual": "45085ff9f0a5b4d98b8789055995a3d8a0795750f710c4bd9de0e0c3d25f452b",
+      "match": true
+    }
+  ],
+  "outputs": [
+    {
+      "path": "lib/index.js",
+      "sha256": "4b662d16386d69f568e72cc01c87afd53beb9b345b4079e463a7ba8e7b840650"
+    },
+    {
+      "path": "lib/client.js",
+      "sha256": "30d719f87fb5f8fc51f8ff4839280105fd90629a1e3bff89c47760d52923c2fb"
+    },
+    {
+      "path": "lib/page/index.html",
+      "sha256": "6c0ff7188fef1a5a71489b625a4a42fc4028b7ee483d0c5c906300930aed5072"
+    },
+    {
+      "path": "lib/page/page.css",
+      "sha256": "f5e588848807887b5f3010864ac5d79e5553bd830a9f840a318a7c114c12e2be"
+    },
+    {
+      "path": "lib/page/page.js",
+      "sha256": "629f112fdb17fab77c7b7bb9e89fb1d20b90c82b468ddad4a70c312e2d26733b"
+    }
+  ]
+}
