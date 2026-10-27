@@ -4,7 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light dark" />
-<title>QQ 陪伴记忆 · 管理</title>
+<meta name="theme-color" content="#224f9e" />
+<title>QQ 陪伴记忆 · 管理工作台</title>
 <link rel="stylesheet" href="page.css" />
 </head>
 <body>
@@ -14,12 +15,13 @@
     <span class="logo" aria-hidden="true">忆</span>
     <div class="brandtext">
       <h1>QQ 陪伴记忆</h1>
-      <p class="muted small">角色 · 范围 · 原文 · 共享 · 候选试用 · 人格与回退</p>
+      <p class="muted small">管理工作台 <span class="brand-divider">/</span> MEMORY COMPANION</p>
     </div>
     <span class="badge" id="statusBadge" data-state="unknown">状态未知</span>
   </div>
   <div class="topbar-actions">
     <span class="muted small" id="statusMeta">尚未读取状态</span>
+    <span class="chip small">上海时间 · UTC+8</span>
     <button type="button" class="btn btn-ghost" id="btnOpenWindow" hidden>新窗口打开</button>
     <button type="button" class="btn" id="btnStatus">重新读取状态</button>
   </div>
@@ -42,7 +44,7 @@
   </section>
 </main>
 <div class="overlay" id="overlay" hidden></div>
-<aside class="drawer" id="drawer" aria-label="记录详情" hidden></aside>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="记录详情" tabindex="-1" hidden></aside>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <script defer src="page.js"></script>
 </body>

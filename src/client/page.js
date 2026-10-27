@@ -65,6 +65,7 @@ const STATUS_LABELS = {
   disabled: '已停用',
   deleted: '已删除',
   pending: '待确认',
+  'active,pending': '生效或待确认',
   trial: '试用中',
   adopted: '已采纳',
   accepted: '已采纳',
@@ -98,6 +99,11 @@ const FIELD_LABELS = {
   note: '说明',
   notes: '说明',
   importance: '重要性',
+  importanceSource: '重要性来源（manual人工 / model模型 / type-default类型默认）',
+  visibility: '可见性（public-profile跨群认识 / private私有）',
+  originScope: '原始来源范围',
+  legacySessionId: '旧会话文件名线索',
+  legacyObsolete: '旧材料已失效',
   occurredAt: '发生时间',
   createdAt: '记录时间',
   sourceIds: '来源关联',
@@ -191,7 +197,7 @@ const FIELD_LABELS = {
   lastSeenAt: '最近出现',
 };
 
-const FILTER_STATUSES = ['', 'active', 'disabled', 'deleted', 'pending', 'trial', 'accepted', 'adopted', 'rejected', 'paused', 'quarantine'];
+const FILTER_STATUSES = ['', 'active', 'disabled', 'deleted', 'pending', 'active,pending', 'trial', 'accepted', 'adopted', 'rejected', 'paused', 'quarantine', 'verified', 'resolved', 'superseded', 'expired', 'failed'];
 
 /**
  * 服务端真实枚举（取自 src/application/management.js 与 operations.js）。
@@ -225,12 +231,14 @@ const ENUMS = {
 
 const state = {
   view: 'overview',
+  tab: '',
   filter: { characterId: '', scopeKey: '', subjectQQ: '', status: '', search: '', limit: 50 },
   characters: [],
   status: { phase: 'idle', value: null, error: null, summary: null },
 };
 
 let currentView = null;
+let drawerReturnFocus = null;
 
 /* ------------------------------------------------------------------ */
 /* 小工具                                                              */
@@ -274,7 +282,7 @@ function formatTime(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   try {
-    return new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium', timeStyle: 'medium' }).format(date);
+    return new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', dateStyle: 'medium', timeStyle: 'medium' }).format(date);
   } catch {
     return value;
   }
@@ -283,11 +291,8 @@ function formatTime(value) {
 function dayKey(value) {
   if (typeof value !== 'string' || value.trim() === '') return '';
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value.slice(0, 10);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 }
 
 function newRequestId() {
@@ -702,21 +707,39 @@ async function loadCharacters() {
 function buildNav() {
   const nav = $('nav');
   nav.replaceChildren();
+  const groups = { overview: '工作台', memory: '记忆资料', candidate: '学习与成长', recall: '观察与维护' };
   for (const view of VIEWS) {
+    if (groups[view.id]) nav.append(el('p', { class: 'nav-group', text: groups[view.id] }));
     const button = el('button', {
       type: 'button',
       class: 'navitem' + (state.view === view.id ? ' is-active' : ''),
       text: view.label,
+      'aria-current': state.view === view.id ? 'page' : null,
     });
     button.addEventListener('click', () => {
       if (state.view === view.id) return;
-      state.view = view.id;
-      hideBanner();
-      buildNav();
-      renderView();
+      navigate(view.id);
     });
     nav.append(button);
   }
+}
+
+function navigate(viewId, { kind = '', filter = {} } = {}) {
+  if (!VIEWS.some(view => view.id === viewId)) return;
+  closeDrawer();
+  state.view = viewId;
+  state.tab = kind;
+  state.filter = { ...state.filter, status: '', search: '', ...filter };
+  window.location.hash = viewId + (kind ? '/' + kind : '');
+  hideBanner();
+  buildNav();
+  renderView();
+  $('content').focus();
+}
+
+function readLocation() {
+  const [view, kind = ''] = window.location.hash.slice(1).split('/');
+  return { view: VIEWS.some(item => item.id === view) ? view : 'overview', kind };
 }
 
 function renderView() {
@@ -744,20 +767,28 @@ function renderView() {
 /* ------------------------------------------------------------------ */
 
 function openDrawer(record, options) {
+  if ($('drawer').hidden) drawerReturnFocus = document.activeElement;
   const opts = options || {};
   const siblings = Array.isArray(opts.siblings) ? opts.siblings : [];
   const onChanged = typeof opts.onChanged === 'function' ? opts.onChanged : null;
   $('drawer').replaceChildren(buildDrawer(record, siblings, onChanged));
   $('drawer').hidden = false;
   $('overlay').hidden = false;
+  $('main').inert = true;
+  document.querySelector('.topbar').inert = true;
   const closeButton = $('drawer').querySelector('[data-drawer-close]');
   if (closeButton) closeButton.focus();
 }
 
 function closeDrawer() {
+  const wasOpen = !$('drawer').hidden;
   $('drawer').hidden = true;
   $('overlay').hidden = true;
   $('drawer').replaceChildren();
+  $('main').inert = false;
+  document.querySelector('.topbar').inert = false;
+  if (wasOpen && drawerReturnFocus?.isConnected) drawerReturnFocus.focus();
+  drawerReturnFocus = null;
 }
 
 function buildDrawer(record, siblings, onChanged) {
@@ -806,6 +837,7 @@ function buildDrawer(record, siblings, onChanged) {
   );
 
   wrapper.append(renderRecordContent(record, data, siblings));
+  if (!['audit','history'].includes(kind) && record.status !== 'deleted') wrapper.append(buildHistoryCard(record));
 
   const actions = actionsForRecord(record);
   const actionsCard = el('div', { class: 'card' });
@@ -856,6 +888,45 @@ function buildDrawer(record, siblings, onChanged) {
 
   wrapper.append(el('div', { class: 'card' }, el('h5', { text: '原始记录' }), renderJson(record, '展开完整 JSON')));
   return wrapper;
+}
+
+function buildHistoryCard(record) {
+  const card = el('div', { class: 'card' }, el('h5', { text: '历史版本（只读）' }));
+  const list = el('div', { class: 'stack' });
+  const errorBox = el('p', { class: 'muted small', hidden: true });
+  let after;
+  let previous = record;
+  let loaded = 0;
+  const button = el('button', { type: 'button', class: 'btn', text: '查看历史版本', onclick: async () => {
+    button.disabled = true;
+    errorBox.hidden = true;
+    try {
+      const result = await api.query({ kind: 'history', id: record.id, limit: 20, ...(after ? { after } : {}) });
+      const value = result.value;
+      if (!isPlainObject(value) || !Array.isArray(value.rows)) throw new Error('历史查询未返回 {rows,next}');
+      if (!card.isConnected) return;
+      for (const snapshot of value.rows) {
+        const data = isPlainObject(snapshot.data) ? snapshot.data : {};
+        const newer = isPlainObject(previous.data) ? previous.data : {};
+        const fields = [...new Set([...Object.keys(data), ...Object.keys(newer)])].filter(key => stableStringify(data[key]) !== stableStringify(newer[key]));
+        const entry = el('details', {}, el('summary', { text: 'v' + snapshot.version + ' · ' + formatTime(snapshot.updatedAt) + ' · ' + (STATUS_LABELS[snapshot.status] || snapshot.status) }));
+        entry.append(el('p', { class: 'muted small', text: '与较新 v' + previous.version + ' 相比，数据变化：' + (fields.map(key => FIELD_LABELS[key] || key).join('、') || '无（可能仅状态变更）') }));
+        entry.append(renderRecordContent({ ...snapshot, kind: record.kind }, data, []), renderJson(snapshot, '完整历史快照'));
+        list.append(entry);
+        previous = snapshot;
+        loaded += 1;
+      }
+      after = value.next;
+      if (!loaded) list.append(el('p', { class: 'muted small', text: '没有保留的历史版本。删除记录时历史快照会清除。' }));
+      button.hidden = !after;
+      button.textContent = '加载更早版本';
+    } catch (error) {
+      errorBox.textContent = '读取历史失败：' + (error.message || String(error));
+      errorBox.hidden = false;
+    } finally { button.disabled = false; }
+  } });
+  card.append(list, errorBox, button);
+  return card;
 }
 
 function describeValue(value) {
@@ -1078,9 +1149,138 @@ function editAction(record, label) {
     action: 'edit',
     label: '编辑' + label,
     title: '编辑' + label + '内容',
-    description: 'data 为完整替换：请保留未改动的字段，只修改需要变更的部分。',
+    description: 'data 为完整替换：请保留未改动的字段，只修改需要变更的部分。记忆重要性 importance 可设为1至5整数；清除该值会按类型重新分级。',
     fields: [jsonField('data', 'data（完整 JSON）', isPlainObject(record.data) ? record.data : {}, '提交后整个 data 被替换，请先把未改字段一起带上。', 'object', true)],
   };
+}
+
+/** 常用内容用表单编辑；未知字段、来源与状态元数据保留，JSON 模式可完整查看。 */
+function createRecordEditor(kind, initial = {}, isNew = false) {
+  let currentKind = kind;
+  let baseline = structuredClone(initial);
+  let mode = 'form';
+  let controls = [];
+  const node = el('div', { class: 'record-editor' });
+  const tabs = el('div', { class: 'tabs', role: 'group', 'aria-label': '内容编辑方式' });
+  const form = el('div', { class: 'form-grid' });
+  const raw = el('textarea', { class: 'textarea json-editor', 'aria-label': '完整内容 JSON', spellcheck: 'false', hidden: true });
+  const errorBox = el('p', { class: 'editor-error', role: 'alert', hidden: true });
+  const formButton = el('button', { type: 'button', class: 'tab is-active', 'aria-pressed': 'true', text: '表单编辑' });
+  const jsonButton = el('button', { type: 'button', class: 'tab', 'aria-pressed': 'false', text: '高级 JSON' });
+  tabs.append(formButton, jsonButton);
+  node.append(tabs, errorBox, form, raw, el('p', { class: 'muted small', text: '未显示的字段会保留；提交前请核对来源、归属和变更原因。' }));
+
+  function specs() {
+    const mainKey = ['text','summary','content'].find(key => typeof baseline[key] === 'string') || 'text';
+    if (currentKind === 'character') return [{ key: 'name', label: '角色名称', required: true }];
+    const common = [
+      { key: mainKey, label: '正文', type: 'textarea', required: true, wide: true },
+      { key: 'context', label: '适用情境', placeholder: '这条内容在什么情况下适用' },
+      { key: 'importance', label: '重要性', type: 'number', help: '1–5；留空按类型分级，边界5、承诺4、事实/偏好/关系3、经历1。' },
+      { key: 'sourceIds', label: '来源记录 ID', type: 'lines', wide: true, help: '每行一个原文记录 ID，也可用逗号分隔。' },
+      { key: 'factKey', label: '事实主题', placeholder: '例如：居住城市；同一主体的同一事实用同一主题' },
+      { key: 'supersedesId', label: '替代的旧记录 ID' },
+      { key: 'occurredAt', label: '发生时间', type: 'time' },
+      { key: 'validFrom', label: '生效时间', type: 'time' },
+      { key: 'validUntil', label: '失效时间', type: 'time' },
+    ];
+    if (currentKind === 'memory') common.unshift({ key: 'type', label: '记忆类型', options: [['experience','共同经历'],['fact','事实'],['boundary','边界'],['preference','偏好'],['relationship','关系'],['promise','承诺']] });
+    if (currentKind === 'profile') common.unshift({ key: 'originScope', label: '原始来源范围', help: '群来源填写 group:群号，经确认用于同角色跨群认识；私聊来源保持私有。' });
+    if (currentKind === 'candidate') return [
+      { key: 'type', label: '候选类型', options: [['expression','表达（群/私聊）'],['jargon','黑话（群）'],['preference','偏好（私聊）'],['personality','人格变化（角色级）']] },
+      { key: 'rule', label: '规则或表达', type: 'textarea', required: true, wide: true },
+      { key: 'context', label: '适用情境', required: true },
+      { key: 'meaning', label: '黑话含义' },
+      { key: 'personalityChange', label: '人格的一处具体小幅变化' },
+      { key: 'sourceIds', label: '来源记录 ID', type: 'lines', wide: true, help: '不因人工创建跳过证据、试用或实际应用门槛。' },
+    ];
+    return common;
+  }
+
+  function renderForm() {
+    form.replaceChildren();
+    controls = [];
+    if (isNew && !Object.hasOwn(baseline, 'type') && ['memory','candidate'].includes(currentKind)) baseline.type = currentKind === 'memory' ? 'experience' : 'expression';
+    for (const spec of specs()) {
+      const id = 'editor-' + spec.key + '-' + Math.random().toString(36).slice(2, 8);
+      const value = baseline[spec.key];
+      let input;
+      if (spec.options) {
+        input = el('select', { class: 'select', id });
+        input.append(el('option', { value: '', text: '未指定' }));
+        const options = spec.options.slice();
+        if (value != null && !options.some(([key]) => key === value)) options.push([String(value), String(value) + '（原值）']);
+        for (const [key, label] of options) input.append(el('option', { value: key, text: label }));
+        input.value = value == null ? '' : String(value);
+      } else {
+        input = el(['textarea','lines'].includes(spec.type) ? 'textarea' : 'input', {
+          class: ['textarea','lines'].includes(spec.type) ? 'textarea' : 'input', id,
+          ...(!['textarea','lines'].includes(spec.type) ? { type: spec.type === 'number' ? 'number' : 'text' } : {}),
+          placeholder: spec.type === 'time' ? '2026-10-27T18:00:00+08:00（含时区）' : spec.placeholder || '',
+        });
+        input.value = value == null ? '' : spec.type === 'lines' && Array.isArray(value) ? value.join('\n') : textOf(value);
+        if (spec.type === 'number') { input.min = '1'; input.max = '5'; input.step = '1'; }
+      }
+      input.setAttribute('aria-required', String(Boolean(spec.required)));
+      const wrap = el('div', { class: 'fieldrow' + (spec.wide ? ' field-wide' : '') }, el('label', { for: id, class: 'fieldlabel', text: spec.label + (spec.required ? ' *' : '') }), input);
+      if (spec.help) wrap.append(el('p', { class: 'muted small', text: spec.help }));
+      form.append(wrap);
+      controls.push({ spec, input, initial: input.value });
+    }
+  }
+
+  function read(validate = true) {
+    if (mode === 'json') {
+      const data = JSON.parse(raw.value);
+      if (!isPlainObject(data)) throw new Error('内容必须是 JSON 对象');
+      return data;
+    }
+    const data = structuredClone(baseline);
+    for (const { spec, input, initial } of controls) {
+      const text = input.value.trim();
+      if (validate && spec.required && !text) throw new Error(spec.label + '不能为空');
+      if (input.value === initial) continue;
+      if (!text) { delete data[spec.key]; continue; }
+      if (spec.type === 'number') {
+        const number = Number(text);
+        if (!Number.isInteger(number) || number < 1 || number > 5) throw new Error('重要性须为1至5整数');
+        data[spec.key] = number;
+      } else if (spec.type === 'time') {
+        if (!/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(text) || !Number.isFinite(Date.parse(text))) throw new Error(spec.label + '必须是含时区的有效时间');
+        data[spec.key] = new Date(text).toISOString();
+      } else if (spec.type === 'lines') data[spec.key] = [...new Set(text.split(/[\n,，]+/).map(value => value.trim()).filter(Boolean))];
+      else data[spec.key] = input.value;
+    }
+    return data;
+  }
+
+  function switchMode(nextMode) {
+    if (nextMode === mode) return;
+    try {
+      baseline = read(false);
+      if (nextMode === 'json') raw.value = JSON.stringify(baseline, null, 2);
+      else renderForm();
+      mode = nextMode;
+      form.hidden = mode !== 'form';
+      raw.hidden = mode !== 'json';
+      formButton.classList.toggle('is-active', mode === 'form');
+      jsonButton.classList.toggle('is-active', mode === 'json');
+      formButton.setAttribute('aria-pressed', String(mode === 'form'));
+      jsonButton.setAttribute('aria-pressed', String(mode === 'json'));
+      errorBox.hidden = true;
+    } catch (error) { errorBox.textContent = error.message; errorBox.hidden = false; }
+  }
+  formButton.onclick = () => switchMode('form');
+  jsonButton.onclick = () => switchMode('json');
+  renderForm();
+  return { node, read, setKind(nextKind) {
+    try {
+      baseline = read(false); currentKind = nextKind;
+      if (mode === 'form') renderForm();
+      errorBox.hidden = true;
+      return true;
+    } catch (error) { errorBox.textContent = error.message; errorBox.hidden = false; return false; }
+  } };
 }
 
 function deleteAction(label, title, consequence) {
@@ -1333,7 +1533,7 @@ function actionsForRecord(record) {
               'candidateId',
               '候选 ID candidateId',
               Array.isArray(data.candidateIds) && data.candidateIds.length === 1 ? String(data.candidateIds[0]) : '',
-              '须为同角色同范围且状态为 trial / adopted / accepted 的候选。',
+              '须为 trial / adopted / accepted 候选；人格候选允许角色级，试用须来源于本会话范围，私聊本人暂停的规则不可核验。',
               true,
             ),
             textField('excerpt', '核验片段 excerpt', '', '必须是本条发送原文里真实出现的一段文字，服务端做包含校验。', true),
@@ -1408,7 +1608,9 @@ function actionsForRecord(record) {
 function openDialog(options) {
   const dialog = document.createElement('dialog');
   dialog.className = 'actiondialog';
-  const head = el('div', { class: 'dialoghead' }, el('h2', { text: options.title }));
+  const headingId = 'dialog-title-' + newRequestId();
+  dialog.setAttribute('aria-labelledby', headingId);
+  const head = el('div', { class: 'dialoghead' }, el('h2', { id: headingId, text: options.title }));
   if (options.subtitle) head.append(el('p', { class: 'muted small', text: options.subtitle }));
   dialog.append(head, options.body, options.footer);
   dialog.addEventListener('cancel', (event) => {
@@ -1420,11 +1622,17 @@ function openDialog(options) {
   dialog.showModal();
   return dialog;
 }
-function buildField(field, refs) {
+function buildField(field, refs, record) {
   const wrap = el('div', { class: 'fieldrow' });
   const id = 'qqcm-field-' + field.name + '-' + Math.random().toString(36).slice(2, 7);
   wrap.append(el('label', { class: 'fieldlabel', for: id, text: field.label + (field.required ? '（必填）' : '') }));
 
+  if (field.type === 'json' && field.name === 'data' && ['memory','profile','supplement','candidate','character'].includes(record?.kind)) {
+    const editor = createRecordEditor(record.kind, field.value);
+    wrap.append(editor.node);
+    refs.set(field.name, { field, editor });
+    return wrap;
+  }
   let input;
   if (field.type === 'select') {
     input = el('select', { class: 'select', id });
@@ -1456,6 +1664,10 @@ function buildField(field, refs) {
 /** 读取一张表单字段的提交值；返回 {ok,value} 或 {ok:false,problem}。 */
 function readFieldValue(entry) {
   const field = entry.field;
+  if (entry.editor) {
+    try { return { ok: true, value: entry.editor.read() }; }
+    catch (error) { return { ok: false, problem: error.message }; }
+  }
   const raw = String(entry.input.value);
   const trimmed = raw.trim();
   if (field.type === 'select') {
@@ -1557,7 +1769,7 @@ function openActionDialog(options) {
 
   if (fields.length > 0) {
     const fieldBox = el('div', { class: 'stack' });
-    for (const field of fields) fieldBox.append(buildField(field, refs));
+    for (const field of fields) fieldBox.append(buildField(field, refs, action === 'edit' ? target : null));
     body.append(el('div', { class: 'card' }, el('h5', { text: '参数' }), fieldBox));
   }
 
@@ -1753,14 +1965,32 @@ function openCreateDialog(kinds, onDone) {
     value: kindList[0],
     required: true,
   };
-  const kindInput = el('select', { class: 'select' });
+  const kindInput = el('select', { class: 'select', 'aria-label': '记录类型' });
   for (const option of kindField.options) kindInput.append(el('option', { value: option.value, text: option.label, selected: option.value === kindField.value }));
-  const characterInput = el('input', { class: 'input', type: 'text', placeholder: '角色 ID', value: state.filter.characterId });
-  const scopeInput = el('input', { class: 'input', type: 'text', placeholder: '范围，如 group:123456', value: state.filter.scopeKey });
-  const subjectInput = el('input', { class: 'input', type: 'text', placeholder: '主体 QQ', value: state.filter.subjectQQ });
-  const dataInput = el('textarea', { class: 'textarea' });
-  dataInput.value = '{}';
-  const reasonInput = el('textarea', { class: 'textarea' });
+  const characterInput = el('input', { class: 'input', type: 'text', placeholder: '角色 ID', value: state.filter.characterId, 'aria-label': '角色 ID' });
+  const [initialScopeKind, initialScopeId = ''] = state.filter.scopeKey.split(':');
+  const scopeKindInput = el('select', { class: 'select', 'aria-label': '范围类别' });
+  for (const [key, label] of [['group','群聊'],['private','私聊'],['profile','个人档案'],['character','角色级']]) scopeKindInput.append(el('option', { value: key, text: label }));
+  scopeKindInput.value = ['group','private','profile','character'].includes(initialScopeKind) ? initialScopeKind : 'group';
+  const scopeInput = el('input', { class: 'input', type: 'text', placeholder: '填写群号或 QQ 号', value: initialScopeId, 'aria-label': '群号或 QQ 号' });
+  const subjectInput = el('input', { class: 'input', type: 'text', placeholder: '主体 QQ', value: state.filter.subjectQQ, 'aria-label': '主体 QQ' });
+  const syncScope = () => {
+    if (kindInput.value === 'character') scopeKindInput.value = 'character';
+    if (kindInput.value === 'profile') { scopeKindInput.value = 'profile'; scopeInput.value = subjectInput.value.trim(); }
+    scopeKindInput.disabled = ['character','profile'].includes(kindInput.value);
+    scopeInput.disabled = scopeKindInput.value === 'character' || kindInput.value === 'profile';
+  };
+  scopeKindInput.addEventListener('change', syncScope);
+  subjectInput.addEventListener('input', syncScope);
+  syncScope();
+  const editor = createRecordEditor(kindInput.value, {}, true);
+  let editorKind = kindInput.value;
+  kindInput.addEventListener('change', () => {
+    if (editor.setKind(kindInput.value)) editorKind = kindInput.value;
+    else kindInput.value = editorKind;
+    syncScope();
+  });
+  const reasonInput = el('textarea', { class: 'textarea', 'aria-label': '创建原因' });
   reasonInput.style.minHeight = '70px';
   reasonInput.placeholder = '为什么创建这条记录（必填）';
 
@@ -1781,7 +2011,7 @@ function openCreateDialog(kinds, onDone) {
       el('div', { class: 'stack' }, [
         el('div', { class: 'fieldrow' }, el('span', { class: 'fieldlabel', text: '记录类型' }), kindInput),
         el('div', { class: 'fieldrow' }, el('span', { class: 'fieldlabel', text: '角色 ID（characterId）' }), characterInput),
-        el('div', { class: 'fieldrow' }, el('span', { class: 'fieldlabel', text: '范围（scopeKey）' }), scopeInput),
+        el('div', { class: 'fieldrow' }, el('span', { class: 'fieldlabel', text: '会话范围' }), el('div', { class: 'scope-fields' }, scopeKindInput, scopeInput)),
         el('div', { class: 'fieldrow' }, el('span', { class: 'fieldlabel', text: '主体 QQ（subjectQQ）' }), subjectInput),
         el('p', { class: 'muted small', text: '单一归属：一次只创建一条记录，不批量跨范围。范围写法 private:<QQ> / group:<群号> / profile:<QQ>。' }),
       ]),
@@ -1790,8 +2020,7 @@ function openCreateDialog(kinds, onDone) {
       'div',
       { class: 'card' },
       el('h5', { text: '内容' }),
-      dataInput,
-      el('p', { class: 'muted small', text: 'data 为 JSON 对象，内容使用 text / rule / summary / content。记忆可填 occurredAt、validFrom、validUntil、factKey、context；后来变化可用 supersedesId 关联旧条目。人格候选 type=personality，范围填 character。' }),
+      editor.node,
     ),
     el(
       'div',
@@ -1821,7 +2050,7 @@ function openCreateDialog(kinds, onDone) {
       requestId: createRequestId,
       kind: kindInput.value,
       characterId: characterInput.value.trim(),
-      scopeKey: scopeInput.value.trim(),
+      scopeKey: scopeKindInput.value === 'character' ? 'character' : scopeKindInput.value + ':' + scopeInput.value.trim(),
       subjectQQ: subjectInput.value.trim(),
       reason: reasonInput.value.trim(),
     };
@@ -1844,9 +2073,9 @@ function openCreateDialog(kinds, onDone) {
 
     let dataValue;
     try {
-      dataValue = JSON.parse(dataInput.value);
+      dataValue = editor.read();
     } catch (parseError) {
-      problems.append(el('li', { text: 'data 不是合法 JSON：' + (parseError && parseError.message ? parseError.message : '') }));
+      problems.append(el('li', { text: '请检查内容：' + (parseError && parseError.message ? parseError.message : '') }));
     }
     if (dataValue !== undefined && !isPlainObject(dataValue)) problems.append(el('li', { text: 'data 必须是 JSON 对象。' }));
     if (
@@ -1893,7 +2122,7 @@ function openCreateDialog(kinds, onDone) {
 
   dialog = openDialog({
     title: '新建记录',
-    subtitle: 'create 需要 kind / characterId / scopeKey / subjectQQ / data，并携带 requestId 与原因。',
+    subtitle: '填写归属、内容和变更原因。个人档案范围为 profile:QQ，角色与人格候选范围为 character。',
     body,
     footer: el('div', { class: 'dialogfoot' }, cancelButton, submitButton),
   });
@@ -2002,7 +2231,7 @@ function filterPayload(kind) {
   if (state.filter.characterId) payload.characterId = state.filter.characterId;
   if (state.filter.scopeKey) payload.scopeKey = state.filter.scopeKey;
   if (state.filter.subjectQQ) payload.subjectQQ = state.filter.subjectQQ;
-  if (state.filter.status) payload.status = state.filter.status;
+  if (state.filter.status) payload.status = state.filter.status.includes(',') ? state.filter.status.split(',') : state.filter.status;
   if (state.filter.search) payload.search = state.filter.search;
   return payload;
 }
@@ -2016,7 +2245,7 @@ function makeList(config) {
     id: config.id,
     label: config.label,
     mount(container) {
-      let kind = config.kinds[0].kind;
+      let kind = config.kinds.some(item => item.kind === state.tab) ? state.tab : config.kinds[0].kind;
       let rows = [];
       let next = null;
       let cursorStack = [null];
@@ -2147,6 +2376,8 @@ function makeList(config) {
             button.addEventListener('click', () => {
               if (kind === item.kind) return;
               kind = item.kind;
+              state.tab = kind;
+              window.location.hash = state.view + '/' + kind;
               resetAndLoad();
             });
             tabs.append(button);
@@ -2257,6 +2488,55 @@ function makeList(config) {
 /* 视图：概览                                                          */
 /* ------------------------------------------------------------------ */
 
+function buildDashboard() {
+  const value = isPlainObject(state.status.value) ? state.status.value : {};
+  const counts = Array.isArray(value.counts) ? value.counts : null;
+  const total = (kinds, statuses) => counts === null ? null : counts.filter(row => kinds.includes(row.kind) && statuses.includes(row.status)).reduce((sum, row) => sum + Number(row.count), 0);
+  const root = el('div', { class: 'dashboard stack' });
+  root.append(el('div', { class: 'dashboard-caption' },
+    el('span', { text: '全部角色与会话 · 状态快照' }),
+    el('span', { text: value.updatedAt ? '读取于 ' + formatTime(value.updatedAt) : '尚未取得状态数据' }),
+  ));
+  const metrics = el('div', { class: 'metric-grid' });
+  for (const item of [
+    { label: '已启用记忆', kinds: ['memory'], statuses: ['active'], view: 'memory', kind: 'memory', status: 'active', detail: '查看已启用的记忆资料' },
+    { label: '待确认记忆', kinds: ['memory'], statuses: ['pending'], view: 'memory', kind: 'memory', status: 'pending', detail: '核对原文，再确认启用' },
+    { label: '试用中的候选', kinds: ['candidate'], statuses: ['trial'], view: 'candidate', kind: 'candidate', status: 'trial', detail: '跟踪证据与实际应用' },
+    { label: '未解决冲突', kinds: ['conflict'], statuses: ['active','pending'], view: 'conflict', kind: 'conflict', status: 'active,pending', detail: '保留来源，明确适用情境' },
+  ]) {
+    const count = total(item.kinds, item.statuses);
+    metrics.append(el('button', { type: 'button', class: 'metric-card', onclick: () => navigate(item.view, { kind: item.kind, filter: { characterId: '', scopeKey: '', subjectQQ: '', status: item.status } }) },
+      el('span', { class: 'metric-label', text: item.label }),
+      el('strong', { class: 'metric-value', text: count === null ? '—' : String(count) }),
+      el('span', { class: 'metric-detail', text: count === null ? '状态数据未提供，点击查询' : item.detail }),
+    ));
+  }
+  root.append(metrics);
+  const columns = el('div', { class: 'dashboard-columns' });
+  const todo = el('section', { class: 'card' }, el('h3', { text: '接下来处理' }), el('p', { class: 'muted small', text: '从记录出发，逐条核对和管理。' }));
+  for (const item of [
+    { label: '核验实际发送', detail: '对照发送原文确认候选是否被应用', count: total(['application'],['pending']), view: 'candidate', kind: 'application', status: 'pending' },
+    { label: '整理旧数据归属', detail: '为隔离材料确认角色与会话范围', count: total(['memory'],['quarantine']), view: 'memory', kind: 'memory', status: 'quarantine' },
+    { label: '查看召回来源', detail: '查看最近装配的记忆、预算与省略原因', count: null, view: 'recall', kind: 'recall', status: '' },
+  ]) todo.append(el('button', { type: 'button', class: 'task-link', onclick: () => navigate(item.view, { kind: item.kind, filter: { characterId: '', scopeKey: '', subjectQQ: '', status: item.status } }) },
+    el('span', {}, el('strong', { text: item.label }), el('span', { class: 'muted small', text: item.detail })),
+    el('span', { class: 'chip', text: item.count === null ? '查看' : String(item.count) }),
+  ));
+  const features = el('section', { class: 'card' }, el('h3', { text: '能力状态' }), el('p', { class: 'muted small', text: '配置来自当前实例；调整开关请使用 DSH 插件配置。' }));
+  const flags = el('div', { class: 'feature-grid' });
+  for (const [key, label] of [['capture','消息采集'],['recall','记忆召回'],['learning','候选学习'],['trial','有限试用'],['autoAdopt','自动采纳']]) {
+    const enabled = value.features?.[key];
+    flags.append(el('div', { class: 'feature-row' }, el('span', { text: label }), el('span', { class: 'chip ' + (enabled === true ? 'is-ok' : 'is-off'), text: enabled === true ? '已开启' : enabled === false ? '已关闭' : '未知' })));
+  }
+  features.append(flags);
+  const actions = el('div', { class: 'actions' });
+  for (const [kind, label] of [['memory','新建记忆'],['profile','新建个人档案'],['character','新建角色']]) actions.append(el('button', { type: 'button', class: 'btn' + (kind === 'memory' ? ' btn-primary' : ''), text: label, onclick: () => openCreateDialog([kind], async () => { await loadStatus(); await loadCharacters(); if (state.view === 'overview') renderView(); }) }));
+  features.append(actions);
+  columns.append(todo, features);
+  root.append(columns);
+  return root;
+}
+
 function createOverviewView() {
   return {
     id: 'overview',
@@ -2274,8 +2554,9 @@ function createOverviewView() {
             el(
               'div',
               null,
-              el('h2', { text: 'QQ 陪伴记忆 · 概览' }),
-              el('p', { class: 'muted small', text: '管理端同源访问，所有变更写审计；页面只调用 status / query / mutate 三个真实接口。' }),
+              el('div', { class: 'eyebrow', text: 'MEMORY WORKSPACE' }),
+              el('h2', { text: '把每一段相处，整理成有依据的记忆。' }),
+              el('p', { class: 'muted', text: '查看资料、处理待确认内容，跟踪角色的学习与成长。' }),
             ),
             el(
               'div',
@@ -2293,8 +2574,9 @@ function createOverviewView() {
             ),
           ),
         );
+        root.append(buildDashboard());
 
-        const statusCard = el('div', { class: 'card' });
+        const statusCard = el('details', { class: 'card status-details' }, el('summary', { text: '连接状态与详细配置' }));
         statusCard.append(el('h3', { text: '服务端状态' }));
 
         if (state.status.phase === 'loading') {
@@ -2360,9 +2642,7 @@ function createOverviewView() {
               class: 'btn',
               text: label,
               onclick: () => {
-                state.view = id;
-                buildNav();
-                renderView();
+                navigate(id);
               },
             }),
           );
@@ -2529,14 +2809,14 @@ function createArchiveView() {
               el('h2', { text: '记忆日期归档' }),
               el('p', {
                 class: 'muted small',
-                text: '按来源日期分组。导出仅包含当前已加载记录，文件标明是否仍有后续页面。',
+                text: '按 Asia/Shanghai 来源日期分组和显示时间。导出仅包含当前已加载记录，文件标明是否仍有后续页面。',
               }),
             ),
             el('div', { class: 'pagehead-actions' }, el('button', { type: 'button', class: 'btn', text: '重新读取', onclick: resetAndLoad }),el('button',{type:'button',class:'btn',text:'导出已加载记录',disabled:loading||!loadedOnce,onclick:()=>{
               const records=visibleRows()
-              const payload={schemaVersion:1,exportedAt:new Date().toISOString(),filter:{...state.filter},partial:next!==null||pageIndex<pages.length-1,next,records}
+              const payload={schemaVersion:1,timeZone:'Asia/Shanghai',exportedAt:new Date().toISOString(),filter:{...state.filter},partial:next!==null||pageIndex<pages.length-1,next,records}
               const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'}))
-              const link=el('a',{href:url,download:'qq-memory-archive-'+new Date().toISOString().slice(0,10)+'.json'})
+              const link=el('a',{href:url,download:'qq-memory-archive-'+dayKey(new Date().toISOString())+'.json'})
               document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),0)
             }})),
           ),
@@ -2679,6 +2959,7 @@ function createProfileView() {
     createKind: ['profile'],
     columns: [
       { label: '主体 QQ', cell: (row) => row.subjectQQ || '—' },
+      { label: '可见性', cell: (row) => row.data.visibility === 'public-profile' ? '同角色跨群认识' : row.data.visibility === 'private' ? '私有' : '未标记（请编辑确认来源）' },
       { label: '内容', wrap: true, cell: (row) => clip(pickText(row.data, ['summary', 'content', 'text', 'impression', 'note']) || '（无摘要）', 220) },
       { label: '角色', cell: (row) => row.characterId || '—' },
       { label: '范围', wrap: true, cell: (row) => row.scopeKey || '—' },
@@ -2771,7 +3052,7 @@ function createCandidateView() {
       { kind: 'application', label: '实际应用' },
     ],
     createKind: ['candidate'],
-    notices: ['独立证据至少 4 个、跨 3 个日期、试用至少 3 天、实际应用至少 2 次；注入不等于应用。', '机器人输出、引用转发、重复注入与同一段连续交流都不增加证据单位。', '候选操作只有 evaluate / pause / reject；试用与采纳由学习引擎按条件自行推进。'],
+    notices: ['独立证据至少 4 个、跨 3 个日期、试用至少 3 天、实际应用至少 2 次；注入不等于应用。', '机器人输出、纯引用转发、重复注入与同一段连续交流都不增加证据单位；引用后新增的自有正文可作为材料。', '可评估、暂停、驳回或恢复候选；试用与采纳由学习引擎按条件自行推进。'],
     columns: [
       {
         label: '类型',
@@ -3414,6 +3695,7 @@ function createSystemView() {
       { kind: 'task', label: '任务' },
       { kind: 'control', label: '管理命令' },
     ],
+    createKind: ['character'],
     columns: [
       { label: '类型', cell: (row) => KIND_LABELS[row.kind] || row.kind || '—' },
       {
@@ -3462,10 +3744,14 @@ const VIEWS = [
 
 function wireTopbar() {
   $('btnStatus').addEventListener('click', async () => {
-    await loadStatus();
-    await loadCharacters();
-    renderView();
-    toast('已重新读取状态', 'ok');
+    const button = $('btnStatus');
+    button.disabled = true;
+    try {
+      await loadStatus();
+      await loadCharacters();
+      renderView();
+      if (state.status.phase === 'ready') toast('已重新读取状态', 'ok');
+    } finally { button.disabled = false; }
   });
 
   $('bannerClose').addEventListener('click', hideBanner);
@@ -3480,11 +3766,28 @@ function wireTopbar() {
 
   $('overlay').addEventListener('click', closeDrawer);
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !$('drawer').hidden) closeDrawer();
+    if ($('drawer').hidden || document.querySelector('dialog[open]')) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeDrawer(); }
+    if (event.key === 'Tab') {
+      const focusable = [...$('drawer').querySelectorAll('button, a[href], input, select, textarea, summary, [tabindex="0"]')].filter(node => !node.disabled && node.getClientRects().length);
+      const first = focusable[0]; const last = focusable.at(-1);
+      if (!first) { event.preventDefault(); $('drawer').focus(); }
+      else if (event.shiftKey && (document.activeElement === first || document.activeElement === $('drawer'))) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
+  });
+  window.addEventListener('hashchange', () => {
+    const location = readLocation();
+    if (location.view === state.view && location.kind === state.tab) return;
+    closeDrawer(); state.view = location.view; state.tab = location.kind;
+    buildNav(); renderView();
   });
 }
 
 async function boot() {
+  const location = readLocation();
+  state.view = location.view; state.tab = location.kind;
+  $('content').tabIndex = -1;
   wireTopbar();
   buildNav();
   await loadStatus();

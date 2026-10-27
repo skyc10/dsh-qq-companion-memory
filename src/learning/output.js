@@ -4,7 +4,7 @@
  * 核心要求（T7）：结构不完整、截断、来源缺失或范围不符时一律整批失败，
  * 不部分提交。校验在写事务内再进行一次，任何异常导致事务回滚。
  *
- * 本版（learning-output/3）：
+ * 本版（learning-output/4）：
  * - 只接受“完整对象”：不允许从解释性文字或截断片段里抠 JSON；
  * - 必填字段（summary/candidates/context/scopeKind/confidence）严格校验类型与长度，
  *   不静默截短、不补默认值；
@@ -331,8 +331,10 @@ function validateMemoryItem(item, index, context) {
     }else temporal[key]=value;
   }
   if(temporal.validFrom && temporal.validUntil && temporal.validFrom>=temporal.validUntil)throw invalid('LEARNING_OUTPUT_INVALID_MEMORY_TIME',`${where} 有效期结束须晚于开始`);
+  if(item.importance!==undefined && (!Number.isInteger(item.importance) || item.importance<1 || item.importance>5))throw invalid('LEARNING_OUTPUT_INVALID_IMPORTANCE',`${where}.importance 须为 1 至 5 的整数`);
   return {
     ...temporal,
+    ...(item.importance===undefined ? {} : {importance:item.importance}),
     type,
     text,
     sourceIds,

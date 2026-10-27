@@ -1,5 +1,6 @@
 import { normalizeMemory, registerMemoryConflicts } from '../domain/memory.js'
 import { DomainError, assertOwner, active, canonicalScope, digest, requireText, version, qq } from '../domain/core.js'
+import { CANDIDATE_SCOPE_KIND } from '../learning/prompts.js'
 
 const DELETABLE = new Set(['character','event','evidence','memory','profile','supplement','share','candidate','conflict','feedback'])
 const EDITABLE = new Set(['memory','profile','supplement','candidate','conflict','feedback','personality','character','control'])
@@ -43,6 +44,21 @@ export function createManagement(service) {
       if (!active(source) || source.characterId !== characterId || (!sameScope && !publicProfile && !characterSource)) throw new DomainError('INVALID_SOURCE', '来源须为同角色同范围，或该成员经确认的群来源')
     }
   }
+  const normalizeProfile = data => {
+    if (data.originScope != null && typeof data.originScope !== 'string') throw new DomainError('INVALID_PROFILE', '档案来源范围须为文本')
+    if (data.originScope?.startsWith('group:')) {
+      canonicalScope(data.originScope)
+      data.visibility = 'public-profile'
+    } else data.visibility = 'private'
+  }
+  const normalizeCandidate = (data, scopeKey) => {
+    const scopeKind = scopeKey === 'character' ? 'character' : scopeKey.split(':')[0]
+    if (!Object.hasOwn(CANDIDATE_SCOPE_KIND, data.type) || !CANDIDATE_SCOPE_KIND[data.type].includes(scopeKind)) throw new DomainError('INVALID_CANDIDATE_SCOPE', '表达用于群/私聊，黑话用于群，偏好用于私聊，人格用于角色级')
+    data.rule = requireText(data.rule ?? data.text ?? data.summary ?? data.content, '候选规则', 50000)
+    data.matchType = data.type === 'personality' ? 'personality' : 'literal'
+    data.scopeKind = scopeKind
+    data.originScopes = [...new Set((data.sourceIds ?? []).map(id => store.get(id)?.scopeKey).filter(Boolean))]
+  }
   const create = payload => {
     if (!EDITABLE.has(payload.kind) || payload.kind === 'personality') throw new DomainError('INVALID_KIND', '此实体须通过专用操作创建')
     const characterId = requireText(payload.characterId, '角色 ID', 200)
@@ -53,14 +69,17 @@ export function createManagement(service) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) throw new DomainError('INVALID_DATA', 'data 必须是对象')
     if (payload.kind === 'profile') {
       if (!subjectQQ || scopeKey !== `profile:${subjectQQ}`) throw new DomainError('INVALID_PROFILE', '档案须指定真实 QQ，范围为 profile:QQ')
-      if (!data.originScope?.startsWith('group:')) data.visibility = 'private'
-      else canonicalScope(data.originScope)
+      normalizeProfile(data)
       data.confirmed = true
     }
     if (payload.kind === 'supplement' && (!scopeKey.startsWith('group:') || !subjectQQ)) throw new DomainError('INVALID_SUPPLEMENT', '群内补充须指定群范围及成员 QQ')
     validateSources(data, characterId, scopeKey)
     if (!['character','control'].includes(payload.kind)) requireText(data.text ?? data.rule ?? data.summary ?? data.content, '条目内容', 50000)
-    if (payload.kind === 'candidate') { data.evidenceIds ??= []; data.sourceIds ??= []; data.manual = true }
+    if (payload.kind === 'candidate') {
+      data.evidenceIds ??= []; data.sourceIds ??= []; data.manual = true
+      if (!Array.isArray(data.sourceIds)) throw new DomainError('INVALID_SOURCE', '候选来源须为记录 ID 数组')
+      normalizeCandidate(data,scopeKey)
+    }
     if(['memory','profile','supplement'].includes(payload.kind))normalizeMemory(data,{store,characterId,scopeKey,subjectQQ})
     const row=store.create(payload.kind, data, { characterId, scopeKey, subjectQQ, status: 'active', ...(payload.kind === 'character' ? { id: characterId } : {}) })
     registerMemoryConflicts(store,row,clock())
@@ -76,8 +95,14 @@ export function createManagement(service) {
         if (before.kind === 'personality') throw new DomainError('USE_ROLLBACK', '人格版本不可改写，请使用回退或新候选')
         const data = structuredClone(payload.data)
         if (!data || typeof data !== 'object' || Array.isArray(data)) throw new DomainError('INVALID_DATA', 'data 必须是对象')
+        if (before.kind === 'profile') normalizeProfile(data)
+        if (before.kind === 'candidate') {
+          data.sourceIds ??= []
+          if (!Array.isArray(data.sourceIds)) throw new DomainError('INVALID_SOURCE', '候选来源须为记录 ID 数组')
+          normalizeCandidate(data,before.scopeKey)
+        }
         validateSources(data, before.characterId, before.scopeKey)
-        if(['memory','profile','supplement'].includes(before.kind))normalizeMemory(data,{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id})
+        if(['memory','profile','supplement'].includes(before.kind))normalizeMemory(data,{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id,importanceSource:data.importance===before.data.importance ? before.data.importanceSource??'manual' : 'manual'})
         if(before.kind==='candidate' && (data.rule!==before.data.rule || data.type!==before.data.type)){
           const frozen=dependencies.learning.helpers.freezeEvidence(before.id,{at:clock(),reason:'candidate-edited'}).candidate
           after=store.update(frozen.id,frozen.version,{status:'paused',data:{...data,frozenEvidenceIds:frozen.data.frozenEvidenceIds,autoAdoptPaused:true}})
@@ -91,14 +116,22 @@ export function createManagement(service) {
         const pendingReview=action==='enable' && before.status==='pending' && ['memory','profile','supplement'].includes(before.kind)
         if (action === 'enable' && !pendingReview && !['disabled','paused'].includes(before.status)) throw new DomainError('INVALID_STATE', '仅可重新启用已停用或暂停条目')
         if(pendingReview && payload.confirm!==true)throw new DomainError('CONFIRMATION_REQUIRED','请审阅原文后明确确认该内容')
-        if (action === 'enable') validateSources(before.data, before.characterId, before.scopeKey)
+        let enabledData
+        if (action === 'enable') {
+          if (before.data.legacyObsolete) throw new DomainError('LEGACY_OBSOLETE', '旧材料已被取代或跳过；先核对替代关系并编辑失效标记，不能直接启用')
+          if (['memory','profile','supplement'].includes(before.kind)) {
+            enabledData = { ...before.data, ...(pendingReview ? {confirmed:true,reviewRequired:false,pendingConfirmation:false,uncertain:false,confirmedAt:clock()} : {}) }
+            if (before.kind === 'profile') normalizeProfile(enabledData)
+            normalizeMemory(enabledData,{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id,importanceSource:before.data.importanceSource??'manual'})
+          }
+          validateSources(enabledData ?? before.data, before.characterId, before.scopeKey)
+        }
         if(action==='disable' && before.kind==='candidate'){
           const frozen=dependencies.learning.helpers.freezeEvidence(before.id,{at:clock(),reason:String(payload.reason??'管理员停用')}).candidate
           after=store.update(frozen.id,frozen.version,{status:'disabled',data:{...frozen.data,autoAdoptPaused:true}})
         }else if(action==='enable' && before.kind==='candidate')after=dependencies.learning.helpers.resumeAutoAdopt(before.id,{at:clock(),reason:String(payload.reason??'管理员重新启用')})
-        else after = store.update(before.id, before.version, { status: action === 'enable' ? 'active' : 'disabled', ...(pendingReview?{data:{...before.data,confirmed:true,reviewRequired:false,pendingConfirmation:false,uncertain:false,confirmedAt:clock()}}:{}) })
+        else after = store.update(before.id, before.version, { status: action === 'enable' ? 'active' : 'disabled', ...(enabledData ? { data: enabledData } : {}) })
         if(action==='enable'){
-          if(['memory','profile','supplement'].includes(before.kind))normalizeMemory({...before.data},{store,characterId:before.characterId,scopeKey:before.scopeKey,subjectQQ:before.subjectQQ,recordId:before.id})
           registerMemoryConflicts(store,after,clock())
         }
         if (action === 'disable') invalidate(before, 'source-disabled')

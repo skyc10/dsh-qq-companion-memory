@@ -106,7 +106,8 @@ export function createOperations(service, { learning, logger = console } = {}) {
             const allowed=mapped && store.get(mapped.characterId)?.kind==='character' && mapped.confirmed===true
             let scopeKey='quarantine';let characterId=''
             if(allowed){scopeKey=canonicalScope(mapped.scopeKey);characterId=mapped.characterId}else quarantined++
-            const data={text:String(old.text??old.content??old.summary??JSON.stringify(old)),legacyId:sourceKey,legacySource:c.source,importHash:c.hash,importedAt:clock(),unverified:true,raw:old}
+            const legacy=Object.fromEntries(['legacyKind','legacySessionId','legacyConversation','legacyNickname','sourceFile','sourceHash','sourceIndex','meaning','usage','example','legacyStatus','legacyObsolete','warning'].filter(key=>old[key]!==undefined).map(key=>[key,old[key]]))
+            const data={...legacy,text:String(old.text??old.content??old.summary??JSON.stringify(old)),legacyId:sourceKey,legacySource:c.source,importHash:c.hash,importedAt:clock(),unverified:true,...(old.legacyObsolete?{pendingConfirmation:true}:{}),raw:old}
             store.create('memory',data,{id:rid,characterId,scopeKey,status:allowed?'disabled':'quarantine'})
             ids.push(rid)
           }

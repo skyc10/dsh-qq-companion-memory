@@ -8,7 +8,7 @@
  * - 最短学习间隔对首次、重试、积压同样生效（重试不会绕过间隔）。
  */
 
-import { registerMemoryConflicts } from '../domain/memory.js';
+import { normalizeImportance, registerMemoryConflicts } from '../domain/memory.js';
 import { DomainError } from '../domain/core.js';
 import {
   KIND,
@@ -676,7 +676,7 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
       const record = store.create(
         'memory',
         {
-          type: memory.type,
+          ...normalizeImportance({ type: memory.type, importance: memory.importance }, 'model'),
           ...Object.fromEntries(['factKey','context','occurredAt','validFrom','validUntil'].filter(key=>memory[key]!==undefined).map(key=>[key,memory[key]])),
           text: memory.text,
           sourceIds: [...memory.sourceIds],
@@ -818,6 +818,13 @@ export function createScheduler({ store, config, model, logger, clock, engineId,
         const existing = findReusableCandidate(fresh.characterId, targetScope, item);
         if (existing) {
           const result = attachEvidence(store, existing, materials, { at });
+          if (item.conflicts.length > 0) {
+            recordConflict(store, result.candidate, {
+              summary: item.conflicts.join('；'),
+              sourceIds: materials.map((material) => material.id),
+              at,
+            });
+          }
           attached.push({ candidateId: result.candidate.id, added: result.created.length });
           continue;
         }

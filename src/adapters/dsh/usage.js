@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto'
 export function registerUsage(ctx, service) {
   ctx.on('llm/stream', async function* (options, next) {
     let binding
-    if (!service.isMaintenance() && service.config.features.capture && options.sessionId && !options.purpose) {
+    if (!service.isMaintenance() && options.sessionId && !options.purpose) {
       try { binding = service.identity(options.sessionId) } catch { /* 非当前 QQ 绑定不归入统计。 */ }
     }
     if (!binding) { yield* next(); return }

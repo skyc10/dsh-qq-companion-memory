@@ -17,6 +17,8 @@
 
 [应用服务](../src/application/service.js)提供 `ingest/bind/delivery/command/recall/manage/query/status`。`query` 参数为 `{kind,characterId,scopeKey,subjectQQ,status,search,limit,after}`，结果为 `{rows,next}`。`recall` 只按可信 Session 绑定归属，结果为 `{text,selected,omitted,budget,identity}`；每范围召回轨迹默认保留最近 200 条，可配置。
 
+`status` 新增 `counts: Array<{kind,status,count}> | null`（全库计数，恢复期为null）、`updatedAt`（读取时刻UTC ISO）；`version`取package.json。`query.status`支持单值或数组；WebUI“生效或待确认”映射为`['active','pending']`，不改变后端状态枚举。历史查询传`{kind:'history',id,after?,limit?}`，after为真实`记录ID@版本`。
+
 管理动作见[实际实现](../src/application/management.js)：create、edit、disable、enable、delete、undo、share、unshare、resolveConflict、feedback、verifyApplication、candidate、task、rollback、rollbackBatch、takeover、assignImport；[运维动作](../src/application/operations.js)：importPreview、importApply、backupCreate、backupPreview、backupRestore。通用写参数为 `{requestId,id,expectedVersion,reason,...}`，新建及预览不要求不存在的目标版本。系统元数据不接受通用删除。
 
 ## 学习与宿主
@@ -27,11 +29,15 @@
 
 事实可带 `factKey/context/occurredAt/validFrom/validUntil/supersedesId`；有效期为半开区间，源原文保持。相同主体／主题／情境且有效期重叠的不同内容进入冲突；保留／替换需指定 keepId，区分情境填写 contexts。核验应用逐候选保存 `verifiedCandidateIds/verifications`，同一发送的其他命中不会自动计次。
 
+重要性`importance`为1至5整数，人工/模型/类型默认来源记在`importanceSource`。新建、编辑及明确启用时规范化并实际保存，未改数值的编辑保留来源。人工候选同样校验类型范围，补齐matchType/scopeKind/originScopes；旧材料legacyObsolete为真时拒绝直接启用。模型模板/输出结构为`/4`。
+
 用量分 chat、memory、learning：可信 QQ 会话请求只读观察真实 usage；本地记忆无模型请求，注入 token 明示估算；联合提炼只记一次 learning。未知 token／价格保持未知，注入是聊天输入的一部分不可重复相加。学习发送完整材料，超预算分批；单条仍过大时不发请求、不推进游标。
 
 ## HTTP 与桥接
 
 管理接口位于 `/api/qq-companion-memory/v1`：`GET status/page/page.css/page.js`、`POST query/mutate/recall`；mutate 传 `{action,payload}`。走 DSH 同源浏览器认证，当前单 owner 连接视为管理者。响应统一为 `{ok:true,value}` 或 `{ok:false,error:{code,message,details}}`。
+
+WebUI使用既有接口及后端动作，常用内容提供表单/高级JSON双模式，未知字段保留；编辑仍发送完整data与expectedVersion。hash仅定位分区/标签，不保存正文、凭据或筛选。详见[界面说明](WEBUI.md)；[待测清单](TEST-CHECKLIST.md)交由用户安排独立验收。
 
 内部前缀 `/qq-companion-memory/internal/v1`，独立 Bearer token：
 

@@ -1,12 +1,26 @@
 import { DomainError, iso, textOf } from './core.js'
 
+// 重要性影响召回排序；默认按材料类型分级，人工或模型可提供 1–5 的整数。
+export function normalizeImportance(data, source = 'manual') {
+  if (data.importance == null) {
+    const defaults = { experience: 1, fact: 3, preference: 3, relationship: 3, promise: 4, boundary: 5 }
+    data.importance = Object.hasOwn(defaults, data.type) ? defaults[data.type] : 1
+    data.importanceSource = 'type-default'
+  } else {
+    if (!Number.isInteger(data.importance) || data.importance < 1 || data.importance > 5) throw new DomainError('INVALID_IMPORTANCE', '重要性须为 1 至 5 的整数')
+    data.importanceSource = source
+  }
+  return data
+}
+
 // 有效期是半开区间；被替代的事实保留原文，仅停止作为当前事实召回。
 export function memoryWindow(data = {}) {
   const from = data.validFrom ? Date.parse(data.validFrom) : -Infinity
   const until = data.validUntil ? Date.parse(data.validUntil) : Infinity
   return { from, until }
 }
-export function normalizeMemory(data, { store, characterId, scopeKey, subjectQQ = '', recordId = '' }) {
+export function normalizeMemory(data, { store, characterId, scopeKey, subjectQQ = '', recordId = '', importanceSource = 'manual' }) {
+  normalizeImportance(data, importanceSource)
   for (const key of ['occurredAt','validFrom','validUntil']) if (data[key] != null && data[key] !== '') {
     if(typeof data[key]!=='string' || !/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(data[key]))throw new DomainError('INVALID_TIME',`${key} 须含明确时区`)
     data[key] = iso(data[key],key)

@@ -33,3 +33,18 @@
 ```sh
 node scripts/prepare-migration.mjs --source /path/fish-bot/migrate-memory.mjs --output ./prepared/migrate-memory.mjs
 ```
+
+旧记忆预处理支持单个 JSON 或 fish-memory 会话目录，输出须为新文件；以下仅是离线工具用法，不执行导入：
+
+```sh
+node scripts/prepare-legacy.mjs fish-memory /path/fish-memory ./prepared/memories.json
+node scripts/prepare-legacy.mjs slang /path/slang.json ./prepared/slang.json
+```
+
+清单保留文件名（可能已被旧系统净化，仅作线索）、来源 hash 和原文，不据 Session 或昵称推断角色/QQ。将 source、records 和已核实 mapping 分批提交导入预览（每批最多1000条/1MB，另受桥接请求体上限约束）。批准后仍停用；legacyObsolete 条目带 pendingConfirmation，需核对替代关系并明确修订后才可作为当前内容。预处理没有执行旧文件中的内容，也不会启动旧插件。
+
+直接启用legacyObsolete条目会被拒绝；若核实旧标记有误，先编辑核对后的正文/替代关系，并明确清除legacyObsolete和pendingConfirmation，再按正常流程启用。启用旧记忆/档案会将重要性与可见性规范化保存，不只在临时副本计算。
+
+管理页记录详情提供只读历史版本及更早版本分页；删除记录会清除可查询历史。人格实际应用从“实际应用”中的成功发送记录核验，填写人格候选 ID 与真实原文片段；literal 预填列表为空也可按既有范围规则人工核验，不把提示注入计入 S4。
+
+WebUI打开方式和表单操作见[工作台说明](WEBUI.md)。用户安排其它agent进行[待测清单](TEST-CHECKLIST.md)中的独立测试前，先比对源码指纹；旧0.1.1安装包不含本次本地修改。

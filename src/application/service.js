@@ -2,6 +2,8 @@ import { DomainError, active, canonicalScope, digest, iso, nowISO, qq, requireTe
 import { createManagement } from './management.js'
 import { memoryCurrent } from '../domain/memory.js'
 import { attachConversationUnit } from '../domain/conversations.js'
+import { classifyEvent } from '../learning/materials.js'
+import manifest from '../../package.json' with { type: 'json' }
 
 const SYSTEM = { kind: 'system', id: 'companion' }
 export function createService(store, config, { clock = nowISO, logger = console } = {}) {
@@ -64,7 +66,8 @@ export function createService(store, config, { clock = nowISO, logger = console 
     if (content.length > 200000) throw new DomainError('CONTENT_TOO_LARGE', '消息过长')
     const quoteRefs = Array.isArray(payload.quoteRefs) ? payload.quoteRefs.slice(0,100) : []
     const timely = Date.parse(occurredAt) <= Date.parse(receivedAt) + 300000
-    const effective = sourceKind === 'human' && senderQQ !== botQQ && Boolean(messageId) && content.trim().length > 0 && timely && timeQuality !== 'unknown' && timeQuality !== 'received-only' && !quoteRefs.length && !payload.forwarded && !/^\s*\//.test(content)
+    const eligible = sourceKind === 'human' && senderQQ !== botQQ && Boolean(messageId) && content.trim().length > 0 && timely && timeQuality !== 'unknown' && timeQuality !== 'received-only' && !payload.forwarded && !/^\s*\//.test(content)
+    const effective = eligible && classifyEvent({ kind: 'event', status: 'active', data: { effective: true, sourceKind, senderQQ, botQQ, messageId, content, occurredAt, quoteRefs } }).ok
     const rid = `event-${digest([botQQ, scopeKey, messageId || eventId])}`
     return store.tx(() => {
       const prior = store.get(rid, { includeDeleted: true })
@@ -221,7 +224,8 @@ export function createService(store, config, { clock = nowISO, logger = console 
   }
   const controls = () => scan('takeover').map(r => ({ id: r.id, characterId: r.characterId, scopeKey: r.scopeKey, version: r.version, status: r.status, ...r.data }))
   function status() {
-    return { version: '0.1.0', usage: { chat: { available: false, reason: '请从专用DSH会话用量查看；本插件不伪造宿主统计' }, memory: { requests: 0, cost: null, reason: '本地保存和召回不调用模型；联合提炼记入学习' }, learning: { kind: 'usage', cost: null, reason: '按预留请求和已回报用量独立记账；价格未知' } }, maintenance, storage: {opened:store.opened,recovery:store.recovery}, learningEngine: service.runtime?.learning?.status() ?? null, generation: store.generation(), features: config.features, characters: store.list('character',{limit:1000}), configuration: { bridge: Boolean(config.bridge.token || config.bridge.tokenFile), adminWhitelist: Boolean(config.bridge.adminQQs.length), model: Boolean(config.models.provider && config.models.model) ? 'explicit' : config.models.followChat ? 'follow-chat-needs-binding' : 'missing', recallBudget: config.budget.recallTokens, backup: config.backup.enabled ? 'enabled' : config.backup.time ? 'disabled' : 'time-required', dailyTime: config.backup.time, timeZone: 'Asia/Shanghai' }, takeover: controls(), limits: { learning: config.learning, evidence: config.evidence }, warnings: ['DSH 历史快照正文不会随停用被物理删除；新快照表达当前有效状态。','未执行 QQ、模型或运行性验收。'] }
+    const counts = maintenance ? null : store.db.prepare('SELECT kind,status,count(*) AS count FROM records GROUP BY kind,status').all()
+    return { version: manifest.version, updatedAt: clock(), counts, usage: { chat: { kind: 'usage', category: 'chat', reason: '可信QQ会话按宿主回报登记；未回报用量保持未知' }, memory: { requests: 0, cost: null, reason: '本地保存和召回不调用模型；联合提炼记入学习' }, learning: { kind: 'usage', cost: null, reason: '按预留请求和已回报用量独立记账；价格未知' } }, maintenance, storage: {opened:store.opened,recovery:store.recovery}, learningEngine: service.runtime?.learning?.status() ?? null, generation: store.generation(), features: config.features, characters: store.list('character',{limit:1000}), configuration: { bridge: Boolean(config.bridge.token || config.bridge.tokenFile), adminWhitelist: Boolean(config.bridge.adminQQs.length), model: Boolean(config.models.provider && config.models.model) ? 'explicit' : config.models.followChat ? 'follow-chat-needs-binding' : 'missing', recallBudget: config.budget.recallTokens, backup: config.backup.enabled ? 'enabled' : config.backup.time ? 'disabled' : 'time-required', dailyTime: config.backup.time, timeZone: 'Asia/Shanghai' }, takeover: controls(), limits: { learning: config.learning, evidence: config.evidence }, warnings: ['DSH 历史快照正文不会随停用被物理删除；新快照表达当前有效状态。','未执行 QQ、模型或运行性验收。'] }
   }
   const service = { ingest, bind, delivery, recall, query, status, identity, controls, setMaintenance: v => { maintenance = v }, isMaintenance: () => maintenance, ensureCharacter, store, config, logger, clock }
   const manager = createManagement(service)

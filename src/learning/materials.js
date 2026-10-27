@@ -99,7 +99,8 @@ export function classifyEvent(record, options = {}) {
   const quoteRefs = Array.isArray(data.quoteRefs) ? data.quoteRefs : [];
   if (quoteRefs.length > 0) {
     const quoted = normalizeSpaces(
-      data.quoteText ?? quoteRefs.map((ref) => (typeof ref === 'string' ? ref : ref?.text ?? '')).join(' '),
+      // 桥接的字符串引用是 message ID，不能当作引用正文比较。
+      data.quoteText ?? quoteRefs.map((ref) => (typeof ref === 'object' ? ref?.text ?? '' : '')).join(' '),
     );
     if (!content && quoted) return { ok: false, reason: 'quote-only' };
     if (quoted && content && (quoted === content || quoted.includes(content))) {
