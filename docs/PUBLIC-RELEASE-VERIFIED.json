@@ -1,0 +1,40 @@
+{
+  "verifiedAt": "2026-10-27 Asia/Shanghai",
+  "repository": "https://github.com/skyc10/dsh-qq-companion-memory",
+  "visibility": "public",
+  "anonymousPageStatus": {
+    "/": 200,
+    "/releases/tag/v0.1.3": 200
+  },
+  "issuesEnabled": true,
+  "bugTemplateExists": true,
+  "sourceMainCommit": "8fb70c51b2473fb599aa426071908a00bea8abd8",
+  "release": "https://github.com/skyc10/dsh-qq-companion-memory/releases/tag/v0.1.3",
+  "tag": "v0.1.3",
+  "assets": [
+    {
+      "name": "dsh-qq-companion-memory-0.1.3.tgz",
+      "bytes": 932666,
+      "sha256": "sha256:8d8b0cd0b5d97fce3a122452ee9a19eef38dcd6154b108ae0bcee0b0f1611b06",
+      "url": "https://github.com/skyc10/dsh-qq-companion-memory/releases/download/v0.1.3/dsh-qq-companion-memory-0.1.3.tgz"
+    },
+    {
+      "name": "qq-companion-memory-offline-0.1.3.zip",
+      "bytes": 936669,
+      "sha256": "sha256:da35c1d576d94ee1ea95404af77a71de0c6302a35929c849393fbfe50b317878",
+      "url": "https://github.com/skyc10/dsh-qq-companion-memory/releases/download/v0.1.3/qq-companion-memory-offline-0.1.3.zip"
+    },
+    {
+      "name": "RELEASE.json",
+      "bytes": 193,
+      "sha256": "sha256:06daefb6de3909f2d2278547504e4f288c78421e664913f2fd9f1fd76ba99320",
+      "url": "https://github.com/skyc10/dsh-qq-companion-memory/releases/download/v0.1.3/RELEASE.json"
+    },
+    {
+      "name": "SHA256SUMS",
+      "bytes": 206,
+      "sha256": "sha256:3dd2e2b42765175011229b031ac1a2d9b621b62ce350958cbd5c976b2086068b",
+      "url": "https://github.com/skyc10/dsh-qq-companion-memory/releases/download/v0.1.3/SHA256SUMS"
+    }
+  ]
+}
