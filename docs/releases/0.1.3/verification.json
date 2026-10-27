@@ -1,0 +1,100 @@
+{
+  "version": "0.1.3",
+  "features": {
+    "capture": true,
+    "recall": true,
+    "learning": true,
+    "trial": true,
+    "autoAdopt": true
+  },
+  "learningEngine": {
+    "closed": false,
+    "running": false,
+    "rounds": 17,
+    "activeRequests": 0,
+    "activeLeases": 0,
+    "promptVersion": "learning-prompt/4",
+    "schemaVersion": "learning-output/4",
+    "lastRoundResult": "no failures; waiting for normal four-hour first interval"
+  },
+  "configuration": {
+    "bridge": true,
+    "adminWhitelist": true,
+    "model": "follow-chat-needs-binding",
+    "recallBudget": 4096,
+    "backup": "enabled",
+    "dailyTime": "03:00",
+    "timeZone": "Asia/Shanghai"
+  },
+  "limits": {
+    "learning": {
+      "privateThreshold": 20,
+      "groupThreshold": 60,
+      "minIntervalHours": 4,
+      "localDailyLimit": 12,
+      "globalDailyLimit": 60,
+      "batchSize": 80,
+      "concurrency": 1,
+      "pollIntervalSeconds": 60,
+      "requestTimeoutSeconds": 120,
+      "leaseMinutes": 10
+    },
+    "evidence": {
+      "independentUnits": 4,
+      "distinctDays": 3,
+      "trialDays": 3,
+      "applications": 2,
+      "personalityIntervalDays": 3,
+      "conversationGapMinutes": 30
+    }
+  },
+  "takeover": [
+    {
+      "status": "active",
+      "acknowledged": true,
+      "legacyDisabled": true,
+      "scopeType": "private"
+    }
+  ],
+  "backups": [
+    {
+      "status": "active",
+      "reason": "daily:2026-10-27",
+      "createdAt": "2026-10-27T07:30:41.814Z"
+    }
+  ],
+  "scope": {
+    "matchesAuthorizedPrivate": true,
+    "groupCount": 0,
+    "allowAllWhenEmpty": false
+  },
+  "source": {
+    "repository": "https://github.com/skyc10/dsh-qq-companion-memory",
+    "commit": "b22b76466ca99fe5c7762dd065bd0cd2d726757d",
+    "version": "0.1.3",
+    "sha256": "8d8b0cd0b5d97fce3a122452ee9a19eef38dcd6154b108ae0bcee0b0f1611b06"
+  },
+  "panel": {
+    "version": "1.1.0",
+    "sourceCommit": "969d6e75cf95a48b83738d86568fe51531664048",
+    "entry": "companion_memory",
+    "url": "http://127.0.0.1:18080/api/qq-companion-memory/v1/page",
+    "authenticatedBrowserNavigation": true,
+    "tokenInTargetUrl": false,
+    "backendTests": 13,
+    "frontendTests": 4
+  },
+  "image": "sha256:86c76f1684c926b90ff2450257f8693abcef0a41e48d34106bfae98ef0a10ee9",
+  "backup": {
+    "enabled": true,
+    "time": "03:00",
+    "timeZone": "Asia/Shanghai",
+    "retentionDays": 14,
+    "firstDailySnapshotCreated": true
+  },
+  "notes": [
+    "Feature flags enable the scheduler and transitions; quotas, evidence and trial windows still apply.",
+    "No forced model request, QQ test message, legacy import, threshold lowering or production restore in this release.",
+    "Package defaults remain disabled; current instance is explicitly configured."
+  ]
+}
