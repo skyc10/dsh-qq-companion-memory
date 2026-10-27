@@ -1,6 +1,6 @@
 # 工作区规则：版本更新同步 GitHub
 
-用户要求，2026-10-27（Asia/Shanghai）。适用于 `D:\大肥鱼QQ` 下所有子项目，以及在这些项目中工作的主代理和子代理。
+用户要求，2026-10-27（Asia/Shanghai）。适用于 `D:\大肥鱼QQ` 工作区及下表登记的三个关联项目，以及在这些项目中工作的主代理和子代理。部署与面板实际代码目录位于 `D:\deepseek_flash\project`，从那些目录单独接手时也应读取本规则和项目登记说明。
 
 ## 必须同步留档
 
@@ -18,8 +18,14 @@
 
 ## 当前已确认的仓库
 
-| 子项目 | GitHub | 默认备份分支 |
-| --- | --- | --- |
-| dsh-qq-companion-memory | https://github.com/skyc10/dsh-qq-companion-memory （私有） | main |
+2026-10-27已通过GitHub API及本机origin逐项核对；三个仓库均为私有仓库，默认分支main。
+
+| 子项目 | 实际代码目录 | GitHub | 默认备份分支 |
+| --- | --- | --- | --- |
+| 大肥鱼部署代码 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main |
+| 大肥鱼管理面板 | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main |
+| QQ陪伴记忆插件 | `D:\大肥鱼QQ\dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main |
+
+完整用途、核验时提交及本地未提交状态见工作区根目录 `PROJECTS.md`（插件仓库备份副本为 `docs/WORKSPACE-PROJECTS.md`）。管理面板虽位于部署目录内，仍是独立Git仓库，必须分别提交推送。
 
 工作区根目录当前不是 Git 仓库。本规则在根目录对所有子项目生效；副本保存于插件仓库 `docs/WORKSPACE-GITHUB-RULES.md` 随源码备份，不代表其它项目必须推送到插件仓库。

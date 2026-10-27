@@ -8,6 +8,8 @@
 
 本次修复与WebUI先以源码提交在GitHub留档，测试和人工检查仍待执行；不是新的发行版本。各子项目版本更新后推送GitHub的持续要求见[工作区规则副本](docs/WORKSPACE-GITHUB-RULES.md)。
 
+工作区关联的部署代码、独立管理面板和本插件三项目的仓库、实际路径及核验状态，见[三个项目登记](docs/WORKSPACE-PROJECTS.md)。
+
 ## 开发与安装
 
 ```sh
