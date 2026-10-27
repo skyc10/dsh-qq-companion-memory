@@ -16,8 +16,14 @@ const octal=(n,len)=>n.toString(8).padStart(len-1,'0')+'\0'
 async function* tar(){
   for(const file of files){
     const name=`package/${file.replaceAll('\\','/')}`;const data=await readFile(join(root,file));const header=Buffer.alloc(512)
-    if(Buffer.byteLength(name)>100)throw new Error(`打包路径过长：${name}`)
-    header.write(name,0,100);header.write(octal(0o644,8),100);header.write(octal(0,8),108);header.write(octal(0,8),116);header.write(octal(data.length,12),124);header.write(octal(0,12),136);header.fill(32,148,156);header.write('0',156);header.write('ustar\0',257);header.write('00',263)
+    let entryName=name;let prefix=''
+    if(Buffer.byteLength(name)>100){
+      const splits=[...name.matchAll(/\//g)].map(match=>match.index).reverse()
+      const split=splits.find(at=>Buffer.byteLength(name.slice(0,at))<=155 && Buffer.byteLength(name.slice(at+1))<=100)
+      if(split===undefined)throw new Error(`打包路径过长：${name}`)
+      prefix=name.slice(0,split);entryName=name.slice(split+1)
+    }
+    header.write(entryName,0,100);header.write(prefix,345,155);header.write(octal(0o644,8),100);header.write(octal(0,8),108);header.write(octal(0,8),116);header.write(octal(data.length,12),124);header.write(octal(0,12),136);header.fill(32,148,156);header.write('0',156);header.write('ustar\0',257);header.write('00',263)
     const checksum=header.reduce((a,b)=>a+b,0);header.write(checksum.toString(8).padStart(6,'0')+'\0 ',148)
     yield header;yield data;if(data.length%512)yield Buffer.alloc(512-data.length%512)
   }
