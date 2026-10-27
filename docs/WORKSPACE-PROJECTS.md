@@ -6,9 +6,9 @@
 
 | 项目 | 职责 | 实际代码目录 | GitHub仓库 | 分支 / 可见性 |
 | --- | --- | --- | --- | --- |
-| 01-dafeiyu-deploy代码 | Docker Compose、专用DSH/桥接镜像、入口脚本、配置模板、运维脚本 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main / 私有 |
-| 02-dafeiyu-control-panel | 本机网页控制台、状态探测、固定启停、控制台跳转及插件入口登记 | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main / 私有 |
-| QQ陪伴记忆插件 | 记忆、档案、证据学习、人格版本及插件自己的WebUI | `D:\大肥鱼QQ\03-dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main / 私有 |
+| 01-dafeiyu-deploy代码 | Docker Compose、专用DSH/桥接镜像、入口脚本、配置模板、运维脚本 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main / 公开（用户已授权，状态以 GitHub 为准） |
+| 02-dafeiyu-control-panel | 本机网页控制台、状态探测、固定启停、控制台跳转及插件入口登记 | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main / 公开（用户已授权，状态以 GitHub 为准） |
+| QQ陪伴记忆插件 | 记忆、档案、证据学习、人格版本及插件自己的WebUI | `D:\大肥鱼QQ\03-dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main / 公开（用户已授权，状态以 GitHub 为准） |
 
 本目录 `D:\大肥鱼QQ` 是工作区资料与工具入口，不是Git仓库；三个项目的源码不全在本目录物理路径下。不要为了对应目录名称而移动正在使用的部署或面板文件。
 
@@ -54,3 +54,7 @@ Docker汉化资料含回滚备份，删除前确认；临时脚本与参考审�
 2026-10-27按用户要求统一为编号加英文名：`01-dafeiyu-deploy`（Docker部署资料）、`02-dafeiyu-control-panel`（面板资料）、`03-dsh-qq-companion-memory`（插件源码，用户手动改名已完成）。
 部署与面板实际源码仍位于上表外部路径，插件仓库由用户关闭Codex后完成手动改名；GitHub仓库名称及远端不变。
 以后插件按04、05等递增编号。根目录仅保留面板启动快捷方式作为操作入口，“过时与待清理”目录保持原位。
+
+## 2026-10-27 公开发布授权
+
+用户要求部署、管理面板、记忆插件三个仓库公开并提供下载与 Issues 反馈。此前私有性记载为历史快照；不因此允许上传凭据、真实配置或用户数据。
