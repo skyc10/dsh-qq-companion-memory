@@ -37,7 +37,7 @@ node scripts/patch-bridge.mjs --root /opt/qq-bridge --revert     # 用 .orig 回
 1. 旧群友印象数据迁移不在范围：接管只停用旧读写，历史 `social-v2.json` 需单独导入。
 2. `event.time` 缺失时按 `timeQuality='unknown'` 处理，不计入有效消息门槛（保守，少量漏计）。
 3. 锚点绑定 `0.2.1-r1`；桥接升级需重新核对锚点并更新 `FIXED_SOURCE`（脚本会因哈希/锚点不符拒绝，不会盲改）。
-4. 首次启用不退役会话（`epoch=0` → 令牌空串）；第一次真实角色切换才退役一次。
+4. 持久会话复用会重新上报可信绑定；同范围重建Session使用递增版本并持久保存，发送前快照使用该Session绑定版本。首次启用不退役会话（`epoch=0` → 令牌空串）；第一次真实角色切换才退役一次。
 5. 适配层只记录「角色名 → UUID」；桥接绕过 `writeRoleState` 直改 `state/current-role.json` 时不轮询，需重启才识别。
 6. 桥接自带命令（`/reset` `/new` `/status` `/role*` `/silent` `/quiet` `/active` `/speak`）不转交；插件只认 `/memory|/记忆 ...`。
 7. 接管门控是逐点拦截，控制台只读接口（`/api/slang`、`/api/socialV2/states`）仍显示旧数据，不影响行为。
@@ -45,7 +45,7 @@ node scripts/patch-bridge.mjs --root /opt/qq-bridge --revert     # 用 .orig 回
 
 ## 验证记录
 
-- 36 条补丁（含 1 条 `expect:2`）在固定源上逐条命中；`--apply` → `--check` 幂等，`--revert` 可回滚。
+- 37 条补丁（含 1 条 `expect:2`）在固定源上逐条命中；`--apply` → `--check` 幂等，`--revert` 可回滚。
 - 补丁产物 `node --check` 通过；`captureOwnership` 3 处、`reportDelivery` 6 处、无 live 归属上报。
 - 篡改补丁文件、删除一条 marker、加入未定义 marker 均被拒绝（exit 1）。
 - **未执行**：真实启动、QQ 收发、模型调用、容器操作。

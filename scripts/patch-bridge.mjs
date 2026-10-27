@@ -280,6 +280,24 @@ const PATCHES = [
     ]
   },
   {
+    id: 'binding-existing',
+    title: '持久会话复用时重新上报可信绑定',
+    marker: '// [companion:binding-existing]',
+    anchor: [
+      "          if (epoch !== sessionEpoch || !isCurrentSession(key, existing)) throw new Error('会话创建期间已重置或权限已变化');",
+      '          return existing;'
+    ],
+    insertAfterLine: 1,
+    insert: [
+      '          // [companion:binding-existing] 新装插件或重启后也须恢复现存会话绑定',
+      '          if (selfUserId && companion) companion.reportBinding({',
+      '            sessionId: existing, conversationKey: key,',
+      '            characterId: companion.characterId, botQQ: selfUserId,',
+      "            provider: String(cfg.dsh?.provider ?? ''), model: String(cfg.dsh?.model ?? '')",
+      '          });'
+    ]
+  },
+  {
     id: 'binding',
     title: '会话建立后上报绑定（身份只来自绑定）',
     marker: '// [companion:binding]',

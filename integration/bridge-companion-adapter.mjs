@@ -258,9 +258,7 @@ export class CompanionAdapter {
   }
 
   get bindingVersion() {
-    // 服务端要求正整数，且同一范围的新版本必须严格大于旧版本（service.js bind 里的
-    // STALE_BINDING / BINDING_COLLISION 判定）。所以用 epoch+1：epoch=0 → 1，
-    // 每次真实角色切换都严格递增，不会出现「两个会话同版本」被 409 拒掉。
+    // 角色epoch仅作为版本下限；同角色重建Session的版本由持久范围绑定分配。
     const epoch = Number.isSafeInteger(this.roles?.epoch) ? this.roles.epoch : 0
     return epoch + 1
   }
@@ -295,11 +293,13 @@ export class CompanionAdapter {
     if (!/^(private|group):[1-9]\d{0,19}$/.test(conversationKey)) return null
     const characterId = String(this.characterId ?? '')
     if (!characterId) return null
+    const known = this.roles.bindings?.[conversationKey]
+    if (known && (known.characterId !== characterId || known.sessionId !== String(input.sessionId ?? ''))) return null
     return Object.freeze({
       sessionId: String(input.sessionId ?? ''),
       characterId,
       conversationKey,
-      bindingVersion: this.bindingVersion,
+      bindingVersion: known?.version ?? this.bindingVersion,
       botQQ: String(input.botQQ ?? this.botQQ ?? ''),
       capturedAt: nowISO(this.clock())
     })
@@ -556,7 +556,7 @@ export class CompanionAdapter {
         content,
         quoteRefs: this._quoteRefs(event, messageId),
         sourceKind: 'qq',
-        bindingVersion: this.bindingVersion,
+        bindingVersion: this.roles.bindings?.[conversationKey]?.characterId === characterId ? this.roles.bindings[conversationKey].version : this.bindingVersion,
         segments: this._segments(event.message),
         forwarded: this._isForward(event.message),
         hasMedia: media.length > 0,
@@ -662,6 +662,15 @@ export class CompanionAdapter {
         model: String(binding.model ?? '')
       }
       if (!isQQ(payload.botQQ)) return { ok: false, reason: 'missing-bot-qq' }
+      this.botQQ = payload.botQQ
+      const previous = this.roles.bindings?.[conversationKey]
+      const same = previous?.sessionId === sessionId && previous?.characterId === characterId && previous?.botQQ === payload.botQQ
+      payload.bindingVersion = same ? previous.version : Math.max(this.bindingVersion, (previous?.version ?? 0) + 1)
+      if (!same) {
+        this.roles.bindings ??= {}
+        this.roles.bindings[conversationKey] = { sessionId, characterId, botQQ: payload.botQQ, version: payload.bindingVersion }
+        this._persistRoles()
+      }
       const requestId = `binding:${sessionId}:${characterId}:${payload.bindingVersion}`
       return this._enqueue('binding', '/bindings', payload, requestId)
     } catch (error) {
@@ -1408,6 +1417,7 @@ export class CompanionAdapter {
       active,
       byName,
       byId,
+      bindings: Object.fromEntries(Object.entries(raw.bindings ?? {}).filter(([scope, binding]) => /^(private|group):[1-9]\d{0,19}$/.test(scope) && binding && typeof binding.sessionId === 'string' && typeof binding.characterId === 'string' && isQQ(binding.botQQ) && Number.isSafeInteger(binding.version) && binding.version > 0)),
       updatedAt: String(raw.updatedAt ?? '')
     }
   }
