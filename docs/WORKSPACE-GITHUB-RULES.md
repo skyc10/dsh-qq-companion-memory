@@ -24,7 +24,7 @@
 | --- | --- | --- | --- |
 | 01-dafeiyu-deploy代码 | `D:\deepseek_flash\project` | [skyc10/dafeiyu-deploy](https://github.com/skyc10/dafeiyu-deploy) | main |
 | 02-dafeiyu-control-panel | `D:\deepseek_flash\project\management-panel` | [skyc10/dafeiyu-control-panel](https://github.com/skyc10/dafeiyu-control-panel) | main |
-| QQ陪伴记忆插件 | `D:\大肥鱼QQ\dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main |
+| QQ陪伴记忆插件 | `D:\大肥鱼QQ\03-dsh-qq-companion-memory` | [skyc10/dsh-qq-companion-memory](https://github.com/skyc10/dsh-qq-companion-memory) | main |
 
 完整用途、核验时提交及本地未提交状态见工作区根目录 `PROJECTS.md`（插件仓库备份副本为 `docs/WORKSPACE-PROJECTS.md`）。管理面板虽位于部署目录内，仍是独立Git仓库，必须分别提交推送。
 

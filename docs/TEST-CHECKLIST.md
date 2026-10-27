@@ -4,7 +4,7 @@
 
 ## 接手基线与分工
 
-1. 工作区：`D:\大肥鱼QQ\dsh-qq-companion-memory`。先读 `WORK-STATE.md`、[审计比对](AUDIT-RECHECK-2026-10-27.md)、[WebUI说明](WEBUI.md)和本清单。
+1. 工作区：`D:\大肥鱼QQ\03-dsh-qq-companion-memory`。先读 `WORK-STATE.md`、[审计比对](AUDIT-RECHECK-2026-10-27.md)、[WebUI说明](WEBUI.md)和本清单。
 2. 指纹生成时的父提交为旧发布基线 `adf5af5666160a835d4b461f974b3165ec7bc189`；本次修复、WebUI与清单纳入随后GitHub源码备份提交。**应取包含本清单的最新备份提交，不能使用旧基线或dist/0.1.1旧包验收。** 以[源码指纹](TEST-BASELINE-2026-10-27.json)核对文件；跨平台可用sourcesLF排除换行差异，artifacts只对应当时本地构建。不一致时先记录差异、重读代码，避免过时报告。JSON中gitHead/workspaceUncommitted描述生成指纹时状态，不是当前分支状态。
 3. 运行环境为 Node24、专用 DSH `0.2.1-rc.2`；rc.3 在清单兼容范围内，但不能代替 rc.2 主验收。使用独立数据副本与合成QQ/角色，不能覆盖用户真实数据。QQ、真实模型和容器/profile操作仍按用户实际授权范围进行；本清单不自动开展这些操作。
 4. 建议由你分别安排：A负责 FIX 后端与旧格式；B负责 UI 浏览器/人工；C负责 REG 回归及专用宿主。各自保持只测/只读，发现问题先提供原文、源码指纹及复现，不并发修改源码。若由主代理后续再派子代理，用户要求思考强度 low。

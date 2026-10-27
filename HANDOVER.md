@@ -1,6 +1,6 @@
 # QQ 陪伴记忆插件交接报告
 
-交接时间：2026-10-27 08:51（Asia/Shanghai）。工作目录：`D:\大肥鱼QQ\dsh-qq-companion-memory`。
+交接时间：2026-10-27 08:51（Asia/Shanghai）。工作目录：`D:\大肥鱼QQ\03-dsh-qq-companion-memory`。
 
 ## 当前结论与授权边界
 
